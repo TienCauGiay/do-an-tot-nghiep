@@ -1,0 +1,14 @@
+*{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13px;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+    border: none;
+    scrollbar-width: none;
+}
+
+.container{
+    display: flex;
+}

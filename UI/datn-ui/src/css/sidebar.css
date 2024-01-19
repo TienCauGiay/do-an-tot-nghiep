@@ -1,0 +1,71 @@
+/* Start css sidebar */
+.sidebar{
+    width: 200px;
+    height: 100vh;
+    background-color: #5f88db;
+    color: white;
+    box-sizing: border-box;
+    font-weight: 500;
+    font-style: Medium;
+}
+
+.content{
+    background-color: white;    
+    width: calc(100% - 200px);
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.sidebar-logo{
+    display: flex;
+    align-items: center;
+}
+
+.toggle{
+    margin-left: 32px;
+}
+
+.menu{
+    height: calc(100vh - 45px);
+    overflow: auto;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    padding-inline-start: 0px;
+    margin: 0px;
+    row-gap: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.menu-item {
+    list-style: none;
+    height: 32px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.menu-item:hover{
+    background-color: #27395E;
+}
+
+.menu-item-a {
+    text-decoration: none;
+    color: #869AB8;
+    height: 32px;
+    box-sizing: border-box;
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+    padding: 0 12px;
+}
+
+.router-link-exact-active{
+    color: rgb(255, 255, 255);
+    background-color: #27395E;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+/* End css sidebar */
