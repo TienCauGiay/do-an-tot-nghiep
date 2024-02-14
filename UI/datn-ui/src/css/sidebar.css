@@ -2,7 +2,7 @@
 .sidebar{
     width: 200px;
     height: 100vh;
-    background-color: #5f88db;
+    background-color: #041434;
     color: white;
     box-sizing: border-box;
     font-weight: 500;
@@ -10,7 +10,7 @@
 }
 
 .content{
-    background-color: white;    
+    background-color: white;
     width: calc(100% - 200px);
     height: 100vh;
     box-sizing: border-box;

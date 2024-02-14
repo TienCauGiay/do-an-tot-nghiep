@@ -1,4 +1,52 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import InputText from './components/input/InputText.vue';
+import InputNumber from './components/input/InputNumber.vue';
+import InputTextArea from './components/input/InputTextArea.vue';
+import SelectOption from './components/select_option/SelectOption.vue';
+import DialogConfirmDelete from './components/dialog/DialogConfirmDelete.vue';
+import DialogDataChange from './components/dialog/DialogDataChange.vue';
+import DialogDataExist from './components/dialog/DialogDataExist.vue';
+import DialogHandleExist from './components/dialog/DialogHandleExist.vue';
+import DialogDataNotNull from './components/dialog/DialogDataNotNull.vue';
+import DialogError from './components/dialog/DialogError.vue';
+import DialogHandleTask from './components/dialog/DialogHandleTask.vue';
+import ButtonDefault from './components/button/ButtonDefault.vue';
+import ButtonExtra from './components/button/ButtonExtra.vue';
+import ButtonIcon from './components/button/ButtonIcon.vue';
+import ToastSuccess from './components/toast/ToastSuccess.vue';
+import ComboboxDefault from './components/combobox/ComboboxDefault.vue';
+import ComboboxSelectSingle from './components/combobox_multiple/ComboboxSelectSingle.vue';
+import ComboboxSelectMultiple from './components/combobox_multiple/ComboboxSelectMultiple.vue';
+import FormCombobox from './components/form_combobox/FormCombobox.vue';
+import MSEnum from './scripts/enum.js';
+import MSResource from './scripts/resource.js';
+import vueRouter from './router/router.js';
+import MSEmitter from 'tiny-emitter/instance'
 
-createApp(App).mount('#app')
+var app = createApp(App);
+app.component("ms-input", InputText);
+app.component("ms-number", InputNumber);
+app.component("ms-input-textarea", InputTextArea);
+app.component("ms-dialog-confirm-delete", DialogConfirmDelete);
+app.component("ms-dialog-data-change", DialogDataChange);
+app.component("ms-dialog-data-exist", DialogDataExist);
+app.component("ms-dialog-handle-exist", DialogHandleExist);
+app.component("ms-dialog-data-not-null", DialogDataNotNull);
+app.component("ms-dialog-error", DialogError);
+app.component("ms-dialog-handle-task", DialogHandleTask);
+app.component("ms-button-default", ButtonDefault);
+app.component("ms-button-extra", ButtonExtra);
+app.component("ms-button-icon", ButtonIcon);
+app.component("ms-toast-success", ToastSuccess);
+app.component("ms-combobox", ComboboxDefault);
+app.component("ms-select-option", SelectOption);
+app.component("ms-combobox-select-single", ComboboxSelectSingle);
+app.component("ms-combobox-select-multiple", ComboboxSelectMultiple);
+app.component("ms-form-combobox", FormCombobox);
+app.config.globalProperties.$_MSEnum = MSEnum;
+app.config.globalProperties.$_MSResource = MSResource;
+app.config.globalProperties.$_MSEmitter = MSEmitter;
+app.config.globalProperties.$_LANG_CODE = 'vn-VI';
+app.use(vueRouter);
+app.mount('#app');

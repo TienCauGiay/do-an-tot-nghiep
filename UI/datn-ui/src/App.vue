@@ -1,32 +1,33 @@
 <template>
   <div class="container">
     <!-- sidebar -->
-    <SidebarLayout></SidebarLayout>
+    <TheSidebar></TheSidebar>
     <div id="content" class="content">
       <!-- header -->
-      <HeaderLayout></HeaderLayout>
-      <!-- content -->
-      <ContentLayout></ContentLayout>
+      <TheHeader></TheHeader>
+      <!-- main -->
+      <TheMain></TheMain>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderLayout from "./layouts/HeaderLayout.vue";
-import SidebarLayout from "./layouts/SidebarLayout.vue";
-import ContentLayout from "./layouts/ContentLayout.vue";
+import TheSidebar from "./layout/TheSidebar.vue";
+import TheHeader from "./layout/TheHeader.vue";
+import TheMain from "./layout/TheMain.vue";
 
 export default {
   name: "App",
-
   components: {
-    HeaderLayout,
-    SidebarLayout,
-    ContentLayout,
+    TheSidebar,
+    TheHeader,
+    TheMain,
   },
 };
 </script>
 
-<style scoped>
-@import url(@/css/master.css);
+<style>
+@import url(@/css/blockexercise.css);
+@import url(@/css/base/icon.css);
+@import url(@/css/varialble.css);
 </style>

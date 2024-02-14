@@ -1,0 +1,121 @@
+/* css chung cho button và text button */
+.btn{
+    min-width: 80px;
+    height: 36px;
+    background-color: var(--color-btn-default);
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-style: Medium;
+}
+
+.btn-default:hover{
+    background-color: var(--color-btn-default-hover);
+}
+
+.btn-default:active{
+    outline: 3px solid var(--color-border-default);
+}
+
+.btn-default:focus{
+    /* background-color: var(--color-btn-pressed); */
+    outline: 3px solid var(--color-border-default);
+}
+
+.text{
+    color: white;
+}
+/* End css chung cho button end text button */
+
+/* css button chính */
+.btn-default{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+/* css button phụ */
+.btn-extra{
+    padding-left: 16px;
+    padding-right: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border-default);
+}
+
+.btn-extra:hover{
+    background-color: #F5F5F5;
+}
+
+.btn-extra:active{
+    outline: 3px solid var(--color-border-default);
+}
+
+.btn-extra:focus{
+    /* background-color: #EEEEEE; */
+    outline: 3px solid var(--color-border-default);
+}
+/* css cho text button phụ */
+.text-extra{
+    color: black;
+}
+
+/* css cho button có icon */
+.btn-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 16px;
+}
+
+/* css cho icon trong các button */
+.icon{
+    height: 20px;
+    width: 20px;
+}
+
+.icon-exit:hover{
+    cursor: pointer;
+}
+
+.icon-plus {
+    margin-right: 4px;
+}
+
+/* css cho button combobox */
+.btn-combobox{
+    display: flex;
+    height: 36px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-btn-default);
+    padding: 0px;
+}
+
+.btn-combobox-left{
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 16px;
+}
+
+.btn-combobox-right{
+    box-sizing: border-box;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-left: 1px solid white;
+}
+
+.btn-combobox-right img{
+    width: 16px;
+    height: 16px;
+}
+
+/* css cho button không set min-width */
+.btn-no-minwwidth{
+    min-width: 0px;
+}

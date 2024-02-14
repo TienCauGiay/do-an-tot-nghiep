@@ -1,0 +1,66 @@
+.form{
+    box-sizing: border-box;
+    width: 700px;
+    height: 588px;
+    box-sizing: border-box;
+    padding: 37px 188px 23px 188px;
+    background-color: #F6F6F6;
+    border-radius: 4px;
+}
+
+.form-content{
+    width: 324px;
+    height: 528px;
+    box-sizing: border-box;
+    padding: 30px 32px 32px 32px;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.form-content h1{
+    font-size: 24px;
+    font-weight: 700;
+    font-style: Bold;
+    margin-top: 0px;
+    margin-bottom: 29px;
+}
+
+.form-dktk{
+    margin-top: 22px;
+}
+
+.form-dktk label{
+    margin: 0px;
+}
+
+.gender{
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.gender input{
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    padding: 0px;
+}
+
+.gender p{
+    margin: 0px;
+}
+
+#label-ns-dktk{
+    margin-bottom: 8px;
+}
+
+.footer-dktk{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 32px;
+}
+
+#btn-dktk-dk{
+    margin-left: 12px;
+}

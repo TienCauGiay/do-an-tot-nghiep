@@ -1,0 +1,82 @@
+/* Start css header content */
+.content-header{
+    height: 45px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title{
+    display: flex;
+    align-items: center;
+}
+
+.header-title p{
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 22px;
+}
+
+#gn{
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.header-title p{
+    margin-right: 5px;
+    font-weight: 500;
+}
+.header-action{
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    column-gap: 16px;
+}
+
+.info-user{
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.info-user p{
+    margin: 0 5px;
+    font-weight: 500;
+}
+
+.database{
+    height: 32px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 30px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+    cursor: pointer;
+}
+
+.database-circle{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-btn-default);
+}
+
+.database-text{
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header-center{
+    margin-right: 15px;
+}
+
+/* End css header content */
