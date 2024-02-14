@@ -1,0 +1,481 @@
+/* Start css main content */
+.content-main{
+    height: calc(100% - 45px);
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #e4e9e7;
+    padding: 5px 10px;
+}
+
+.content-title{
+    height: 80px;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+
+.content-title h1{
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.content-main-body{
+    background-color: white;
+    height: calc(100% - 80px);
+    box-sizing: border-box;
+}
+
+.all-category{
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    padding-top: 8px;
+}
+
+.all-category a{
+    text-decoration: none;
+}
+
+.all-category-text{
+    color: #007AFF;
+    cursor: pointer;
+}
+
+.content-action{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 10px;
+    padding-right: 20px;
+    column-gap: 15px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.delete-multiple{
+    margin-right: auto;
+    margin-left: 10px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 4px;
+    width: 180px;
+    height: 32px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.delete-multiple:disabled{
+    cursor: not-allowed;
+}
+
+.select-function-delete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.select-function-delete span{
+    font-weight: 500;
+}
+
+.menu-delete{
+    margin: 0px;
+    position: absolute;
+    top: calc(100% + 2px);
+    right: 0px;
+    z-index: 5000;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border-default);
+    border-radius: 4px;
+    width: 90px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.menu-item-delete{
+    list-style: none;
+    line-height: 32px;
+    text-align: left; padding-left: 12px;
+}
+
+.menu-item-delete:hover{
+    background-color: var(--color-border-default);
+    color: var(--color-btn-default);
+}
+
+.action-refresh{
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.search-entity, .search-account{
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding-right: 5px;
+    border: 1px solid var(--color-border-default);
+    position: relative;
+}
+
+.search-entity:focus-within, .search-account:focus-within {
+    border: 1px solid var(--color-btn-default);
+}
+
+.search-entity input{
+    height: 32px;
+    width: 200px;
+    padding: 0px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
+.content-action .search-entity input{
+    width: 50px;
+    transition: width 0.5s ease;
+}
+
+.content-action .search-entity input:focus{
+    width: 200px;
+}
+
+.search-entity input::placeholder, 
+.search-account input::placeholder{
+    font-style: italic;
+    font-weight: 400;
+}
+
+.utilities{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+    border: 2px solid black;
+    border-radius: 30px;
+    height: 32px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+}
+
+.utilities:hover{
+    background-color: var(--color-border-default);
+}
+
+.utilities-text{
+    font-weight: 500;
+}
+
+.utilities-synchronized{
+    position: absolute;
+    top: calc(100% + 5px);
+    width: 200px;
+    padding: 0 12px;
+    border: 1px solid var(--color-border-default);
+    z-index: 5000;
+    background-color: #FFFFFF;
+    line-height: 32px;
+    border-radius: 4px;
+    right: 0;
+}
+
+.utilities-synchronized:hover{
+    background-color: var(--color-border-default);
+    color: var(--color-btn-default);
+}
+
+.insert-data{
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.insert-data button:first-child{
+    border-radius: 30px 0 0 30px;
+    height: 32px;
+    min-width: unset;
+    padding-right: 0;
+}
+
+.insert-data button:first-child div{
+    padding-right: 12px;
+    border-right: 1px solid white;
+}
+
+.insert-data button:last-child{
+    border-radius: 0 30px 30px 0;
+    padding: 0 16px 0 12px;
+    background-color: var(--color-btn-default);
+    height: 32px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    min-width: unset;
+}
+
+.insert-data button:last-child:hover{
+    background-color: var(--color-btn-default-hover);
+}
+
+.list-entity{
+    margin: 15px 20px 0px 10px;
+    height: calc(100% - 100px);
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+  
+::-webkit-scrollbar-track {
+    background-color: #f6f0f0;
+}
+   
+::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #646568;
+}
+  
+/* End css main content */
+
+/* Start css table employee */
+table{
+    min-width: 1740px;
+    text-align: left;
+    border-spacing: 0;
+    overflow-x: auto;
+}
+
+.function-table{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.function-table-content,
+td > span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.function-table span{
+    margin-right: 5px;
+    color: #007AFF;
+}
+
+.function-table-content{
+    padding: 5px 10px;
+    border: 1px solid white;
+}
+
+.function-table-content:hover{
+    border: 1px solid cadetblue;
+    cursor: pointer;
+}
+
+.function-table-content:focus{
+    border: 1px solid cadetblue;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+th:not(:first-child), td:not(:first-child){
+    box-sizing: border-box;
+    border: 1px solid var(--color-border-default);
+    padding: 0 16px;
+}
+
+.th-checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* th:first-child, td:first-child{
+    width: 36px;
+    box-sizing: border-box;
+    border: 1px solid var(--color-border-default);
+    border-left: none;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+} */
+
+tr{
+    height: 36px;
+    box-sizing: border-box;
+    border-top: none;
+    border-left: none;
+}
+
+tr:hover {
+    background-color: #fff8cb;
+    cursor: pointer;
+}
+
+tr:hover td:first-child,tr:hover td:last-child{
+    background-color: #fff8cb;
+}
+
+th{
+    background-color: #bcd4b9;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    font-weight: 700;
+}
+
+td:not(td:last-child){
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+tr th:first-child{
+    background-color: #bcd4b9;
+    left: 0px;
+    z-index: 1000;
+}
+
+tr th:last-child{
+    right: 0;
+}
+
+tr td:last-child{
+    position: sticky;
+    right: 0;
+    background-color: #FFFFFF;
+}
+
+.e-id{
+    width: 140px;
+    max-width: 140px;
+}
+
+.e-fullname{
+    width: 180px;
+    max-width: 180px;
+}
+
+.e-gender-table{
+    width: 100px;
+    max-width: 100px;
+}
+
+.e-birthday{
+    width: 120px;
+    max-width: 120px;
+}
+
+.e-identity-number{
+    width: 140px;
+    max-width: 140px;
+}
+
+.e-position{
+    width: 120px;
+    max-width: 120px;
+}
+
+.e-department{
+    width: 220px;
+    max-width: 220px;
+}
+
+.e-bank-account{
+    width: 140px;
+    max-width: 140px;
+}
+
+.e-bank-name{
+    width: 160px;
+    max-width: 160px;
+}
+
+.e-bank-branch{
+    max-width: 250px;
+}
+
+.entity-border-left {
+    position: sticky;
+    left: 0px;
+    background-color: white;
+    width: 36px;
+    box-sizing: border-box;
+    border: 1px solid var(--color-border-default);
+    border-left: none;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+} 
+
+input.checkbox-select-row{
+    margin: 0px;
+}
+
+.entity-border-right{
+    border-right: none;
+}
+
+.function-icon-select{
+    position: relative;
+}
+
+.menu-function-select{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 115px;
+    border: 1px solid var(--color-border-default);
+    padding-left: 0px;
+    background-color: white;
+    margin: 0px;
+    z-index: 2000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 -4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.menu-function-select div{
+    display: block;
+    text-align: left;
+    padding: 5px 8px;
+    list-style: none;
+    font-style: normal;
+}
+
+.menu-function-select div:hover{
+    color: var(--color-btn-default);
+    background-color: var(--color-border-default);
+    cursor: pointer;
+}
+
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 55%;
+    animation: spin 1s infinite linear;
+    z-index: 9999;
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+/* End css table employee */

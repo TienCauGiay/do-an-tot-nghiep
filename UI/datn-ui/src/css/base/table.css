@@ -1,0 +1,83 @@
+/* Start css table */
+.data-table{
+    background-color: #E0E0E0;
+}
+
+table{
+    border-collapse: collapse;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+thead{
+    background-color:#EEEEEE;
+    border-radius: 4px 4px 0px 0px;
+}
+
+table thead tr th:first-child{
+    border-top-left-radius: 4px;
+}
+
+table thead tr th:last-child{
+    border-top-right-radius: 4px;
+}
+
+tr:hover{
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+#first-col-table{
+    padding: 10px 0px 10px 16px;
+}
+
+#second-col-table{
+    padding: 10px 0px 10px 16px;
+}
+
+th, td{
+    padding: 10px 16px;
+    border-top: 1px solid var(--color-border-default);
+    border-collapse: collapse;
+}
+
+.table-title-dropdown{
+    display: flex;
+    align-items: center;
+}
+
+.table-title-dropdown img{
+    width: 16px;
+    height: 16px;
+}
+
+.select-checkbox{
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+}
+
+#select-radio{
+    width: 28px;
+    height: 28px;
+}
+
+.action-table{
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 8px;
+}
+
+.icon-table{
+    width: 24px;
+    height: 24px;
+}
+
+tfoot th, td{
+    padding: 12px 16px;
+}
+
+.table-footer-paging{
+    padding-right: 0px;
+}
+/* End css table */

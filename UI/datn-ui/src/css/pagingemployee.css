@@ -1,0 +1,116 @@
+/* Start css pagination */
+.pagination{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin-right: 40px;
+}
+
+.pagination-detail-pagesize{
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border-default);
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 200px;
+    height: 32px;
+    box-sizing: border-box;
+    margin: 0px;
+    border-radius: 1px;
+}
+
+.pagination-detail-pagesize-content{
+    padding-left: 12px;
+}
+
+.menu-paging-select{
+    height: 30.667px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    background-color: #e0e0e0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-paging-select:hover{
+    cursor: pointer;
+}
+
+.menu-paging{
+    position: absolute;
+    bottom: calc(100% + 4px);
+    right: 0px;
+    border: 1px solid var(--color-border-default);
+    padding-left: 0px;
+    width: 200px;
+    box-sizing: border-box;
+    z-index: 2000;
+    background-color: white;
+    border-radius: 1px;
+}
+
+.menu-paging li{
+    line-height: 32px;
+    list-style: none;
+    padding: 0 12px;
+    font-style: normal;
+    margin: 1px 0;
+}
+
+.menu-paging li:hover{
+    background-color: var(--color-btn-default);
+    color: white;
+    cursor: pointer;
+}
+
+.pagination-detail{
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 50px;
+    column-gap: 8px;
+}
+
+.pagination-page-number{
+    height: 32px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-top: -0.667px;
+}
+
+.page-number{
+    display: flex;
+    height: 32px;
+    box-sizing: border-box;
+    margin: 0px;
+    align-items: center;
+}
+
+.page-number button{
+    list-style: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 32px;
+    box-sizing: border-box;
+    border-radius: 1px;
+    border: none;
+    background-color: white;
+    border: 1px solid transparent;
+}
+
+.page-number button:disabled{
+    cursor: not-allowed;
+}
+
+.page-number button:hover{
+    background-color: var(--color-border-default);
+    border-radius: 1px;
+}
+/* End css pagination */

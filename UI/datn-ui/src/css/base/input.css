@@ -1,0 +1,44 @@
+label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* css cho input mặc định */
+.textfield{
+    height: 36px;
+    width: 300px;
+    padding: 0px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border-default);
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+.textfield::placeholder{
+    font-size: 14px;
+    color: #9E9E9E;
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* .textfield:hover{
+	background-color: var(--color-border-default);
+} */
+
+.textfield:focus{
+	border: 1px solid var(--color-btn-default);
+  	outline: none;
+}
+
+/* css cho input khi xác thực mà trống */
+#textfield-error{
+    border: 1px solid red;
+}
+.text-error{
+    color: red;
+    font-size: 11px;
+    display: block;
+    margin-top: 8px;
+}
+/* End css textfield */

@@ -1,0 +1,22 @@
+/* css cho input mặc định */
+.textfield-area{
+    height: 54px;
+    width: 100%;
+    padding: 9px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border-default);
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+.textfield-area::placeholder{
+    font-size: 12px;
+    color: #9E9E9E;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.textfield-area:focus{
+	border: 1px solid var(--color-btn-default);
+  	outline: none;
+}

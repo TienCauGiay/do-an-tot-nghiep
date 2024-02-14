@@ -1,0 +1,81 @@
+.popup{
+    box-sizing: border-box;
+    width: 416px;
+    height: 328px;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.popup-content{
+    padding: 24px;
+}
+
+.title-popup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-popup h1{
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.popup-content p{
+    margin-top: 24px;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-group-popup input{
+    width: 100%;
+}
+
+#cbb-popup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-footer{
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #F5F5F5;
+    border-radius: 0px 0px 4px 4px;
+}
+
+.footer-right{
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 8px;
+}
+
+.popup-select-text{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid var(--color-border-default);
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 36px;
+}
+
+#popup-select-textfield{
+    border-right: none;
+}
+
+#popup-select-textfield:focus{
+    border-right: 1px solid var(--color-btn-default);
+}
+
+.popup-select-text img{
+    width: 24px;
+    height: 24px;
+    padding-left: 8px;
+    padding-right: 8px;
+}

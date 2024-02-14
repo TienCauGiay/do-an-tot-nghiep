@@ -1,0 +1,117 @@
+.cbb-select-multiple{
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border-default);
+    min-height: 24.67px;
+    border-radius: 4px;
+}
+
+.cbb-select-multiple:has(.input-cbb-select-multiple:focus){
+    border-color: var(--color-btn-default);
+}
+
+.cbb-select-multiple-main{
+    width: calc(100% - 46px);
+    min-height: 24.67px;
+    display: flex;
+    align-items: center;
+    padding: 2px 2px 0 12px;
+    flex-wrap: wrap;
+
+}
+
+.item-select-multiple{
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    column-gap: 4px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 2px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+    flex: 0 0 auto;
+    background-color: #f0f0f0;
+}
+
+.textfiled-cbb-select-multiple{
+    width: 60px;
+    flex: 1 1 auto;
+    margin-bottom: 2px;
+}
+
+.input-cbb-select-multiple{
+    width: 100%;
+}
+
+.item-select-multiple-text{
+    margin-top: -2px;
+}
+
+.cbb-select-multiple-action{
+    width: 46px;
+    display: flex;
+    align-items: center;
+    min-height: 24.67px;
+    align-self: stretch;
+}
+
+.select-multiple-action-add, .select-multiple-action-dropdown{
+    width: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24.67px;
+    cursor: pointer;
+    align-self: stretch;
+}
+
+.select-multiple-action-add:hover, .select-multiple-action-dropdown:hover{
+    background-color: var(--color-border-default);
+}
+
+.select-multiple-action-add{
+    border-right: 1px solid var(--color-border-default);
+}
+
+.select-item-cbb-multiple .form-cbb-menu{
+    position: absolute;
+    width: 100%;
+    top: calc(100% + 5px);
+    max-height: 134px;
+}
+
+#form-cbb-menu-select-multiple .form-cbb-menu-title{
+    margin-bottom: 0;
+}
+
+.select-item-cbb-multiple .form-cbb-main{
+    max-height: 108px;
+    overflow-y: auto;
+}
+
+.select-item-cbb-multiple .form-cbb-menu-item div:last-child{
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.select-item-cbb-multiple .form-cbb-menu-item div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.col-1-cbb-menu-item {
+    flex: 0 0 150px; 
+    min-width: 150px; 
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+  
+.col-2-cbb-menu-item {
+    flex: 0 0 200px; 
+    min-width: 200px; 
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}

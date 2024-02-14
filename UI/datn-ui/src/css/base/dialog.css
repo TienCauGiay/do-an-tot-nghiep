@@ -1,0 +1,121 @@
+.overlay-dialog{
+    background-color: rgba(41, 37, 37, 0.781);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 9000;
+}   
+
+.dialog{
+    box-sizing: border-box;
+    width: 400px;
+    padding: 24px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.title-dialog{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.title-dialog div{
+    scale: 0.6 0.6;
+    cursor: pointer;
+}
+
+.title-dialog h1{
+    font-style: Bold;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.dialog p{
+    margin-top: 24px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.footer-dialog{
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: 8px;
+}
+/* Start css dialog employee */
+.dialog-entity{
+    width: 400px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    z-index: 9999;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 24px;
+}
+
+.dialog-content{
+    display: flex;
+    align-items: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #000;
+}
+
+.dialog-content-main{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    width: 280px;
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+.dialog-content-main p{
+    margin: 0px;
+}
+
+.dialog-warning-footer{
+    padding-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dialog-danger-footer{
+    padding-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#dialog-danger-entity .dialog-content .dialog-content-icon{
+    margin-right: 24px;
+}
+
+.dialog-warning-delete-footer{
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dialog-question-footer{
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dialog-question-footer-right{
+    display: flex;
+    column-gap: 8px;
+}
+
+#dialog-question-entity .dialog-content .dialog-content-icon{
+    margin-right: 20px;
+}
+
+#dialog-warning-entity .dialog-content{
+    column-gap: 10px;
+}
+/* End css dialog employee */
