@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "lfxRjm7LeAnR4OtVfICywixtEku8Lj/GbgQLZMGt6Yw=",
+  "Source": "BE.DATN.API",
+  "BasePath": "_content/BE.DATN.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
