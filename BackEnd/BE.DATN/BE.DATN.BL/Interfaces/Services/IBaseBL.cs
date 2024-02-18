@@ -12,8 +12,11 @@ namespace BE.DATN.BL.Interfaces.Services
         Task<ReponseService> GetAllAsync();
         Task<ReponseService> GetByIdAsync(Guid id);
         Task<ReponseService> InsertAsync(TEntity entity);
+        Task<ReponseService> InsertMultipleAsync(List<TEntity> entities);
         Task<ReponseService> UpdateAsync(TEntity entity);
+        Task<ReponseService> UpdateMultipleAsync(List<TEntity> entities);
         Task<ReponseService> DeleteAsync(Guid id);
+        Task<ReponseService> DeleteMultipleAsync(List<Guid> ids);
         Task<ReponseService> SearchAsync(string? textSearch);
     }
 }
