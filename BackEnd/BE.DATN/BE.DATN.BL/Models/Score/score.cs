@@ -9,11 +9,12 @@ namespace BE.DATN.BL.Models.Score
 {
     public class score : BaseModel
     {
+        public Guid score_id { get; set; }
         public Guid student_id { get; set; }
-        public Guid subject_id { get; set; }
-        public float score_cc { get; set; }
-        public float score_kt { get; set; }
+        public Guid teacher_id { get; set; }
+        public float score_attendance { get; set; }
         public float score_test { get; set; }
-        public float score_tb { get; set; }
+        public float score_exam { get; set; }
+        public float score_average { get; set; }
     }
 }

@@ -15,39 +15,59 @@ namespace BE.DATN.API.Controllers
             _baseBL = baseBL;
         }
 
-        [HttpGet]
+        [HttpGet("get_all")]
         public async Task<IActionResult> GetAll()
         {
             var res = await _baseBL.GetAllAsync();
             return Ok(res);
         }
 
-        [HttpGet("id")]
+        [HttpGet("get_by_id")]
         public async Task<IActionResult> GetByID(Guid id)
         {
             var res = await _baseBL.GetByIdAsync(id);
             return Ok(res);
         } 
 
-        [HttpPost]
+        [HttpPost("insert")]
         public async Task<IActionResult> Post(TEntity entity)
         {
             var res = await _baseBL.InsertAsync(entity);
             return Ok(res);
         }
 
+        [HttpPost("insert_multiple")]
+        public async Task<IActionResult> PostMultiple(List<TEntity> entities)
+        {
+            var res = await _baseBL.InsertMultipleAsync(entities);
+            return Ok(res);
+        }
 
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<IActionResult> Put(TEntity entity)
         {
             var res = await _baseBL.UpdateAsync(entity);
             return Ok(res);
         }
 
-        [HttpDelete]
+        [HttpPut("update_multiple")]
+        public async Task<IActionResult> PutMultiple(List<TEntity> entities)
+        {
+            var res = await _baseBL.UpdateMultipleAsync(entities);
+            return Ok(res);
+        }
+
+        [HttpDelete("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var res = await _baseBL.DeleteAsync(id);
+            return Ok(res);
+        }
+
+        [HttpDelete("delete_multiple")]
+        public async Task<IActionResult> DeleteMultiple(List<Guid> ids)
+        {
+            var res = await _baseBL.DeleteMultipleAsync(ids);
             return Ok(res);
         }
 
