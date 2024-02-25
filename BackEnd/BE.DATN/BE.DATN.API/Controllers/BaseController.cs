@@ -27,7 +27,14 @@ namespace BE.DATN.API.Controllers
         {
             var res = await _baseBL.GetByIdAsync(id);
             return Ok(res);
-        } 
+        }
+
+        [HttpGet("get_by_code")]
+        public async Task<IActionResult> GetCodeID(string code)
+        {
+            var res = await _baseBL.GetByCodeAsync(code);
+            return Ok(res);
+        }
 
         [HttpPost("insert")]
         public async Task<IActionResult> Post(TEntity entity)

@@ -11,6 +11,7 @@ namespace BE.DATN.BL.Interfaces.Services
     {
         Task<ReponseService> GetAllAsync();
         Task<ReponseService> GetByIdAsync(Guid id);
+        Task<ReponseService> GetByCodeAsync(string code);
         Task<ReponseService> InsertAsync(TEntity entity);
         Task<ReponseService> InsertMultipleAsync(List<TEntity> entities);
         Task<ReponseService> UpdateAsync(TEntity entity);

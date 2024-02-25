@@ -74,6 +74,6 @@ namespace BE.DATN.BL.Services
                     Data = new List<student_view>()
                 };
             }
-        }
+        } 
     }
 }

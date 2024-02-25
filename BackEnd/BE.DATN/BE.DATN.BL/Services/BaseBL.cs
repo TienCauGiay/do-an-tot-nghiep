@@ -60,6 +60,24 @@ namespace BE.DATN.BL.Services
             }
         }
 
+        public async Task<ReponseService> GetByCodeAsync(string code)
+        {
+            try
+            {
+                var res = await _baseDL.GetByCodeAsync(code);
+                return new ReponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ReponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
+        }
+
         /// <summary>
         /// Xử lí nghiệp vụ trước khi thêm 1 bản ghi
         /// các model cụ thể sẽ override lại để custom riêng
@@ -79,7 +97,7 @@ namespace BE.DATN.BL.Services
             {
                 ValidateBusiness(entity, ModelState.Insert);
                 var res = await _baseDL.InsertAsync(entity);
-                return new ReponseService(StatusCodes.Status200OK, "Thêm mới dữ liệu thành công", res);
+                return new ReponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
@@ -98,7 +116,7 @@ namespace BE.DATN.BL.Services
             {
                 ValidateBusinessMultiple(entities, ModelState.Insert);
                 var res = await _baseDL.InsertMultipleAsync(entities);
-                return new ReponseService(StatusCodes.Status200OK, "Thêm mới dữ liệu thành công", res);
+                return new ReponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
             }
             catch (Exception ex)
             {

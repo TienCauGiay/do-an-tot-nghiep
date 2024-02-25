@@ -21,6 +21,6 @@ namespace BE.DATN.API.Controllers
         {
             var res = await _studentBL.GetFilterPagingAsync(limit, offset, textSearch);
             return Ok(res);
-        }
+        } 
     }
 }

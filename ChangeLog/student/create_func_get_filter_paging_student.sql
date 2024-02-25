@@ -4,6 +4,7 @@ RETURNS TABLE
 student_id uuid,
 student_code text,
 student_name text,
+classes_id uuid,
 classes_code text,
 classes_name text,
 birthday date,
@@ -25,6 +26,7 @@ begin
 		student_id uuid,
 		student_code text,
 		student_name text,
+		classes_id uuid,
 		classes_code text,
 		classes_name text,
 		birthday date,
@@ -39,6 +41,7 @@ begin
 		st.student_id,
 		st.student_code,
 		st.student_name,
+		st.classes_id,
 		cl.classes_code, 
 		cl.classes_name,
 		st.birthday,
@@ -52,7 +55,7 @@ begin
 		st.student_code ilike '%' || p_text_search || '%'
 		or st.student_name ilike '%' || p_text_search || '%'
 	order by 
-		student_code, student_name 
+		st.modified_date desc
 	limit p_limit offset (p_offset - 1)* p_limit
 	;
 	

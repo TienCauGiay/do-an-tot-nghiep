@@ -10,6 +10,7 @@ namespace BE.DATN.BL.Interfaces.Repository
     {
         Task<List<TEntity>?> GetAllAsync();
         Task<TEntity?> GetByIdAsync(Guid id);
+        Task<TEntity?> GetByCodeAsync(string code);
         Task<int> InsertAsync(TEntity entity);
         Task<int> InsertMultipleAsync(List<TEntity> entities);
         Task<int> UpdateAsync(TEntity entity);

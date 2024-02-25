@@ -52,9 +52,9 @@
         <ms-button-icon></ms-button-icon>
       </div>
     </div>
-    <div id="list-employee" class="list-entity">
+    <div id="list-student" class="list-entity">
       <form action="">
-        <table id="tbEmployeeList">
+        <table id="tbStudentList">
           <thead>
             <tr>
               <th type="checkbox" class="entity-border-left">
@@ -237,14 +237,14 @@
       </div>
     </div>
     <div v-if="isOverlay" id="container-overlay" class="container-overlay" @closeFormDetail="onCloseFormDetail"></div>
-    <!-- employee detail -->
+    <!-- student detail -->
     <StudentDetail
       v-if="isShowFormDetail"
       @closeFormDetail="onCloseFormDetail"
-      :employeeSelected="studentUpdate"
+      :studentSelected="studentUpdate"
       :statusFormMode="isStatusFormMode"
     ></StudentDetail>
-    <!-- dialog employee confirm delete -->
+    <!-- dialog student confirm delete -->
     <ms-dialog-confirm-delete
       :isDeleteMultiple="isDeleteMultipleDialog"
       :contentDeleteMultiple="this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_MULTIPLE"
@@ -331,7 +331,7 @@ export default {
       selectedRecord: this.$_MSEnum.RECORD.RECORD_DEFAULT,
       // Khai báo list số bản ghi có thể lựa chọn để hiển thị trên trang
       recordOptions: this.$_MSEnum.RECORD.RECORD_OPTIONS,
-      // Khai báo EmployeeId của sinh viên cần xóa
+      // Khai báo id của sinh viên cần xóa
       studentIdDeleteSelected: "",
       // Khai báo student_code của sinh viên cần xóa
       studentCodeDeleteSelected: "",
@@ -361,7 +361,7 @@ export default {
       isDeleteMultipleDialog: null,
       // Khai báo biến tùy chỉnh top, left cho feature menu
       positionFeatureMenu: {},
-      // Khai báo biến lưu employee khi bấm vào col feature
+      // Khai báo biến lưu student khi bấm vào col feature
       selectedStudent: {},
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
@@ -580,7 +580,7 @@ export default {
         this.isShowLoading = false;
         this.isShowDialogConfirmDelete = false;
         this.isOverlay = false;
-        if (this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.status) && res.data > 0) {
+        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
           this.isDeleteMultipleDialog = false;
           this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
           this.onShowToastMessage();
@@ -648,13 +648,13 @@ export default {
           this.textSearch = "";
         }
         this.isShowLoading = true;
-        const filteredEmployees = await studentService.getFilter(
+        const filteredStudents = await studentService.getFilter(
           this.selectedRecord,
           this.currentPage,
           this.textSearch.trim()
         );
         this.isShowLoading = false;
-        this.dataTable = filteredEmployees.data;
+        this.dataTable = filteredStudents.data;
       } catch {
         return;
       }
@@ -826,7 +826,7 @@ export default {
         this.isShowLoading = false;
         this.isShowDialogConfirmDelete = false;
         this.isOverlay = false;
-        if (this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.status) && res.data > 0) {
+        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data) {
           this.ids = [];
           this.isDeleteMultipleDialog = false;
           this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
@@ -873,7 +873,7 @@ export default {
 
 <style>
 @import url(@/css/maincontent.css);
-@import url(@/css/pagingemployee.css);
+@import url(@/css/pagingstudent.css);
 
 .rotate-function-icon {
   transform: rotate(180deg);

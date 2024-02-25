@@ -14,10 +14,10 @@ namespace BE.DATN.BL.Models.Student
         public string student_code { get; set; }
         public string student_name { get; set;}
         public DateTime? birthday { get; set; }
-        public string gender { get; set; }
-        public string address { get; set; }
-        public string phone_number { get; set; }
-        public string email { get; set; }
-        public string image { get; set; }
+        public string? gender { get; set; }
+        public string? address { get; set; }
+        public string? phone_number { get; set; }
+        public string? email { get; set; }
+        public string? image { get; set; }
     }
 }
