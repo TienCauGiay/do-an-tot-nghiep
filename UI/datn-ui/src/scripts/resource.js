@@ -6,6 +6,9 @@ const MSResource = {
             "classes_name": "Lớp học không được để trống",
             "birthday": "Ngày sinh lớn hơn ngày hiện tại",
             "email": "Email không đúng định dạng", 
+            "teacher_code": "Mã giảng viên không được để trống",
+            "teacher_name": "Tên giảng viên không được để trống",
+            "subject_name": "Môn học không được để trống",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -13,6 +16,8 @@ const MSResource = {
             "address": {Limit: 255, Warning : "Địa chỉ tối đa 255 kí tự"},
             "phone_number": {Limit: 50, Warning : "Điện thoại di động tối đa 50 kí tự"}, 
             "email": {Limit: 100, Warning : "Email tối đa 100 kí tự"}, 
+            "teacher_code": {Limit: 20, Warning : "Mã giảng viên tối đa 20 kí tự"},
+            "teacher_name": {Limit: 100, Warning : "Tên giảng viên tối đa 100 kí tự"}, 
         },
         TOOLTIP:{
             ALERT: "Thông báo",
@@ -43,9 +48,21 @@ const MSResource = {
             Email: "EMAIL",
             Feature: "CHỨC NĂNG"
         },
+        Teacher_Column:{
+            TeacherCode: "MÃ GIẢNG VIÊN",
+            TeacherName: "TÊN GIẢNG VIÊN",
+            SubjectCode: "MÃ MÔN HỌC",
+            SubjectName: "TÊN MÔN HỌC",
+            Birthday: "NGÀY SINH",
+            Gender: "GIỚI TÍNH",
+            Address: "ĐỊA CHỈ",
+            PhoneNumber: "SỐ ĐIỆN THOẠI",
+            Email: "EMAIL",
+            Feature: "CHỨC NĂNG"
+        },
         TEXT_CONTENT:{
             ManagementStudent: "Quản lí sinh viên",
-
+            ManagementTeacher: "Quản lí giảng viên",
 
             FILE_NAME: "Danh_sach_nhan_vien",
             NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI",
@@ -66,7 +83,7 @@ const MSResource = {
             UTILITIES_SYNCHRONIZED: "Đồng bộ với AMIS hệ thống",
             EXCUTE_BATCH: "Thực hiện hàng loạt",
             ADD: "Thêm",
-            PLACEHOLDER_SEARCH: "Tìm theo mã, tên nhân viên",
+            PLACEHOLDER_SEARCH: "Tìm theo mã, tên",
             PLACEHOLDER_SEARCH_HEADER: "Nhập từ khóa tìm kiếm",
             SUCCESS_DELETE : "Xóa thành công.",
             SUCCESS_CTEATE : "Thêm thành công.",
@@ -103,7 +120,7 @@ const MSResource = {
         },
         FORM:{
             AddStudent:"Thêm sinh viên",
-            UpdateStudent:"Sửa sinh viên", 
+            UpdateStudent:"Cập nhật thông tin sinh viên", 
             StudentCode:"Mã sinh viên",
             StudentName:"Họ tên",
             Classes:"Lớp",
@@ -112,11 +129,14 @@ const MSResource = {
             PlaceholderClasses:"-- Chọn lớp --", 
             Address:"Địa chỉ",
             PhoneNumber:"Điện thoại",
-            Email:"Email",
-            BANK_ACCOUNT:"Tài khoản ngân hàng",
-            BANK_NAME:"Tên ngân hàng",
-            BANK_BRANCH:"Chi nhánh",
+            Email:"Email", 
             NOT_FOUND: "Không tìm thấy",
+            AddTeacher: "Thêm giảng viên",
+            UpdateTeacher: "Cập nhật thông tin giảng viên",
+            TeacherCode: "Mã giảng viên",
+            TeacherName: "Tên giảng viên",
+            Subject: "Môn giảng dạy",
+            PlaceholderSubject:"-- Chọn môn --", 
         },
         DIALOG:{
             TITLE:{

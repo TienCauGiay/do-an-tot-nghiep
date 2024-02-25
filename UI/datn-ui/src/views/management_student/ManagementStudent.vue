@@ -83,7 +83,7 @@
               <th class="e-bank-account">
                 {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.PhoneNumber }}
               </th>
-              <th class="Student_Column">
+              <th>
                 {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.Address }}
               </th>
               <th class="e-bank-branch">
@@ -165,9 +165,6 @@
           </div>
           <div @click="onDeleteStudent">
             {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
-          </div>
-          <div>
-            {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.STOP_USING }}
           </div>
         </div>
       </teleport>
@@ -873,7 +870,7 @@ export default {
 
 <style>
 @import url(@/css/maincontent.css);
-@import url(@/css/pagingstudent.css);
+@import url(@/css/paging.css);
 
 .rotate-function-icon {
   transform: rotate(180deg);

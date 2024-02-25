@@ -15,5 +15,12 @@ namespace BE.DATN.API.Controllers
         {
             _teacherBL = teacherBL;
         }
+
+        [HttpGet("paging_filter")]
+        public async Task<IActionResult> GetFilterPaging(int limit, int offset, string? textSearch)
+        {
+            var res = await _teacherBL.GetFilterPagingAsync(limit, offset, textSearch);
+            return Ok(res);
+        }
     }
 }
