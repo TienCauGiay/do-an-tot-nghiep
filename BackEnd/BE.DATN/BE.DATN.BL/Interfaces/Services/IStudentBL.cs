@@ -10,6 +10,6 @@ namespace BE.DATN.BL.Interfaces.Services
 {
     public interface IStudentBL : IBaseBL<student>
     {
-        Task<ResponseServiceStudent> GetFilterPagingAsync(int limit, int offset, string? textSearch);
+        Task<ResponseServiceStudent> GetFilterPagingAsync(int limit, int offset, string? textSearch); 
     }
 }

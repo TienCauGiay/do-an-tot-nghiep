@@ -30,6 +30,8 @@ builder.Services.AddScoped<ITeacherBL, TeacherBL>();
 builder.Services.AddScoped<ITeacherDL, TeacherDL>();
 builder.Services.AddScoped<IScoreBL, ScoreBL>();
 builder.Services.AddScoped<IScoreDL, ScoreDL>();
+builder.Services.AddScoped<IClassesBL, ClassesBL>();
+builder.Services.AddScoped<IClassesDL, ClassesDL>();
 
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
 

@@ -11,6 +11,7 @@ namespace BE.DATN.BL.Models.Student
         public Guid student_id { get; set; }     
         public string student_code { get; set; }
         public string student_name { get; set;}
+        public Guid classes_id { get; set; }
         public string classes_code { get; set; }
         public string classes_name { get; set;}
         public DateTime? birthday { get; set; }

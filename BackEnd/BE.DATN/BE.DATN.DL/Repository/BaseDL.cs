@@ -41,6 +41,17 @@ namespace BE.DATN.DL.Repository
             return result;
         }
 
+        public async Task<TEntity?> GetByCodeAsync(string code)
+        {
+            var selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_code = @Code";
+
+            var parameters = new { Code = code };
+
+            var result = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<TEntity>(selectQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            return result;
+        }
+
         public async Task<int> InsertAsync(TEntity entity)
         {
             var parameters = new DynamicParameters();
@@ -198,10 +209,10 @@ namespace BE.DATN.DL.Repository
         }
 
         public virtual async Task<List<TEntity>?> SearchAsync(string textSearch)
-        {
-            var selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_code like concat('%', @TextSearch, '%') or {tableName}_name like concat('%', @TextSearch, '%')";
+        { 
+            var selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_name ILIKE @TextSearch"; 
 
-            var parameters = new { TextSearch = textSearch };
+            var parameters = new { TextSearch = $"%{textSearch}%" };
 
             var result = await _unitOfWork.Connection.QueryAsync<TEntity>(selectQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
 

@@ -27,11 +27,11 @@ class BaseServices {
      * Mô tả: trả về bản trong database có code là tham số truyền vào
      * created by : BNTIEN
      * created date: 02-06-2023 22:09:41
-     */
-    async getByCode(code){
-        const response = await this.entity.get(`${this.getBaseUrl()}/code/${code}`);
+     */ 
+    async getByCode(code) {
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_by_code?code=${code}`);
         return response;
-    }
+    } 
 
     /**
      * Mô tả: trả về bản trong database có id là tham số truyền vào
@@ -39,7 +39,7 @@ class BaseServices {
      * created date: 02-06-2023 22:09:41
      */
     async getById(id){
-        const response = await this.entity.get(`${this.getBaseUrl()}/${id}`);
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_by_id?id=${id}`);
         return response;
     }
 
@@ -49,7 +49,7 @@ class BaseServices {
      * created date: 02-06-2023 22:10:13
      */
     async create(obj){
-        const response = await this.entity.post(this.getBaseUrl(), obj);
+        const response = await this.entity.post(`${this.getBaseUrl()}/insert`, obj);
         return response;
     }
 
@@ -58,8 +58,8 @@ class BaseServices {
      * created by : BNTIEN
      * created date: 02-06-2023 22:10:45
      */
-    async update(id, obj){
-        const response = await this.entity.put(`${this.getBaseUrl()}/${id}`, obj);
+    async update(obj){
+        const response = await this.entity.put(`${this.getBaseUrl()}/update`, obj);
         return response;
     }
     
@@ -68,10 +68,10 @@ class BaseServices {
      * created by : BNTIEN
      * created date: 02-06-2023 22:11:02
      */
-    async delete(id){
-        const response = await this.entity.delete(`${this.getBaseUrl()}/${id}`);
+    async delete(id) {
+        const response = await this.entity.delete(`${this.getBaseUrl()}/delete?id=${id}`);
         return response;
-    }
+    }     
 
     /**
      * Mô tả: xóa nhiều bản ghi theo danh sách id
@@ -79,11 +79,14 @@ class BaseServices {
      * created date: 27-06-2023 23:05:28
      */
     async deleteMutiple(ids){
-        const response = await this.entity.delete(`${this.getBaseUrl()}/ids`, {data:ids});
+        const response = await this.entity.delete(`${this.getBaseUrl()}/delete_multiple`, {data:ids});
         return response;
     }
 
-    
+    async search(textSearch){
+        const response = await this.entity.get(`${this.getBaseUrl()}/search?textSearch=${textSearch}`);
+        return response;
+    }
 }
 
 export default BaseServices;

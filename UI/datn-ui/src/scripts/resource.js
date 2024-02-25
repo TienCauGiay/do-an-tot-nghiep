@@ -1,33 +1,18 @@
-import COMPONENT_CATEGORY from '@/scripts/resource_component/rc_category.js'
-import SYSTEM_ACCOUNT from '@/scripts/resource_component/rc_account.js'
-import PROVIDER from '@/scripts/resource_component/rc_provider.js'
-import RECEIPT_PAYMENT from '@/scripts/resource_component/rc_receipt_payment.js'
-import CASH from '@/scripts/resource_component/rc_cash.js'
-
 const MSResource = {
     'vn-VI':{
         VALIDATE:{
-            "EmployeeCode": "Mã nhân viên không được phép để trống",
-            "FullName": "Họ tên không được phép để trống",
-            "DepartmentName": "Đơn vị không được phép để trống",
-            "DateOfBirth": "Ngày sinh lớn hơn ngày hiện tại",
-            "IdentityDate": "Ngày cấp lớn hơn ngày hiện tại",
-            "Email": "Email không đúng định dạng",
-            "IdentityNumber": "Số chứng minh không đúng",
+            "student_code": "Mã sinh viên không được để trống",
+            "student_name": "Họ tên sinh viên không được để trống",
+            "classes_name": "Lớp học không được để trống",
+            "birthday": "Ngày sinh lớn hơn ngày hiện tại",
+            "email": "Email không đúng định dạng", 
         },
         MAXLENGTH:{
-            "EmployeeCode": {Limit: 20, Warning : "Mã nhân viên tối đa 20 kí tự"},
-            "FullName": {Limit: 100, Warning : "Họ tên tối đa 100 kí tự"},
-            "IdentityNumber": {Limit: 25, Warning : "Số chứng minh tối đa 25 kí tự"},
-            "IdentityPlace": {Limit: 255, Warning : "Nơi cấp tối đa 255 kí tự"},
-            "PositionName": {Limit: 255, Warning : "Chức danh tối đa 255 kí tự"},
-            "Address": {Limit: 255, Warning : "Địa chỉ tối đa 255 kí tự"},
-            "PhoneNumber": {Limit: 50, Warning : "Điện thoại di động tối đa 50 kí tự"},
-            "PhoneLandline": {Limit: 50, Warning : "Điện thoại cố định tối đa 50 kí tự"},
-            "Email": {Limit: 100, Warning : "Email tối đa 100 kí tự"},
-            "BankAccount": {Limit: 50, Warning : "Số tài khoản tối đa 50 kí tự"},
-            "BankName": {Limit: 255, Warning : "Tên ngân hàng tối đa 255 kí tự"},
-            "BankBranch": {Limit: 255, Warning : "Chi nhánh tối đa 255 kí tự"},
+            "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
+            "student_name": {Limit: 100, Warning : "Họ tên sinh viên tối đa 100 kí tự"}, 
+            "address": {Limit: 255, Warning : "Địa chỉ tối đa 255 kí tự"},
+            "phone_number": {Limit: 50, Warning : "Điện thoại di động tối đa 50 kí tự"}, 
+            "email": {Limit: 100, Warning : "Email tối đa 100 kí tự"}, 
         },
         TOOLTIP:{
             ALERT: "Thông báo",
@@ -161,12 +146,7 @@ const MSResource = {
         TOAST:{
             SUCCESS:"Thành công!",
             UNDO:"",
-        },
-        CATEGORY: COMPONENT_CATEGORY,
-        ACCOUNT: SYSTEM_ACCOUNT,
-        PROVIDER: PROVIDER,
-        RECEIPT_PAYMENT: RECEIPT_PAYMENT,
-        CASH: CASH,
+        }, 
     },
     'en-EN':{
         TEXT_CONTENT:{

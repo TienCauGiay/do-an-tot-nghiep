@@ -1,18 +1,17 @@
 <template>
-  <div id="detail-info-employee" class="position-display-center" ref="FormDetail">
+  <div id="detail-info-student" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :tabindex="23" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
-        id="employee-exit"
-        :tabindex="24"
+        id="student-exist"
         @keydown.tab.prevent="resetTab($event.target.value)"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXIST"
       ></div>
     </div>
     <div class="form-detail-main">
-      <div class="employee-title">
+      <div class="student-title">
         <p>
           <b>{{ this.titleFormMode }}</b>
         </p>
@@ -26,23 +25,22 @@
             </label>
             <div class="container-input">
               <ms-input
-                ref="EmployeeCode"
-                v-model="employee.EmployeeCode"
-                :class="{ 'border-red': isBorderRed.EmployeeCode }"
-                :tabindex="1"
-                @input="setIsBorderRed('EmployeeCode')"
-                @mouseenter="isHovering.EmployeeCode = true"
-                @mouseleave="isHovering.EmployeeCode = false"
+                ref="student_code"
+                v-model="student.student_code"
+                :class="{ 'border-red': isBorderRed.student_code }"
+                @input="setIsBorderRed('student_code')"
+                @mouseenter="isHovering.student_code = true"
+                @mouseleave="isHovering.student_code = false"
               ></ms-input>
               <div
                 class="ms-tooltip"
                 v-if="
-                  isHovering.EmployeeCode &&
-                  (isBorderRed.EmployeeCode || !employee.EmployeeCode) &&
-                  errors['EmployeeCode']
+                  isHovering.student_code &&
+                  (isBorderRed.student_code || !student.student_code) &&
+                  errors['student_code']
                 "
               >
-                {{ errors["EmployeeCode"] }}
+                {{ errors["student_code"] }}
               </div>
             </div>
           </div>
@@ -53,51 +51,51 @@
             </label>
             <div class="container-input">
               <ms-input
-                ref="FullName"
-                v-model="employee.FullName"
-                :class="{ 'border-red': isBorderRed.FullName }"
-                :tabindex="2"
-                @input="setIsBorderRed('FullName')"
-                @mouseenter="isHovering.FullName = true"
-                @mouseleave="isHovering.FullName = false"
+                ref="student_name"
+                v-model="student.student_name"
+                :class="{ 'border-red': isBorderRed.student_name }"
+                @input="setIsBorderRed('student_name')"
+                @mouseenter="isHovering.student_name = true"
+                @mouseleave="isHovering.student_name = false"
               ></ms-input>
               <div
                 class="ms-tooltip"
-                v-if="isHovering.FullName && (isBorderRed.FullName || !employee.FullName) && errors['FullName']"
+                v-if="
+                  isHovering.student_name &&
+                  (isBorderRed.student_name || !student.student_name) &&
+                  errors['student_name']
+                "
               >
-                {{ errors["FullName"] }}
+                {{ errors["student_name"] }}
               </div>
             </div>
           </div>
         </div>
         <div class="half-content">
           <div class="col-md-l">
-            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.Gender }}</label>
+            <label>{{ $_MSResource[$_LANG_CODE].FORM.Gender }}</label>
             <div class="e-gender">
               <input
-                v-model="employee.Gender"
-                :value="this.$_MSEnum.GENDER.Male"
+                v-model="student.gender"
+                :value="$_MSResource[$_LANG_CODE].TEXT_CONTENT.GENDER.Male"
                 type="radio"
                 name="gender"
-                :tabindex="6"
               />
-              <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.GENDER.Male }}</span>
+              <span>{{ $_MSResource[$_LANG_CODE].TEXT_CONTENT.GENDER.Male }}</span>
               <input
-                v-model="employee.Gender"
-                :value="this.$_MSEnum.GENDER.Female"
+                v-model="student.gender"
+                :value="$_MSResource[$_LANG_CODE].TEXT_CONTENT.GENDER.Female"
                 type="radio"
                 name="gender"
-                :tabindex="7"
               />
-              <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.GENDER.Female }}</span>
+              <span>{{ $_MSResource[$_LANG_CODE].TEXT_CONTENT.GENDER.Female }}</span>
               <input
-                v-model="employee.Gender"
-                :value="this.$_MSEnum.GENDER.Other"
+                v-model="student.gender"
+                :value="$_MSResource[$_LANG_CODE].TEXT_CONTENT.GENDER.Other"
                 type="radio"
                 name="gender"
-                :tabindex="8"
               />
-              <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.GENDER.Other }}</span>
+              <span>{{ $_MSResource[$_LANG_CODE].TEXT_CONTENT.GENDER.Other }}</span>
             </div>
           </div>
         </div>
@@ -106,38 +104,36 @@
             <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.Birthday }}</label>
             <div class="container-input">
               <ms-input
+                ref="birthday"
                 type="date"
-                v-model="employee.DateOfBirth"
+                v-model="student.birthday"
                 :value="formattedDate"
-                :tabindex="5"
                 :class="{
-                  'border-red': isBorderRed.DateOfBirth,
+                  'border-red': isBorderRed.birthday,
                 }"
-                ref="DateOfBirth"
-                @input="setIsBorderRed('DateOfBirth')"
-                @mouseenter="isHovering.DateOfBirth = true"
-                @mouseleave="isHovering.DateOfBirth = false"
+                @input="setIsBorderRed('birthday')"
+                @mouseenter="isHovering.birthday = true"
+                @mouseleave="isHovering.birthday = false"
               ></ms-input>
-              <div class="ms-tooltip" v-if="isHovering.DateOfBirth && isBorderRed.DateOfBirth">
-                {{ errors["DateOfBirth"] }}
+              <div class="ms-tooltip" v-if="isHovering.birthday && isBorderRed.birthday">
+                {{ errors["birthday"] }}
               </div>
             </div>
           </div>
         </div>
         <div class="half-content">
-          <div class="col-md-l" style="position: relative" ref="MenuItemDepartment">
+          <div class="col-md-l" style="position: relative" ref="MenuItemClasses">
             <label>
               {{ this.$_MSResource[this.$_LANG_CODE].FORM.Classes }}
               <span class="s-require">*</span>
             </label>
             <ms-combobox
               :isBorderRedCBB="isBorderRed"
-              :entityCBB="employee"
+              :entityCBB="student"
               :errorsCBB="errors"
-              :tabindexCBB="3"
-              :listEntitySearchCBB="listDepartmentSearch"
-              :propName="'DepartmentName'"
-              :propId="'DepartmentId'"
+              :listEntitySearchCBB="listClassesSearch"
+              :propName="'classes_name'"
+              :propId="'classes_id'"
               :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderClasses"
             ></ms-combobox>
           </div>
@@ -146,16 +142,15 @@
           <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.Address }}</label>
           <div class="container-input">
             <ms-input
-              v-model="employee.Address"
-              :tabindex="11"
-              ref="Address"
-              :class="{ 'border-red': isBorderRed.Address }"
-              @input="setIsBorderRed('Address')"
-              @mouseenter="isHovering.Address = true"
-              @mouseleave="isHovering.Address = false"
+              ref="address"
+              v-model="student.address"
+              :class="{ 'border-red': isBorderRed.address }"
+              @input="setIsBorderRed('address')"
+              @mouseenter="isHovering.address = true"
+              @mouseleave="isHovering.address = false"
             ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.Address && isBorderRed.Address">
-              {{ errors["Address"] }}
+            <div class="ms-tooltip" v-if="isHovering.address && isBorderRed.address">
+              {{ errors["address"] }}
             </div>
           </div>
         </div>
@@ -163,16 +158,15 @@
           <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.PhoneNumber }}</label>
           <div class="container-input">
             <ms-input
-              v-model="employee.Address"
-              :tabindex="11"
-              ref="Address"
-              :class="{ 'border-red': isBorderRed.Address }"
-              @input="setIsBorderRed('Address')"
-              @mouseenter="isHovering.Address = true"
-              @mouseleave="isHovering.Address = false"
+              ref="phone_number"
+              v-model="student.phone_number"
+              :class="{ 'border-red': isBorderRed.phone_number }"
+              @input="setIsBorderRed('phone_number')"
+              @mouseenter="isHovering.phone_number = true"
+              @mouseleave="isHovering.phone_number = false"
             ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.Address && isBorderRed.Address">
-              {{ errors["Address"] }}
+            <div class="ms-tooltip" v-if="isHovering.phone_number && isBorderRed.phone_number">
+              {{ errors["phone_number"] }}
             </div>
           </div>
         </div>
@@ -180,16 +174,15 @@
           <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.Email }}</label>
           <div class="container-input">
             <ms-input
-              v-model="employee.Address"
-              :tabindex="11"
-              ref="Address"
-              :class="{ 'border-red': isBorderRed.Address }"
-              @input="setIsBorderRed('Address')"
-              @mouseenter="isHovering.Address = true"
-              @mouseleave="isHovering.Address = false"
+              ref="email"
+              v-model="student.email"
+              :class="{ 'border-red': isBorderRed.email }"
+              @input="setIsBorderRed('email')"
+              @mouseenter="isHovering.email = true"
+              @mouseleave="isHovering.email = false"
             ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.Address && isBorderRed.Address">
-              {{ errors["Address"] }}
+            <div class="ms-tooltip" v-if="isHovering.email && isBorderRed.email">
+              {{ errors["email"] }}
             </div>
           </div>
         </div>
@@ -199,55 +192,50 @@
           <ms-button-extra
             :textButtonExtra="this.$_MSResource[this.$_LANG_CODE].BUTTON.CANCEL"
             @click="btnCancel"
-            :tabindex="22"
           ></ms-button-extra>
         </div>
         <div class="action-right">
           <ms-button-extra
             :textButtonExtra="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE"
             @click="btnSave"
-            :tabindex="20"
             :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SAVE"
           ></ms-button-extra>
           <ms-button-default
             :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE_AND_ADD"
             @click="btnSaveAndAdd"
-            :tabindex="21"
             :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SAVE_AND_ADD"
           ></ms-button-default>
         </div>
       </div>
     </div>
-    <!-- dialog employee input data not blank -->
+    <!-- dialog student input data not blank -->
     <ms-dialog-data-not-null
       v-if="isShowDialogDataNotNull"
       :valueNotNull="dataNotNull"
       :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.DATA_INVALID"
     ></ms-dialog-data-not-null>
-    <!-- dialog employee id Exist -->
+    <!-- dialog student id Exist -->
     <ms-dialog-data-exist
       v-if="isShowDialogCodeExist"
       :textProp="this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_PRE"
-      :textEntityCodeExist="contentEmployeeCodeExist"
+      :textEntityCodeExist="contentStudentCodeExist"
     ></ms-dialog-data-exist>
-    <!-- dialog employee save and close -->
+    <!-- dialog student save and close -->
     <ms-dialog-data-change v-if="isShowDialogDataChange"></ms-dialog-data-change>
   </div>
 </template>
 
 <script>
-import employeeService from "@/services/employee.js";
-import departmentService from "@/services/department.js";
+import studentService from "@/services/student.js";
+import classService from "@/services/classes.js";
 import helperCommon from "@/scripts/helper.js";
 // import VueDatePicker from '@vuepic/vue-datepicker';
 // import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
-  name: "EmployeeDetail",
+  name: "StudentDetail",
 
-  props: ["employeeSelected", "statusFormMode"],
-
-  // components: { VueDatePicker },
+  props: ["studentSelected", "statusFormMode"],
 
   created() {
     this.loadData();
@@ -271,15 +259,15 @@ export default {
     });
 
     this.$_MSEmitter.on("onSelectedEntityCBB", (data) => {
-      this.onSelectedDepartment(data);
+      this.onSelectedClasses(data);
     });
     this.$_MSEmitter.on("onSearchChangeCBB", (newValue) => {
       this.onSearchChange(newValue);
     });
     this.$_MSEmitter.on("onKeyDownEntityCBB", (index) => {
-      this.employee.DepartmentName = this.listDepartmentSearch[index].DepartmentName;
-      this.employee.DepartmentId = this.listDepartmentSearch[index].DepartmentId;
-      this.isBorderRed.DepartmentName = false;
+      this.student.classes_name = this.listClassesSearch[index].classes_name;
+      this.student.classes_id = this.listClassesSearch[index].classes_id;
+      this.isBorderRed.classes_name = false;
     });
   },
 
@@ -293,28 +281,21 @@ export default {
   data() {
     return {
       // Khai báo mảng lưu các thuộc tính cần validate theo thứ tự, phục vụ cho việc focus, hiển thị lỗi theo thứ tự
-      employeeProperty: [
-        "EmployeeCode",
-        "FullName",
-        "DepartmentId",
-        "DepartmentName",
-        "PositionName",
-        "DateOfBirth",
-        "IdentityNumber",
-        "IdentityDate",
-        "IdentityPlace",
-        "Address",
-        "PhoneNumber",
-        "PhoneLandline",
-        "Email",
-        "BankAccount",
-        "BankName",
-        "BankBranch",
+      studentProperty: [
+        "student_code",
+        "student_name",
+        "gender",
+        "birthday",
+        "classes_id",
+        "classes_name",
+        "address",
+        "phone_number",
+        "email",
       ],
-      // Khai báo đối tượng employee
-      employee: {},
+      // Khai báo đối tượng student
+      student: {},
       // Khai báo danh sách đơn vị tìm kiếm
-      listDepartmentSearch: [],
+      listClassesSearch: [],
       // Khai báo trạng thái hiển thị của dialog cảnh báo dữ liệu k được để trống
       isShowDialogDataNotNull: false,
       // Khai báo biến xác định nội dung trường nào k được để trống
@@ -322,15 +303,13 @@ export default {
       // Khai báo trạng thái hiển thị của dialog cảnh báo mã nhân viên đã tồn tại
       isShowDialogCodeExist: false,
       // Khai báo biến xác định thông tin của mã nhân viên đã tồn tại
-      contentEmployeeCodeExist: "",
+      contentStudentCodeExist: "",
       // Khai báo biến quy định trang thái hiển thị dialog dữ liệu đã bị thay đổi
       isShowDialogDataChange: false,
       // Khai báo biến xác định border red
       isBorderRed: {},
       // Khai báo biến quy định sau 1 khoảng thời gian mới thực hiện tìm kiếm ở combobox
-      searchDepartmentTimeout: null,
-      // Khai báo biên lưu mã nhân viên tự động sinh ra
-      newEmployeeCode: null,
+      searchTimeout: null,
       // Khai báo biến lưu title form mode
       titleFormMode: this.$_MSResource[this.$_LANG_CODE].FORM.AddStudent,
       // Khai báo biến chứa danh sách đối tượng lỗi
@@ -348,75 +327,29 @@ export default {
      */
     formattedDate: {
       get() {
-        if (this.employee.DateOfBirth) {
-          const isoDate = this.employee.DateOfBirth;
+        if (this.student.birthday) {
+          const isoDate = this.student.birthday;
           const formattedDate = isoDate.split(this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SPLIT_DATE)[0];
           return formattedDate;
         }
         return "";
       },
       set(newDate) {
-        this.employee.DateOfBirth = newDate;
-      },
-    },
-
-    /**
-     * Mô tả: Hàm tính toán ngày cấp chứng minh nhân dân
-     * created by : BNTIEN
-     * created date: 01-06-2023 02:41:35
-     */
-    formattedDateIdentity: {
-      get() {
-        if (this.employee.IdentityDate) {
-          const isoDateIdentity = this.employee.IdentityDate;
-          const formattedDateIdentity = isoDateIdentity.split(
-            this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SPLIT_DATE
-          )[0];
-          return formattedDateIdentity;
-        }
-        return "";
-      },
-      set(newDate) {
-        this.employee.IdentityDate = newDate;
+        this.student.birthday = newDate;
       },
     },
   },
 
-  // watch: {
-  //   'employee.DateOfBirth': function() {
-  //     this.isBorderRed.DateOfBirth = false;
-  //     this.isHovering.DateOfBirth = false;
-  //   },
-
-  //   'employee.IdentityDate': function() {
-  //     this.isBorderRed.IdentityDate = false;
-  //     this.isHovering.IdentityDate = false;
-  //   }
-  // },
-
   methods: {
     /**
-     * Mô tả: Lấy nhân viên có giá trị lớn nhất trong hệ thống
-     * created by : BNTIEN
-     * created date: 24-06-2023 09:57:13
-     */
-    async getNewCode() {
-      try {
-        let maxEmployeeCode = await employeeService.getCodeMax();
-        this.newEmployeeCode = maxEmployeeCode.data;
-      } catch {
-        return;
-      }
-    },
-    /**
-     * Mô tả: Hàm lấy danh sách department từ api
+     * Mô tả: Hàm lấy danh sách classes từ api
      * created by : BNTIEN
      * created date: 29-05-2023 07:56:10
      */
-    async getListDepartment() {
+    async getListClasses() {
       try {
-        const res = await departmentService.getByName("");
-        this.listDepartmentSearch = res.data;
+        const res = await classService.search("");
+        this.listClassesSearch = res.data.Data;
       } catch {
         return;
       }
@@ -428,16 +361,13 @@ export default {
      */
     async loadData() {
       try {
-        await this.getListDepartment();
-        await this.getNewCode();
+        await this.getListClasses();
         // Nếu form ở trạng thái thêm mới
         // Chuyển đối tượng sang chuỗi json
-        let res = JSON.stringify(this.employeeSelected);
-        // Chuyển đổi chuỗi json thành đối tượng employee
-        this.employee = JSON.parse(res);
+        let res = JSON.stringify(this.studentSelected);
+        // Chuyển đổi chuỗi json thành đối tượng student
+        this.student = JSON.parse(res);
         if (this.statusFormMode !== this.$_MSEnum.FORM_MODE.Edit) {
-          // Sinh mã tự động
-          this.employee.EmployeeCode = this.newEmployeeCode;
           // Gán title cho form mode thêm mới
           this.titleFormMode = this.$_MSResource[this.$_LANG_CODE].FORM.AddStudent;
         } else {
@@ -454,52 +384,28 @@ export default {
      * created date: 27-06-2023 01:53:48
      */
     focusCode() {
-      this.$refs.EmployeeCode.focus();
-    },
-    /**
-     * Mô tả: Xử lí chọn và bỏ chọn ô checkbox customer
-     * created by : BNTIEN
-     * created date: 24-06-2023 09:56:15
-     */
-    handleCustomerCheckboxChange() {
-      if (this.employee.IsCustomer === this.$_MSEnum.CUSTOMER) {
-        this.employee.IsCustomer = null; // Bỏ chọn ô input nếu đã được chọn trước đó
-      } else {
-        this.employee.IsCustomer = this.$_MSEnum.CUSTOMER;
-      }
-    },
-    /**
-     * Mô tả: xử lí chọn và bỏ chọn ô checkbox provider
-     * created by : BNTIEN
-     * created date: 24-06-2023 09:56:48
-     */
-    handleProviderCheckboxChange() {
-      if (this.employee.IsProvider === this.$_MSEnum.PROVIDER) {
-        this.employee.IsProvider = null; // Bỏ chọn ô input nếu đã được chọn trước đó
-      } else {
-        this.employee.IsProvider = this.$_MSEnum.PROVIDER;
-      }
+      this.$refs.student_code.focus();
     },
 
     /**
-     * Mô tả: Lắng nghe sự thay đổi text trong input search department và tìm kiếm trong combobox
+     * Mô tả: Lắng nghe sự thay đổi text trong input search classes và tìm kiếm trong combobox
      * created by : BNTIEN
      * created date: 06-06-2023 22:31:16
      */
     async onSearchChange(newValue) {
-      this.isBorderRed.DepartmentName = false;
-      this.isBorderRed.DepartmentId = false;
+      this.isBorderRed.classes_name = false;
+      this.isBorderRed.classes_id = false;
       try {
         // Xóa bỏ timeout trước đó nếu có
-        clearTimeout(this.searchDepartmentTimeout);
-        this.employee.DepartmentName = newValue;
-        delete this.employee.DepartmentId;
+        clearTimeout(this.searchTimeout);
+        this.student.classes_name = newValue;
+        delete this.student.classes_id;
         if (!newValue.trim()) {
           newValue = "";
         }
-        this.searchDepartmentTimeout = setTimeout(async () => {
-          const newListDepartment = await departmentService.getByName(newValue);
-          this.listDepartmentSearch = newListDepartment.data;
+        this.searchTimeout = setTimeout(async () => {
+          const newListClasses = await classService.search(newValue);
+          this.listClassesSearch = newListClasses.data.Data;
         }, 500);
       } catch {
         return;
@@ -507,12 +413,12 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm kiểm tra xem employee có thay đổi sau khi mở form detail không
+     * Mô tả: Hàm kiểm tra xem student có thay đổi sau khi mở form detail không
      * created by : BNTIEN
      * created date: 30-06-2023 00:21:22
      */
     hasDataChanged() {
-      return JSON.stringify(this.employeeSelected) !== JSON.stringify(this.employee);
+      return JSON.stringify(this.studentSelected) !== JSON.stringify(this.student);
     },
     /**
      * Mô tả: Hàm sử lí sự kiện khi click vào icon close
@@ -533,10 +439,10 @@ export default {
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
-    onSelectedDepartment(department) {
-      this.employee.DepartmentName = department.DepartmentName;
-      this.employee.DepartmentId = department.DepartmentId;
-      this.isBorderRed.DepartmentName = false;
+    onSelectedClasses(classes) {
+      this.student.classes_name = classes.classes_name;
+      this.student.classes_id = classes.classes_id;
+      this.isBorderRed.classes_name = false;
     },
     /**
      * Mô tả: Hàm set các lỗi nhập liệu phía fontend
@@ -571,71 +477,56 @@ export default {
      * created by : BNTIEN
      * created date: 11-07-2023 10:07:22
      */
-    validateEmployee() {
+    validateStudent() {
       try {
-        for (const refInput of this.employeeProperty) {
+        for (const refInput of this.studentProperty) {
           switch (refInput) {
-            case "EmployeeCode":
-            case "FullName":
-              if (helperCommon.isEmptyInput(this.employee[refInput])) {
+            case "student_code":
+            case "student_name":
+              if (helperCommon.isEmptyInput(this.student[refInput])) {
                 this.setError(refInput);
               } else if (
                 helperCommon.isMaxLengthInput(
-                  this.employee[refInput],
+                  this.student[refInput],
                   this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
                 )
               ) {
                 this.setErrorMaxLength(refInput);
               }
               break;
-            case "DepartmentId":
+            case "classes_id":
               break;
-            case "DepartmentName":
-              if (helperCommon.isEmptyInput(this.employee[refInput])) {
+            case "classes_name":
+              if (helperCommon.isEmptyInput(this.student[refInput])) {
                 this.setError(refInput);
               }
               break;
-            case "DateOfBirth":
-            case "IdentityDate":
-              if (this.employee[refInput]) {
-                if (helperCommon.isInvalidDate(this.employee[refInput])) {
+            case "birthday":
+              if (this.student[refInput]) {
+                if (helperCommon.isInvalidDate(this.student[refInput])) {
                   this.setError(refInput);
                 }
               }
               break;
-            case "IdentityNumber":
-              if (this.employee[refInput]) {
+            case "email":
+              if (this.student[refInput]) {
                 if (
                   helperCommon.isMaxLengthInput(
-                    this.employee[refInput],
+                    this.student[refInput],
                     this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
                   )
                 ) {
                   this.setErrorMaxLength(refInput);
-                } else if (helperCommon.isNumber(this.employee[refInput])) {
-                  this.setError(refInput);
-                }
-              }
-              break;
-            case "Email":
-              if (this.employee[refInput]) {
-                if (
-                  helperCommon.isMaxLengthInput(
-                    this.employee[refInput],
-                    this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
-                  )
-                ) {
-                  this.setErrorMaxLength(refInput);
-                } else if (helperCommon.isFormatEmail(this.employee[refInput])) {
+                } else if (helperCommon.isFormatEmail(this.student[refInput])) {
                   this.setError(refInput);
                 }
               }
               break;
             default:
-              if (this.employee[refInput]) {
+              if (this.student[refInput]) {
                 if (
                   helperCommon.isMaxLengthInput(
-                    this.employee[refInput],
+                    this.student[refInput],
                     this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
                   )
                 ) {
@@ -654,8 +545,8 @@ export default {
      * created by : BNTIEN
      * created date: 29-06-2023 07:07:16
      */
-    handleErrorInputEmployee(errors, employeeProperty) {
-      const responseHandle = helperCommon.handleErrorInput(errors, employeeProperty);
+    handleErrorInputStudent(errors, studentProperty) {
+      const responseHandle = helperCommon.handleErrorInput(errors, studentProperty);
       this.errors = responseHandle.error;
       this.isBorderRed = responseHandle.isBorderRed;
       this.dataNotNull = responseHandle.dataNotNull;
@@ -668,9 +559,9 @@ export default {
      * created by : BNTIEN
      * created date: 29-06-2023 23:46:11
      */
-    async checkEmployeeExists() {
+    async checkStudentExists() {
       try {
-        const res = await employeeService.getByCode(this.employee.EmployeeCode);
+        const res = await studentService.getByCode(this.student.student_code);
         return res.data;
       } catch {
         return null;
@@ -681,12 +572,12 @@ export default {
      * created by : BNTIEN
      * created date: 30-06-2023 00:30:22
      */
-    handleEmployeeExisted(employeeExisted) {
+    handleStudentExisted(studentExisted) {
       this.isShowDialogCodeExist = true;
-      this.isBorderRed.EmployeeCode = true;
-      this.errors["EmployeeCode"] = `${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_PRE}
-       ${employeeExisted.EmployeeCode} ${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_DETAIL_END}`;
-      this.contentEmployeeCodeExist = employeeExisted.EmployeeCode;
+      this.isBorderRed.student_code = true;
+      this.errors["student_code"] = `${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_PRE}
+       ${studentExisted.student_code} ${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_DETAIL_END}`;
+      this.contentStudentCodeExist = studentExisted.student_code;
     },
     /**
      * Mô tả: Hàm xử lí sự kiện khi người dùng bấm vào nút cất trên form chi tiết
@@ -695,17 +586,22 @@ export default {
      */
     async btnSave() {
       if (this.statusFormMode === this.$_MSEnum.FORM_MODE.Add) {
-        this.validateEmployee();
+        this.validateStudent();
         if (this.dataNotNull.length > 0) {
           this.isShowDialogDataNotNull = true;
         } else {
           try {
             // Kiểm tra xem mã nhân viên đã tồn tại trong database chưa, nếu đã tồn tại thì thông báo cho người dùng
-            let employeeByCode = await this.checkEmployeeExists();
-            if (!employeeByCode) {
+            let studentByCode = (await this.checkStudentExists()).Data;
+            if (!studentByCode) {
               // Nếu mã nhân viên chưa tồn tại trong hệ thống
-              const res = await employeeService.create(this.employee);
-              if (this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.status) && res.data > 0) {
+              const res = await studentService.create(this.student);
+              if (
+                res &&
+                res.data &&
+                this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
+                res.data.Data > 0
+              ) {
                 this.$_MSEmitter.emit(
                   "onShowToastMessage",
                   this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
@@ -715,27 +611,32 @@ export default {
               }
             } else {
               // Nếu mã nhân viên đã tồn tại trong hệ thống
-              this.handleEmployeeExisted(employeeByCode);
+              this.handleStudentExisted(studentByCode);
             }
           } catch (error) {
-            this.handleErrorInputEmployee(error, this.employeeProperty);
+            this.handleErrorInputStudent(error, this.studentProperty);
           }
         }
       } else {
         // Nếu form ở trạng thái sửa
         // Kiểm tra xem dữ liệu có thay đổi hay k (Trường hợp đã thay đổi)
         if (this.hasDataChanged()) {
-          this.validateEmployee();
+          this.validateStudent();
           if (this.dataNotNull.length > 0) {
             this.isShowDialogDataNotNull = true;
           } else {
             try {
               // Kiểm tra xem mã nhân viên đã tồn tại trong database chưa, nếu đã tồn tại thì thông báo cho người dùng
-              let employeeByCode = await this.checkEmployeeExists();
+              let studentByCode = (await this.checkStudentExists()).Data;
               // Nếu mã nhân viên chưa tồn tại trong hệ thống hoặc tồn tại nhưng trùng với nhân viên đang sửa
-              if (!employeeByCode || employeeByCode.EmployeeCode === this.employeeSelected.EmployeeCode) {
-                const res = await employeeService.update(this.employeeSelected.EmployeeId, this.employee);
-                if (this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.status) && res.data > 0) {
+              if (!studentByCode || studentByCode.student_code === this.studentSelected.student_code) {
+                const res = await studentService.update(this.student);
+                if (
+                  res &&
+                  res.data &&
+                  this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
+                  res.data.Data > 0
+                ) {
                   this.$_MSEmitter.emit(
                     "onShowToastMessageUpdate",
                     this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_UPDATE
@@ -745,10 +646,10 @@ export default {
                 }
               } else {
                 // Nếu mã nhân viên đã tồn tại trong hệ thống
-                this.handleEmployeeExisted(employeeByCode);
+                this.handleStudentExisted(studentByCode);
               }
             } catch (error) {
-              this.handleErrorInputEmployee(error, this.employeeProperty);
+              this.handleErrorInputStudent(error, this.studentProperty);
             }
           }
         } else {
@@ -765,57 +666,63 @@ export default {
     async btnSaveAndAdd() {
       // Nếu form ở trạng thái thêm mới
       if (this.statusFormMode === this.$_MSEnum.FORM_MODE.Add) {
-        this.validateEmployee();
+        this.validateStudent();
         if (this.dataNotNull.length > 0) {
           this.isShowDialogDataNotNull = true;
         } else {
           try {
             // Kiểm tra xem mã nhân viên đã tồn tại trong database chưa, nếu đã tồn tại thì thông báo cho người dùng
-            let employeeByCode = await this.checkEmployeeExists();
-            if (!employeeByCode) {
+            let studentByCode = (await this.checkStudentExists()).Data;
+            if (!studentByCode) {
               // Nếu mã nhân viên chưa tồn tại trong hệ thống
-              const res = await employeeService.create(this.employee);
-              if (this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.status) && res.data > 0) {
+              const res = await studentService.create(this.student);
+              if (
+                res &&
+                res.data &&
+                this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
+                res.data.Data > 0
+              ) {
                 this.$_MSEmitter.emit(
                   "onShowToastMessage",
                   this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
                 );
-                this.employee = {};
+                this.student = {};
                 this.isBorderRed = {};
                 this.$_MSEmitter.emit("refreshDataTable");
-                await this.getNewCode();
-                this.employee.EmployeeCode = this.newEmployeeCode;
                 this.focusCode();
               }
             } else {
               // Nếu mã nhân viên đã tồn tại trong hệ thống
-              this.handleEmployeeExisted(employeeByCode);
+              this.handleStudentExisted(studentByCode);
             }
           } catch (error) {
-            this.handleErrorInputEmployee(error, this.employeeProperty);
+            this.handleErrorInputStudent(error, this.studentProperty);
           }
         }
         // Nếu form ở trạng thái sửa
       } else {
         // Kiểm tra xem dữ liệu có thay đổi hay k
         if (this.hasDataChanged()) {
-          this.validateEmployee();
+          this.validateStudent();
           if (this.dataNotNull.length > 0) {
             this.isShowDialogDataNotNull = true;
           } else {
             try {
               // Kiểm tra xem mã nhân viên đã tồn tại trong database chưa, nếu đã tồn tại thì thông báo cho người dùng
-              let employeeByCode = await this.checkEmployeeExists();
+              let studentByCode = (await this.checkStudentExists()).Data;
               // Nếu mã nhân viên chưa tồn tại trong hệ thống hoặc tồn tại trùng với nhân viên đang sửa
-              if (!employeeByCode || employeeByCode.EmployeeCode === this.employeeSelected.EmployeeCode) {
-                const res = await employeeService.update(this.employeeSelected.EmployeeId, this.employee);
-                this.employee = {};
+              if (!studentByCode || studentByCode.student_code === this.studentSelected.student_code) {
+                const res = await studentService.update(this.student);
+                this.student = {};
                 this.$_MSEmitter.emit("setFormModeAdd");
-                await this.getNewCode();
-                this.employee.EmployeeCode = this.newEmployeeCode;
                 this.focusCode();
                 this.$_MSEmitter.emit("refreshDataTable");
-                if (this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.status) && res.data > 0) {
+                if (
+                  res &&
+                  res.data &&
+                  this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
+                  res.data.Data > 0
+                ) {
                   this.$_MSEmitter.emit(
                     "onShowToastMessageUpdate",
                     this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_UPDATE
@@ -823,14 +730,14 @@ export default {
                 }
               } else {
                 // Nếu mã nhân viên đã tồn tại trong hệ thống
-                this.handleEmployeeExisted(employeeByCode);
+                this.handleStudentExisted(studentByCode);
               }
             } catch (error) {
-              this.handleErrorInputEmployee(error, this.employeeProperty);
+              this.handleErrorInputStudent(error, this.studentProperty);
             }
           }
         } else {
-          this.employee = {};
+          this.student = {};
           this.$_MSEmitter.emit("setFormModeAdd");
           this.focusCode();
         }
@@ -850,14 +757,14 @@ export default {
           listPropError.push(key);
         }
       }
-      // thêm thuộc tính DepartmentName vào listPropError để xử lí focus nếu chưa có
-      if (listPropError.includes("DepartmentId") && !listPropError.includes("DepartmentName")) {
-        listPropError.push("DepartmentName");
+      // thêm thuộc tính classes_name vào listPropError để xử lí focus nếu chưa có
+      if (listPropError.includes("classes_id") && !listPropError.includes("classes_name")) {
+        listPropError.push("classes_name");
       }
-      for (const prop of this.employeeProperty) {
+      for (const prop of this.studentProperty) {
         if (listPropError.includes(prop)) {
           // đợi DOM cập nhật trước khi thực thi focus
-          if (prop === "DepartmentId" || prop === "DepartmentName") {
+          if (prop === "classes_id" || prop === "classes_name") {
             this.$nextTick(() => {
               this.$_MSEmitter.emit("focusInputCBB");
             });
@@ -868,12 +775,6 @@ export default {
           }
           return;
         }
-
-        // else if(prop === "DateOfBirth" || prop === "IdentityDate"){
-        //     this.$nextTick(() => {
-        //       this.$refs[prop].$el.focus();
-        //     });
-        //   }
       }
     },
 
@@ -979,7 +880,7 @@ export default {
 </script>
 
 <style scoped>
-@import url(@/css/detailinfoemployee.css);
+@import url(@/css/detailinfostudent.css);
 
 .border-red {
   border: 1px solid red;

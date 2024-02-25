@@ -1,4 +1,4 @@
-#detail-info-employee {
+#detail-info-student {
     height: 95%;
     background-color: white;
     z-index: 8888;
@@ -9,21 +9,21 @@
   
 /* Media query cho màn hình có chiều rộng 1280px trở lên */
 @media (min-width: 1280px) {
-    #detail-info-employee {
+    #detail-info-student {
         width: 70%;
     }
 }
   
 /* Media query cho màn hình có chiều rộng nhỏ hơn 1280px và lớn hơn 1024px */
 @media (max-width: 1279px) and (min-width: 1025px) {
-    #detail-info-employee {
+    #detail-info-student {
         width: calc(100% - 200px); /* width giảm dần từ 70% tới 100% */
     }
 }
   
 /* Media query cho màn hình có chiều rộng nhỏ hơn hoặc bằng 1024px */
 @media (max-width: 1024px) {
-    #detail-info-employee {
+    #detail-info-student {
         width: 100%;
     }
 }
@@ -53,7 +53,7 @@
     box-sizing: border-box;
 }
 
-.employee-title{
+.student-title{
     display: flex;
     align-items: center;
     column-gap: 20px;
@@ -62,7 +62,7 @@
     box-sizing: border-box;
 }
 
-.employee-title p b{
+.student-title p b{
     font-size: 24px;
     margin: 0;
     font-weight: 500;
