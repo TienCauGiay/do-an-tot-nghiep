@@ -1,10 +1,10 @@
 <template>
-  <div>Đăng ký thi</div>
+  <div>Quản lí tài khoản</div>
 </template>
 
 <script>
 export default {
-  name: "ExamRegistration",
+  name: "ManagementAccount",
 };
 </script>
 

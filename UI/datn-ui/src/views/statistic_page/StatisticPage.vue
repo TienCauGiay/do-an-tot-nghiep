@@ -1,10 +1,10 @@
 <template>
-  <div>Tra cứu điểm</div>
+  <div>Báo cáo thống kê</div>
 </template>
 
 <script>
 export default {
-  name: "LookUpPoint",
+  name: "StatisticPage",
 };
 </script>
 

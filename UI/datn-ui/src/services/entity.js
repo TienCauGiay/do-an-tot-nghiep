@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = "https://localhost:44320/api/v1";
+const URL = "https://localhost:44393/api/";
 
 const entity = axios.create({
     baseURL: URL,
