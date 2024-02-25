@@ -9,5 +9,7 @@ namespace BE.DATN.BL.Interfaces.Repository
 {
     public interface IScoreDL : IBaseDL<score>
     {
+        Task<List<score_view>?> GetAllScoreViewAsync();
+        Task<List<score_view>?> GetByStudentIdScoreViewAsync(Guid student_id);
     }
 }

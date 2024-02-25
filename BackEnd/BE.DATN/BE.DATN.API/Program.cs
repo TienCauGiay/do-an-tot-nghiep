@@ -8,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -19,6 +24,10 @@ builder.Services.AddCors();
 var connectionString = builder.Configuration["ConnectionString"];
 
 // Tiêm phụ thuộc
+builder.Services.AddScoped<IStudentBL, StudentBL>();
+builder.Services.AddScoped<IStudentDL, StudentDL>();
+builder.Services.AddScoped<ITeacherBL, TeacherBL>();
+builder.Services.AddScoped<ITeacherDL, TeacherDL>();
 builder.Services.AddScoped<IScoreBL, ScoreBL>();
 builder.Services.AddScoped<IScoreDL, ScoreDL>();
 
@@ -38,5 +47,13 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
+
 
 app.Run();

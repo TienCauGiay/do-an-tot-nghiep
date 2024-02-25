@@ -87,7 +87,7 @@ namespace BE.DATN.DL.Repository
             // Tạo câu truy vấn
             foreach (var entity in entities)
             {
-                var notNullProps = entity.GetType().GetProperties().Where(prop => prop.GetValue(entity) != null && prop.Name != $"{tableName}_id");
+                var notNullProps = entity.GetType().GetProperties().Where(prop => prop.GetValue(entity) != null);
                 query += $"INSERT INTO {tableName} (";
                 query += string.Join(", ", notNullProps.Select(prop => prop.Name));
                 query += ") Values (";
@@ -150,7 +150,7 @@ namespace BE.DATN.DL.Repository
             var index = 0;
             foreach (var entity in entities)
             {
-                var notNullProps = entity.GetType().GetProperties().Where(prop => prop.GetValue(entity) != null && prop.Name != $"{tableName}_id");
+                var notNullProps = entity.GetType().GetProperties().Where(prop => prop.GetValue(entity) != null);
 
                 queryBuilder.Append($"UPDATE {tableName} SET ");
                 queryBuilder.Append(string.Join(", ", notNullProps.Select(prop => $"{prop.Name} = @{prop.Name}_{index}")));
