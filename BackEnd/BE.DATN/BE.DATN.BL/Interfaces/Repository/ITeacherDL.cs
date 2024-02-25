@@ -9,5 +9,6 @@ namespace BE.DATN.BL.Interfaces.Repository
 {
     public interface ITeacherDL : IBaseDL<teacher>
     {
+        Task<(List<teacher_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch);
     }
 }

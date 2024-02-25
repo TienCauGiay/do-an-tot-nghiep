@@ -1,9 +1,9 @@
 import BaseServices from "./base";
 import MSResource from "@/scripts/resource.js";
 
-class StudentService extends BaseServices {
-    controller = "Students"; 
-
+class TeacherService extends BaseServices {
+    controller = "Teachers";
+ 
     /**
      * Mô tả: Xuất danh sách nhân viên ra excel
      * created by : BNTIEN
@@ -36,4 +36,4 @@ class StudentService extends BaseServices {
     }
 }
 
-export default new StudentService();
+export default new TeacherService();

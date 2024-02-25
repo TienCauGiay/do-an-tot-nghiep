@@ -14,10 +14,10 @@ namespace BE.DATN.BL.Models.Teacher
         public string teacher_code { get; set; }
         public string teacher_name { get; set; }
         public DateTime? birthday { get; set; }
-        public string gender { get; set; }
-        public string address { get; set; }
-        public string phone_number { get; set; }
-        public string email { get; set; }
-        public string image { get; set; }
+        public string? gender { get; set; }
+        public string? address { get; set; }
+        public string? phone_number { get; set; }
+        public string? email { get; set; }
+        public string? image { get; set; }
     }
 }
