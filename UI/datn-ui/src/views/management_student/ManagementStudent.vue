@@ -1,14 +1,6 @@
 <template>
   <div class="content-title">
-    <h1>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EMPLOYEE }}</h1>
-    <div class="all-category">
-      <div class="prev-icon icon-tb"></div>
-      <router-link to="/category">
-        <div class="all-category-text">
-          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ALL_CATEGORY }}
-        </div>
-      </router-link>
-    </div>
+    <h1>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ManagementStudent }}</h1>
   </div>
   <div class="content-main-body">
     <div class="content-action">
@@ -36,10 +28,10 @@
           type="search"
           :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH"
           v-model="textSearch"
-          @keydown.enter="onSearchEmployee"
+          @keydown.enter="onSearchStudent"
           @input="autoSearch"
         />
-        <div class="search-icon icon-tb" @click="onSearchEmployee"></div>
+        <div class="search-icon icon-tb" @click="onSearchStudent"></div>
       </div>
       <div
         @click="refreshData"
@@ -52,18 +44,9 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
       <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div>
-      <div class="utilities" @click="isShowUtilities = !isShowUtilities">
-        <div class="utilities-text">
-          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.UTILITIES }}
-        </div>
-        <div class="function-icon-disable"></div>
-        <div class="utilities-synchronized" v-if="isShowUtilities">
-          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.UTILITIES_SYNCHRONIZED }}
-        </div>
-      </div>
       <div class="insert-data">
         <ms-button-default
-          :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.AddStudent"
+          :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
           @click="btnOpenFormDetail"
         ></ms-button-default>
         <ms-button-icon></ms-button-icon>
@@ -80,39 +63,34 @@
                 </div>
               </th>
               <th class="e-id">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.CODE }}
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.StudentCode }}
               </th>
               <th class="e-fullname">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.FULLNAME }}
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.StudentName }}
+              </th>
+              <th class="e-id">
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.ClassesCode }}
+              </th>
+              <th class="e-fullname">
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.ClassesName }}
               </th>
               <th class="e-gender-table">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.GENDER }}
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.Gender }}
               </th>
               <th type="date" class="text-center e-birthday">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.DOB }}
-              </th>
-              <th class="e-identity-number">
-                <span :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.IDENTITY_NUMBER">
-                  {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.IDENTITY_NUMBER }}
-                </span>
-              </th>
-              <th class="e-position">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.POSITION }}
-              </th>
-              <th class="e-department">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.DEPARTMENT }}
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.Birthday }}
               </th>
               <th class="e-bank-account">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.BANK_ACCOUNT }}
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.PhoneNumber }}
               </th>
-              <th class="e-bank-name">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.BANK_NAME }}
+              <th class="Student_Column">
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.Address }}
               </th>
-              <th :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.BANK_BRANCH" class="e-bank-branch">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.BANK_BRANCH }}
+              <th class="e-bank-branch">
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.Email }}
               </th>
               <th type="feat" class="text-center entity-border-right e-birthday">
-                {{ this.$_MSResource[this.$_LANG_CODE].EMPLOYEE_COL_NAME.FEATURE }}
+                {{ this.$_MSResource[this.$_LANG_CODE].Student_Column.Feature }}
               </th>
             </tr>
           </thead>
@@ -120,55 +98,46 @@
             <tr
               v-show="dataTable.TotalRecord"
               v-for="item in dataTable.Data"
-              :key="item.EmployeeId"
+              :key="item.student_id"
               @dblclick="onUpdateFormDetail(item)"
-              :class="{ checkedRow: checkRow().includes(item.EmployeeId) }"
+              :class="{ checkedRow: checkRow().includes(item.student_id) }"
             >
               <td class="entity-border-left" @dblclick.stop>
                 <div class="th-checkbox">
                   <input
                     class="checkbox-select-row"
                     type="checkbox"
-                    @click="checkRow(item.EmployeeId)"
-                    :checked="checkRow().includes(item.EmployeeId)"
+                    @click="checkRow(item.student_id)"
+                    :checked="checkRow().includes(item.student_id)"
                   />
                 </div>
               </td>
-              <td class="e-id" :title="item.EmployeeCode">
-                {{ item.EmployeeCode }}
+              <td class="e-id" :title="item.student_code">
+                {{ item.student_code }}
               </td>
-              <td class="e-fullname" :title="item.FullName">
-                {{ item.FullName }}
+              <td class="e-fullname" :title="item.student_name">
+                {{ item.student_name }}
+              </td>
+              <td class="e-id" :title="item.classes_code">
+                {{ item.classes_code }}
+              </td>
+              <td class="e-fullname" :title="item.classes_name">
+                {{ item.classes_name }}
               </td>
               <td class="e-gender-table">
-                {{
-                  item.Gender === 0
-                    ? this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.GENDER.Male
-                    : item.Gender === 1
-                    ? this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.GENDER.Female
-                    : this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.GENDER.Other
-                }}
+                {{ item.gender }}
               </td>
               <td class="text-center e-birthday">
-                {{ formatDate(item.DateOfBirth) }}
+                {{ formatDate(item.birthday) }}
               </td>
-              <td class="e-identity-number" :title="item.IdentityNumber">
-                {{ item.IdentityNumber }}
+              <td class="e-bank-account" :title="item.phone_number">
+                {{ item.phone_number }}
               </td>
-              <td class="e-position" :title="item.PositionName">
-                {{ item.PositionName }}
+              <td class="Student_Column" :title="item.address">
+                {{ item.address }}
               </td>
-              <td class="e-department" :title="item.DepartmentName">
-                {{ item.DepartmentName }}
-              </td>
-              <td class="e-bank-account" :title="item.BankAccount">
-                {{ item.BankAccount }}
-              </td>
-              <td class="e-bank-name" :title="item.BankName">
-                {{ item.BankName }}
-              </td>
-              <td class="e-bank-branch" :title="item.BankBranch">
-                {{ item.BankBranch }}
+              <td class="e-bank-branch" :title="item.email">
+                {{ item.email }}
               </td>
               <td class="text-center entity-border-right e-birthday function-table" @dblclick.stop>
                 <span @click="onUpdateFormDetail(item)">
@@ -191,10 +160,10 @@
             top: `${this.positionFeatureMenu.top}px`,
           }"
         >
-          <div @click="onDupliCateEmployee">
+          <div @click="onDupliCateStudent">
             {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DUPLICATE }}
           </div>
-          <div @click="onDeleteEmployee">
+          <div @click="onDeleteStudent">
             {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
           </div>
           <div>
@@ -269,42 +238,41 @@
     </div>
     <div v-if="isOverlay" id="container-overlay" class="container-overlay" @closeFormDetail="onCloseFormDetail"></div>
     <!-- employee detail -->
-    <EmployeeDetail
+    <StudentDetail
       v-if="isShowFormDetail"
       @closeFormDetail="onCloseFormDetail"
-      :employeeSelected="employeeUpdate"
+      :employeeSelected="studentUpdate"
       :statusFormMode="isStatusFormMode"
-    ></EmployeeDetail>
+    ></StudentDetail>
     <!-- dialog employee confirm delete -->
     <ms-dialog-confirm-delete
       :isDeleteMultiple="isDeleteMultipleDialog"
       :contentDeleteMultiple="this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_MULTIPLE"
       :contentDelete="`${
         this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_PRE
-      }${employeeCodeDeleteSelected}${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.END}`"
+      }${studentCodeDeleteSelected}${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.END}`"
       v-if="isShowDialogConfirmDelete"
     ></ms-dialog-confirm-delete>
     <!-- toast message -->
     <ms-toast-success v-if="isShowToastMessage" :contentToast="contentToastSuccess"></ms-toast-success>
-    <a href="" ref="ExportListEmployee" v-show="false"></a>
+    <a href="" ref="ExportStudent" v-show="false"></a>
   </div>
 </template>
-
 <script>
-import EmployeeDetail from "./EmployeeDetail.vue";
+import StudentDetail from "./StudentDetail.vue";
 import helperCommon from "@/scripts/helper.js";
-import employeeService from "@/services/employee.js";
+import studentService from "@/services/student.js";
 
 export default {
-  name: "EmployeeList",
+  name: "ManagementStudent",
 
   components: {
-    EmployeeDetail,
+    StudentDetail,
   },
 
   created() {
-    // Gọi hàm lấy dữ liệu danh sách nhân viên
-    this.getListEmployee();
+    // Lấy danh sách sinh viên (theo phân trang)
+    this.getDataStudent();
     // Đăng kí các sự kiện
     this.$_MSEmitter.on("onShowToastMessage", (data) => {
       this.contentToastSuccess = data;
@@ -318,13 +286,13 @@ export default {
       this.setFormModeAdd();
     });
     this.$_MSEmitter.on("refreshDataTable", async () => {
-      await this.getListEmployee();
+      await this.getDataStudent();
     });
     this.$_MSEmitter.on("confirmDeleteEntity", async () => {
-      await this.btnConfirmYesDeleteEmployee();
+      await this.btnConfirmDeleteStudent();
     });
     this.$_MSEmitter.on("unConfirmDeleteEntity", () => {
-      this.btnConfirmNoDeleteEmployee();
+      this.btnUnConfirmDeleteStudent();
     });
     this.$_MSEmitter.on("confirmDeleteMultiple", async () => {
       await this.btnconfirmDeleteMultipleStudent();
@@ -357,16 +325,16 @@ export default {
       isShowToastMessage: false,
       // Khai báo dữ liệu duyệt trên 1 trang table
       dataTable: [],
-      // Khai báo 1 nhân viên được chọn để xử lí hàm sửa
-      employeeUpdate: {},
+      // Khai báo 1 sinh viên được chọn để xử lí hàm sửa
+      studentUpdate: {},
       // Khai báo số bản ghi mặc định được hiển thi trên table
       selectedRecord: this.$_MSEnum.RECORD.RECORD_DEFAULT,
       // Khai báo list số bản ghi có thể lựa chọn để hiển thị trên trang
       recordOptions: this.$_MSEnum.RECORD.RECORD_OPTIONS,
-      // Khai báo EmployeeId của nhân viên cần xóa
-      employeeIdDeleteSelected: "",
-      // Khai báo EmployeeCode của nhân viên cần xóa
-      employeeCodeDeleteSelected: "",
+      // Khai báo EmployeeId của sinh viên cần xóa
+      studentIdDeleteSelected: "",
+      // Khai báo student_code của sinh viên cần xóa
+      studentCodeDeleteSelected: "",
       // Khai báo biến quy định trạng thái ẩn hiển dialog confirm delete
       isShowDialogConfirmDelete: false,
       // Khai báo biến lưu nội dung của toast message
@@ -384,7 +352,7 @@ export default {
       // Khai báo biến lưu chỉ số index được chọn trong paging
       indexSelectedRecord: this.$_MSEnum.RECORD.INDEX_SELECTED_DEFAULT,
       // Khai báo biến quy định sau 1 khoảng thời gian mới bắt đầu tìm kiếm
-      searchEmployeeTimeout: null,
+      searchTimeout: null,
       // Khai báo biến quy định trạng thái hiển thị của menu thực hiện hàng loạt
       isShowMenuExcuteBatch: false,
       // Khai báo biến lưu danh sách id cần xóa
@@ -394,7 +362,7 @@ export default {
       // Khai báo biến tùy chỉnh top, left cho feature menu
       positionFeatureMenu: {},
       // Khai báo biến lưu employee khi bấm vào col feature
-      selectedEmployee: {},
+      selectedStudent: {},
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
     };
@@ -469,7 +437,7 @@ export default {
       if (!this.dataTable.Data) return false;
       if (this.dataTable.Data.length == 0) return false;
       for (let i = 0; i < this.dataTable.Data.length; i++) {
-        if (!this.ids.includes(this.dataTable.Data[i].EmployeeId)) {
+        if (!this.ids.includes(this.dataTable.Data[i].student_id)) {
           return false;
         }
       }
@@ -479,14 +447,14 @@ export default {
 
   methods: {
     /**
-     * Mô tả: Hàm lấy dữ liệu nhân viên từ api
+     * Mô tả: Hàm lấy dữ liệu sinh viên từ api
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:20
      */
-    async getListEmployee() {
+    async getDataStudent() {
       try {
         this.isShowLoading = true;
-        const resfilter = await employeeService.getFilter(this.selectedRecord, this.currentPage, "");
+        const resfilter = await studentService.getFilter(this.selectedRecord, this.currentPage, "");
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -503,17 +471,17 @@ export default {
       this.currentPage = this.$_MSEnum.RECORD.CURRENT_PAGE;
       this.indexSelectedRecord = this.$_MSEnum.RECORD.INDEX_SELECTED_DEFAULT;
       this.textSearch = "";
-      await this.getListEmployee();
+      await this.getDataStudent();
     },
     /**
-     * Mô tả: Hàm xử lí sự kiên mở form chi tiết khi click vào button thêm mới nhân viên
+     * Mô tả: Hàm xử lí sự kiên mở form chi tiết khi click vào button thêm mới sinh viên
      * created by : BNTIEN
      * created date: 29-05-2023 07:48:01
      */
     btnOpenFormDetail() {
       this.isShowFormDetail = true;
       this.isOverlay = true;
-      this.employeeUpdate.EmployeeCode = "";
+      this.studentUpdate.student_code = "";
     },
     /**
      * Mô tả: Hàm xử lí sự kiện khi click vào nút close trong form chi tiết
@@ -524,18 +492,18 @@ export default {
       this.isShowFormDetail = false;
       this.isOverlay = false;
       this.isStatusFormMode = this.$_MSEnum.FORM_MODE.Add;
-      this.employeeUpdate = {};
+      this.studentUpdate = {};
     },
     /**
      * Mô tả: Hàm xử lí sự kiện đóng mở các menu feature ở cột cuối của table khi click vào icon drop
      * created by : BNTIEN
      * created date: 29-05-2023 07:48:54
      */
-    onOpenFeatureMenu(e, employee) {
+    onOpenFeatureMenu(e, student) {
       try {
         // chặn sự liện lan ra các phần tử cha
         e.stopPropagation();
-        this.selectedEmployee = employee;
+        this.selectedStudent = student;
         this.isShowColFeature = true;
         const positionIcon = e.target.getBoundingClientRect();
         const left = positionIcon.right - 110;
@@ -559,12 +527,12 @@ export default {
       this.isShowPaging = !this.isShowPaging;
     },
     /**
-     * Mô tả: Hàm xử lí cập nhật thông tin nhân viên
+     * Mô tả: Hàm xử lí cập nhật thông tin sinh viên
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:56
      */
-    onUpdateFormDetail(employee) {
-      this.employeeUpdate = employee;
+    onUpdateFormDetail(student) {
+      this.studentUpdate = student;
       this.isShowFormDetail = true;
       this.isOverlay = true;
       this.isStatusFormMode = this.$_MSEnum.FORM_MODE.Edit;
@@ -589,26 +557,26 @@ export default {
       this.updateDataTable();
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào item xóa nhân viên thì hiển thị dialog xác nhận xóa
+     * Mô tả: Hàm xử lí sự kiện khi bấm vào item xóa sinh viên thì hiển thị dialog xác nhận xóa
      * created by : BNTIEN
      * created date: 29-05-2023 07:50:15
      */
-    onDeleteEmployee() {
+    onDeleteStudent() {
       this.isShowDialogConfirmDelete = true;
       this.isDeleteMultipleDialog = false;
       this.isOverlay = true;
-      this.employeeIdDeleteSelected = this.selectedEmployee.EmployeeId;
-      this.employeeCodeDeleteSelected = this.selectedEmployee.EmployeeCode;
+      this.studentIdDeleteSelected = this.selectedStudent.student_id;
+      this.studentCodeDeleteSelected = this.selectedStudent.student_code;
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng xác nhận xóa 1 nhân viên
+     * Mô tả: Hàm xử lí sự kiện khi người dùng xác nhận xóa 1 sinh viên
      * created by : BNTIEN
      * created date: 28-05-2023 21:09:01
      */
-    async btnConfirmYesDeleteEmployee() {
+    async btnConfirmDeleteStudent() {
       try {
         this.isShowLoading = true;
-        const res = await employeeService.delete(this.employeeIdDeleteSelected);
+        const res = await studentService.delete(this.studentIdDeleteSelected);
         this.isShowLoading = false;
         this.isShowDialogConfirmDelete = false;
         this.isOverlay = false;
@@ -616,7 +584,7 @@ export default {
           this.isDeleteMultipleDialog = false;
           this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
           this.onShowToastMessage();
-          await this.getListEmployee();
+          await this.getDataStudent();
         }
       } catch {
         return;
@@ -627,7 +595,7 @@ export default {
      * created by : BNTIEN
      * created date: 29-05-2023 07:51:41
      */
-    btnConfirmNoDeleteEmployee() {
+    btnUnConfirmDeleteStudent() {
       this.isShowDialogConfirmDelete = false;
       this.isDeleteMultipleDialog = false;
       this.isOverlay = false;
@@ -654,13 +622,13 @@ export default {
       this.isShowToastMessage = false;
     },
     /**
-     * Mô tả: Hàm nhân bản 1 nhân viên
+     * Mô tả: Hàm nhân bản 1 sinh viên
      * created by : BNTIEN
      * created date: 28-06-2023 13:59:30
      */
-    onDupliCateEmployee() {
+    onDupliCateStudent() {
       try {
-        this.employeeUpdate = this.selectedEmployee;
+        this.studentUpdate = this.selectedStudent;
         this.isShowFormDetail = true;
         this.isOverlay = true;
         this.isStatusFormMode = this.$_MSEnum.FORM_MODE.Add;
@@ -669,18 +637,18 @@ export default {
       }
     },
     /**
-     * Mô tả: Hàm tìm kiếm nhân viên theo mã hoặc tên
+     * Mô tả: Hàm tìm kiếm sinh viên theo mã hoặc tên
      * created by : BNTIEN
      * created date: 04-06-2023 00:20:21
      */
-    async onSearchEmployee() {
+    async onSearchStudent() {
       try {
         this.currentPage = this.$_MSEnum.RECORD.CURRENT_PAGE;
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
         this.isShowLoading = true;
-        const filteredEmployees = await employeeService.getFilter(
+        const filteredEmployees = await studentService.getFilter(
           this.selectedRecord,
           this.currentPage,
           this.textSearch.trim()
@@ -698,9 +666,9 @@ export default {
      */
     async autoSearch() {
       try {
-        clearTimeout(this.searchEmployeeTimeout);
-        this.searchEmployeeTimeout = setTimeout(async () => {
-          await this.onSearchEmployee();
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = setTimeout(async () => {
+          await this.onSearchStudent();
         }, 500);
       } catch {
         return;
@@ -717,11 +685,7 @@ export default {
           this.textSearch = "";
         }
         this.isShowLoading = true;
-        const resfilter = await employeeService.getFilter(
-          this.selectedRecord,
-          this.currentPage,
-          this.textSearch.trim()
-        );
+        const resfilter = await studentService.getFilter(this.selectedRecord, this.currentPage, this.textSearch.trim());
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -823,15 +787,15 @@ export default {
       try {
         if (this.isCheckAll) {
           this.dataTable.Data.map((item) => {
-            if (this.ids.includes(item.EmployeeId)) {
-              this.ids.splice(this.ids.indexOf(item.EmployeeId), 1);
+            if (this.ids.includes(item.student_id)) {
+              this.ids.splice(this.ids.indexOf(item.student_id), 1);
             }
           });
         } else {
           if (this.dataTable.Data) {
             this.dataTable.Data.map((item) => {
-              if (!this.ids.includes(item.EmployeeId)) {
-                this.ids.push(item.EmployeeId);
+              if (!this.ids.includes(item.student_id)) {
+                this.ids.push(item.student_id);
               }
             });
           }
@@ -851,14 +815,14 @@ export default {
       this.isDeleteMultipleDialog = true;
     },
     /**
-     * Mô tả: Hàm thực hiện xóa nhiều nhân viên theo list id đã chọn
+     * Mô tả: Hàm thực hiện xóa nhiều sinh viên theo list id đã chọn
      * created by : BNTIEN
      * created date: 28-06-2023 09:36:08
      */
     async btnconfirmDeleteMultipleStudent() {
       try {
         this.isShowLoading = true;
-        const res = await employeeService.deleteMutiple(this.ids);
+        const res = await studentService.deleteMutiple(this.ids);
         this.isShowLoading = false;
         this.isShowDialogConfirmDelete = false;
         this.isOverlay = false;
@@ -867,7 +831,7 @@ export default {
           this.isDeleteMultipleDialog = false;
           this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
           this.onShowToastMessage();
-          await this.getListEmployee();
+          await this.getDataStudent();
         }
       } catch {
         return;
@@ -880,9 +844,9 @@ export default {
      */
     async exportData() {
       try {
-        const link = this.$refs.ExportListEmployee;
+        const link = this.$refs.ExportStudent;
         this.isShowLoading = true;
-        await employeeService.exportData(link);
+        await studentService.exportData(link);
         this.isShowLoading = false;
       } catch {
         return;
@@ -907,7 +871,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 @import url(@/css/maincontent.css);
 @import url(@/css/pagingemployee.css);
 

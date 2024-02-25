@@ -83,21 +83,7 @@ class BaseServices {
         return response;
     }
 
-    /**
-     * Mô tả: Tìm kiếm phân trang
-     * created by : BNTIEN
-     * created date: 17-06-2023 03:50:28
-     */ 
-    async getFilter(pageSize, pageNumber, textSearch){
-        const response = await this.entity.get(`${this.getBaseUrl()}/filter`, {
-            params: {
-                pageSize: pageSize,
-                pageNumber: pageNumber,
-                textSearch: textSearch,
-            }
-        });
-        return response;
-    }
+    
 }
 
 export default BaseServices;

@@ -16,30 +16,12 @@
         <p>
           <b>{{ this.titleFormMode }}</b>
         </p>
-        <div class="entity-check">
-          <input
-            type="checkbox"
-            :checked="employee.IsCustomer === this.$_MSEnum.CUSTOMER"
-            @change="handleCustomerCheckboxChange"
-            :tabindex="18"
-          />
-          <span>{{ this.$_MSResource[this.$_LANG_CODE].FORM.IS_CUSTOMER }}</span>
-        </div>
-        <div class="entity-check">
-          <input
-            type="checkbox"
-            :checked="employee.IsProvider === this.$_MSEnum.PROVIDER"
-            @change="handleProviderCheckboxChange"
-            :tabindex="19"
-          />
-          <span>{{ this.$_MSResource[this.$_LANG_CODE].FORM.IS_PROVIDER }}</span>
-        </div>
       </div>
       <div class="form-detail-content">
         <div class="half-content">
           <div class="col-md-n">
             <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.CODE }}
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.StudentCode }}
               <span class="s-require">*</span>
             </label>
             <div class="container-input">
@@ -66,7 +48,7 @@
           </div>
           <div class="col-md-tb">
             <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.NAME }}
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.StudentName }}
               <span class="s-require">*</span>
             </label>
             <div class="container-input">
@@ -89,44 +71,8 @@
           </div>
         </div>
         <div class="half-content">
-          <div class="col-md-n">
-            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.DOB }}</label>
-            <div class="container-input">
-              <ms-input
-                type="date"
-                v-model="employee.DateOfBirth"
-                :value="formattedDate"
-                :tabindex="5"
-                :class="{
-                  'border-red': isBorderRed.DateOfBirth,
-                }"
-                ref="DateOfBirth"
-                @input="setIsBorderRed('DateOfBirth')"
-                @mouseenter="isHovering.DateOfBirth = true"
-                @mouseleave="isHovering.DateOfBirth = false"
-              ></ms-input>
-              <!-- <VueDatePicker 
-                :class="{ 'border-red': isBorderRed.DateOfBirth }" 
-                v-model="employee.DateOfBirth" 
-                :format="'dd/MM/yyyy'" 
-                auto-apply 
-                :clearable="false"
-                :placeholder="'dd/mm/yyyy'"
-                :tabindex="5"
-                ref="DateOfBirth" 
-                @mouseenter="isHovering.DateOfBirth = true"
-                @mouseleave="isHovering.DateOfBirth = false"
-              ></VueDatePicker>
-              <div class="ms-tooltip" v-if="!isShowDialogDataNotNull ? isHovering.DateOfBirth && isBorderRed.DateOfBirth : false">
-                {{ errors["DateOfBirth"] }}
-              </div> -->
-              <div class="ms-tooltip" v-if="isHovering.DateOfBirth && isBorderRed.DateOfBirth">
-                {{ errors["DateOfBirth"] }}
-              </div>
-            </div>
-          </div>
-          <div class="col-md-tb">
-            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.GENDER }}</label>
+          <div class="col-md-l">
+            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.Gender }}</label>
             <div class="e-gender">
               <input
                 v-model="employee.Gender"
@@ -156,9 +102,32 @@
           </div>
         </div>
         <div class="half-content">
+          <div class="col-md-l">
+            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.Birthday }}</label>
+            <div class="container-input">
+              <ms-input
+                type="date"
+                v-model="employee.DateOfBirth"
+                :value="formattedDate"
+                :tabindex="5"
+                :class="{
+                  'border-red': isBorderRed.DateOfBirth,
+                }"
+                ref="DateOfBirth"
+                @input="setIsBorderRed('DateOfBirth')"
+                @mouseenter="isHovering.DateOfBirth = true"
+                @mouseleave="isHovering.DateOfBirth = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.DateOfBirth && isBorderRed.DateOfBirth">
+                {{ errors["DateOfBirth"] }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="half-content">
           <div class="col-md-l" style="position: relative" ref="MenuItemDepartment">
             <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.DEPARTMENT }}
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.Classes }}
               <span class="s-require">*</span>
             </label>
             <ms-combobox
@@ -169,112 +138,12 @@
               :listEntitySearchCBB="listDepartmentSearch"
               :propName="'DepartmentName'"
               :propId="'DepartmentId'"
-              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PLACEHOLDER_DEPARTMENT"
+              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderClasses"
             ></ms-combobox>
           </div>
         </div>
-        <div class="half-content">
-          <div class="col-md-tb">
-            <label :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.IDENTITY_NUMBER">
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.IDENTITY_NUMBER }}
-            </label>
-            <div class="container-input">
-              <ms-input
-                v-model="employee.IdentityNumber"
-                :tabindex="9"
-                ref="IdentityNumber"
-                :class="{ 'border-red': isBorderRed.IdentityNumber }"
-                @input="setIsBorderRed('IdentityNumber')"
-                @mouseenter="isHovering.IdentityNumber = true"
-                @mouseleave="isHovering.IdentityNumber = false"
-              ></ms-input>
-              <div class="ms-tooltip" v-if="isHovering.IdentityNumber && isBorderRed.IdentityNumber">
-                {{ errors["IdentityNumber"] }}
-              </div>
-            </div>
-          </div>
-          <div class="col-md-n">
-            <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.IDENTITY_DATE }}
-            </label>
-            <div class="container-input">
-              <ms-input
-                type="date"
-                v-model="employee.IdentityDate"
-                :value="formattedDateIdentity"
-                :tabindex="9"
-                :class="{ 'border-red': isBorderRed.IdentityDate }"
-                ref="IdentityDate"
-                @input="setIsBorderRed('IdentityDate')"
-                @mouseenter="isHovering.IdentityDate = true"
-                @mouseleave="isHovering.IdentityDate = false"
-              ></ms-input>
-              <!-- <VueDatePicker 
-                :class="{ 'border-red': isBorderRed.IdentityDate }" 
-                v-model="employee.IdentityDate" 
-                :format="'dd/MM/yyyy'" 
-                auto-apply 
-                :clearable="false"
-                :placeholder="'dd/mm/yyyy'"
-                :tabindex="9"
-                ref="IdentityDate" 
-                @mouseenter="isHovering.IdentityDate = true"
-                @mouseleave="isHovering.IdentityDate = false"
-              ></VueDatePicker>
-              <div class="ms-tooltip" v-if="!isShowDialogDataNotNull ? isHovering.IdentityDate && isBorderRed.IdentityDate : false">
-                {{ errors["IdentityDate"] }}
-              </div> -->
-              <div class="ms-tooltip" v-if="isHovering.IdentityDate && isBorderRed.IdentityDate">
-                {{ errors["IdentityDate"] }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="half-content">
-          <div class="col-md-l">
-            <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.POSITION }}
-            </label>
-            <div class="container-input">
-              <ms-input
-                v-model="employee.PositionName"
-                :tabindex="4"
-                ref="PositionName"
-                :class="{ 'border-red': isBorderRed.PositionName }"
-                @input="setIsBorderRed('PositionName')"
-                @mouseenter="isHovering.PositionName = true"
-                @mouseleave="isHovering.PositionName = false"
-              ></ms-input>
-              <div class="ms-tooltip" v-if="isHovering.PositionName && isBorderRed.PositionName">
-                {{ errors["PositionName"] }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="half-content">
-          <div class="col-md-l">
-            <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.IDENTITY_ADDRESS }}
-            </label>
-            <div class="container-input">
-              <ms-input
-                v-model="employee.IdentityPlace"
-                :tabindex="10"
-                ref="IdentityPlace"
-                :class="{ 'border-red': isBorderRed.IdentityPlace }"
-                @input="setIsBorderRed('IdentityPlace')"
-                @mouseenter="isHovering.IdentityPlace = true"
-                @mouseleave="isHovering.IdentityPlace = false"
-              ></ms-input>
-              <div class="ms-tooltip" v-if="isHovering.IdentityPlace && isBorderRed.IdentityPlace">
-                {{ errors["IdentityPlace"] }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="full-content" id="content-null"></div>
         <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ADDRESS }}</label>
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.Address }}</label>
           <div class="container-input">
             <ms-input
               v-model="employee.Address"
@@ -291,118 +160,36 @@
           </div>
         </div>
         <div class="full-content">
-          <div class="full-content-quarter">
-            <div class="col-md-quater">
-              <label :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.PHONE_NUMBER">
-                {{ this.$_MSResource[this.$_LANG_CODE].FORM.PHONE_NUMBER }}
-              </label>
-              <div class="container-input">
-                <ms-input
-                  v-model="employee.PhoneNumber"
-                  :tabindex="12"
-                  ref="PhoneNumber"
-                  :class="{ 'border-red': isBorderRed.PhoneNumber }"
-                  @input="setIsBorderRed('PhoneNumber')"
-                  @mouseenter="isHovering.PhoneNumber = true"
-                  @mouseleave="isHovering.PhoneNumber = false"
-                ></ms-input>
-                <div class="ms-tooltip" v-if="isHovering.PhoneNumber && isBorderRed.PhoneNumber">
-                  {{ errors["PhoneNumber"] }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-quater">
-              <label :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.PHONE_LANDLINE">
-                {{ this.$_MSResource[this.$_LANG_CODE].FORM.PHONE_LANDLINE }}
-              </label>
-              <div class="container-input">
-                <ms-input
-                  v-model="employee.PhoneLandline"
-                  :tabindex="13"
-                  ref="PhoneLandline"
-                  :class="{ 'border-red': isBorderRed.PhoneLandline }"
-                  @input="setIsBorderRed('PhoneLandline')"
-                  @mouseenter="isHovering.PhoneLandline = true"
-                  @mouseleave="isHovering.PhoneLandline = false"
-                ></ms-input>
-                <div class="ms-tooltip" v-if="isHovering.PhoneLandline && isBorderRed.PhoneLandline">
-                  {{ errors["PhoneLandline"] }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-quater">
-              <label>
-                {{ this.$_MSResource[this.$_LANG_CODE].FORM.EMAIL }}
-              </label>
-              <div class="container-input">
-                <ms-input
-                  v-model="employee.Email"
-                  :tabindex="14"
-                  :class="{ 'border-red': isBorderRed.Email }"
-                  ref="Email"
-                  @input="setIsBorderRed('Email')"
-                  @mouseenter="isHovering.Email = true"
-                  @mouseleave="isHovering.Email = false"
-                ></ms-input>
-                <div class="ms-tooltip" v-if="isHovering.Email && isBorderRed.Email">
-                  {{ errors["Email"] }}
-                </div>
-              </div>
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.PhoneNumber }}</label>
+          <div class="container-input">
+            <ms-input
+              v-model="employee.Address"
+              :tabindex="11"
+              ref="Address"
+              :class="{ 'border-red': isBorderRed.Address }"
+              @input="setIsBorderRed('Address')"
+              @mouseenter="isHovering.Address = true"
+              @mouseleave="isHovering.Address = false"
+            ></ms-input>
+            <div class="ms-tooltip" v-if="isHovering.Address && isBorderRed.Address">
+              {{ errors["Address"] }}
             </div>
           </div>
         </div>
         <div class="full-content">
-          <div class="full-content-quarter">
-            <div class="col-md-quater">
-              <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.BANK_ACCOUNT }}</label>
-              <div class="container-input">
-                <ms-input
-                  v-model="employee.BankAccount"
-                  :tabindex="15"
-                  ref="BankAccount"
-                  :class="{ 'border-red': isBorderRed.BankAccount }"
-                  @input="setIsBorderRed('BankAccount')"
-                  @mouseenter="isHovering.BankAccount = true"
-                  @mouseleave="isHovering.BankAccount = false"
-                ></ms-input>
-                <div class="ms-tooltip" v-if="isHovering.BankAccount && isBorderRed.BankAccount">
-                  {{ errors["BankAccount"] }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-quater">
-              <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.BANK_NAME }}</label>
-              <div class="container-input">
-                <ms-input
-                  v-model="employee.BankName"
-                  :tabindex="16"
-                  ref="BankName"
-                  :class="{ 'border-red': isBorderRed.BankName }"
-                  @input="setIsBorderRed('BankName')"
-                  @mouseenter="isHovering.BankName = true"
-                  @mouseleave="isHovering.BankName = false"
-                ></ms-input>
-                <div class="ms-tooltip" v-if="isHovering.BankName && isBorderRed.BankName">
-                  {{ errors["BankName"] }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-quater">
-              <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.BANK_BRANCH }}</label>
-              <div class="container-input">
-                <ms-input
-                  v-model="employee.BankBranch"
-                  :tabindex="17"
-                  ref="BankBranch"
-                  :class="{ 'border-red': isBorderRed.BankBranch }"
-                  @input="setIsBorderRed('BankBranch')"
-                  @mouseenter="isHovering.BankBranch = true"
-                  @mouseleave="isHovering.BankBranch = false"
-                ></ms-input>
-                <div class="ms-tooltip" v-if="isHovering.BankBranch && isBorderRed.BankBranch">
-                  {{ errors["BankBranch"] }}
-                </div>
-              </div>
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.Email }}</label>
+          <div class="container-input">
+            <ms-input
+              v-model="employee.Address"
+              :tabindex="11"
+              ref="Address"
+              :class="{ 'border-red': isBorderRed.Address }"
+              @input="setIsBorderRed('Address')"
+              @mouseenter="isHovering.Address = true"
+              @mouseleave="isHovering.Address = false"
+            ></ms-input>
+            <div class="ms-tooltip" v-if="isHovering.Address && isBorderRed.Address">
+              {{ errors["Address"] }}
             </div>
           </div>
         </div>

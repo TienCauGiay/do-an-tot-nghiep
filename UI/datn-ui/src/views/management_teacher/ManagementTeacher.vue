@@ -1,10 +1,10 @@
 <template>
-  <div>Tra cứu học phí</div>
+  <div>Quản lí giảng viên</div>
 </template>
 
 <script>
 export default {
-  name: "LookUpTuitionFees",
+  name: "ManagementTeacher",
 };
 </script>
 

@@ -8,33 +8,33 @@
     <div class="menu">
       <ul class="nav">
         <li class="menu-item">
-          <router-link to="/study-program" class="menu-item-a">
+          <router-link to="/management-student" class="menu-item-a">
             <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.StudyProgram }}</span>
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementStudent }}</span>
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link to="/register-study" class="menu-item-a">
+          <router-link to="/management-teacher" class="menu-item-a">
             <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.RegisterStudy }}</span>
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementTeacher }}</span>
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link to="/exam-registration" class="menu-item-a">
+          <router-link to="/management-score" class="menu-item-a">
             <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ExamRegistration }}</span>
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementScore }}</span>
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link to="/look-up-tuition-fees" class="menu-item-a">
+          <router-link to="/statistic" class="menu-item-a">
             <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.LookUpTuitionFees }}</span>
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.Statistic }}</span>
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link to="/look-up-point" class="menu-item-a">
+          <router-link to="/management-account" class="menu-item-a">
             <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.LookUpPoints }}</span>
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementAccount }}</span>
           </router-link>
         </li>
       </ul>

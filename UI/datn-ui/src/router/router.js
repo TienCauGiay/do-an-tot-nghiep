@@ -1,9 +1,9 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import StudyProgram from '@/views/study_program/StudyProgram.vue'
-import RegisterStudy from '@/views/register_study/RegisterStudy.vue'
-import ExamRegistration from '@/views/exam_registration/ExamRegistration.vue'
-import LookUpTuitionFees from '@/views/look_up_tuition_fees/LookUpTuitionFees.vue'
-import LookUpPoint from '@/views/look_up_point/LookUpPoint.vue'
+import ManagementStudent from '@/views/management_student/ManagementStudent.vue'
+import ManagementTeacher from '@/views/management_teacher/ManagementTeacher.vue'
+import ManagementScore from '@/views/management_score/ManagementScore.vue'
+import StatisticPage from '@/views/statistic_page/StatisticPage.vue'
+import ManagementAccount from '@/views/management_account/ManagementAccount.vue'
 import EmployeeList from '@/views/employee/EmployeeList.vue'
 
 /**
@@ -12,11 +12,11 @@ import EmployeeList from '@/views/employee/EmployeeList.vue'
  * created date: 01-06-2023 13:11:40
  */
 const routers = [
-    {path: "/study-program", component: StudyProgram, name: "StudyProgram"},
-    {path: "/register-study", component: RegisterStudy, name: "RegisterStudy"},
-    {path: "/exam-registration", component: ExamRegistration, name: "ExamRegistration"},
-    {path: "/look-up-tuition-fees", component: LookUpTuitionFees, name: "LookUpTuitionFees"},
-    {path: "/look-up-point", component: LookUpPoint, name: "LookUpPoint"},
+    {path: "/management-student", component: ManagementStudent, name: "ManagementStudent"},
+    {path: "/management-teacher", component: ManagementTeacher, name: "ManagementTeacher"},
+    {path: "/management-score", component: ManagementScore, name: "ManagementScore"},
+    {path: "/statistic", component: StatisticPage, name: "StatisticPage"},
+    {path: "/management-account", component: ManagementAccount, name: "ManagementAccount"},
     {path: "/employee", component: EmployeeList, name: "EmployeeList"},
     // {path: "/category/provider", component: ProviderList, name: "ProviderListRouter"},
     // {

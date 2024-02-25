@@ -67,7 +67,7 @@ export default {
      * created date: 29-05-2023 08:33:41
      */
     btnConfirmDelete() {
-      this.$_MSEmitter.emit("confirmYesDeleteEntity");
+      this.$_MSEmitter.emit("confirmDeleteEntity");
     },
 
     /**
@@ -76,7 +76,7 @@ export default {
      * created date: 28-06-2023 11:23:05
      */
     btnConfirmDeleteMultiple() {
-      this.$_MSEmitter.emit("confirmYesDeleteMultiple");
+      this.$_MSEmitter.emit("confirmDeleteMultiple");
     },
 
     /**
@@ -85,7 +85,7 @@ export default {
      * created date: 29-05-2023 08:35:00
      */
     btnNoConfirmDelete() {
-      this.$_MSEmitter.emit("confirmNoDeleteEntity");
+      this.$_MSEmitter.emit("unConfirmDeleteEntity");
     },
   },
 };

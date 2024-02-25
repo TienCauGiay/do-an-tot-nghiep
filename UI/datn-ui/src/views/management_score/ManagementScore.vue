@@ -1,10 +1,10 @@
 <template>
-  <div>Chương trình học</div>
+  <div>Quản lí điểm</div>
 </template>
 
 <script>
 export default {
-  name: "StudyProgram",
+  name: "ManagementScore",
 };
 </script>
 
