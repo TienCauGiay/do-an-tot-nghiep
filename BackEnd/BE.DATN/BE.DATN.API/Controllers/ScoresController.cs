@@ -15,5 +15,19 @@ namespace BE.DATN.API.Controllers
         {
             _scoreBL = scoreBL;
         }
+
+        [HttpGet("get_all_score_view")]
+        public async Task<IActionResult> GetAllScoreView()
+        {
+            var res = await _scoreBL.GetAllScoreViewAsync();  
+            return Ok(res);
+        }
+
+        [HttpGet("get_by_student_id_score_view")]
+        public async Task<IActionResult> GetByStudentIdScoreView(Guid student_id)
+        {
+            var res = await _scoreBL.GetByStudentIdScoreViewAsync(student_id);
+            return Ok(res);
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace BE.DATN.BL.Enums
     /// <summary>
     /// Enum xác định trạng thái bản ghi
     /// </summary>
-    public enum ModelStatte
+    public enum ModelState
     {
         /// <summary>
         /// Không xác định

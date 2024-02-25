@@ -65,19 +65,19 @@ namespace BE.DATN.BL.Services
         /// các model cụ thể sẽ override lại để custom riêng
         /// </summary>
         /// <param name="entity"></param>
-        protected abstract void ValidateBusiness(TEntity entity, ModelStatte state);
+        protected abstract void ValidateBusiness(TEntity entity, ModelState state);
         /// <summary>
         /// Xử lí nghiệp vụ trước khi thêm nhiều bản ghi
         /// các model cụ thể sẽ override lại để custom riêng
         /// </summary>
         /// <param name="entity"></param>
-        protected abstract void ValidateBusinessMultiple(List<TEntity> entities, ModelStatte statte);
+        protected abstract void ValidateBusinessMultiple(List<TEntity> entities, ModelState statte);
 
         public async Task<ReponseService> InsertAsync(TEntity entity)
         {
             try
             {
-                ValidateBusiness(entity, ModelStatte.Insert);
+                ValidateBusiness(entity, ModelState.Insert);
                 var res = await _baseDL.InsertAsync(entity);
                 return new ReponseService(StatusCodes.Status200OK, "Thêm mới dữ liệu thành công", res);
             }
@@ -96,7 +96,7 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                ValidateBusinessMultiple(entities, ModelStatte.Insert);
+                ValidateBusinessMultiple(entities, ModelState.Insert);
                 var res = await _baseDL.InsertMultipleAsync(entities);
                 return new ReponseService(StatusCodes.Status200OK, "Thêm mới dữ liệu thành công", res);
             }
@@ -115,7 +115,7 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                ValidateBusiness(entity, ModelStatte.Update);
+                ValidateBusiness(entity, ModelState.Update);
                 var res = await _baseDL.UpdateAsync(entity);
                 return new ReponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
             }
@@ -134,7 +134,7 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                ValidateBusinessMultiple(entities, ModelStatte.Update);
+                ValidateBusinessMultiple(entities, ModelState.Update);
                 var res = await _baseDL.UpdateMultipleAsync(entities);
                 return new ReponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
             }
