@@ -88,6 +88,10 @@ export default {
   },
 
   methods: {
+    focusCombobox() {
+      let me = this;
+      me.$refs["InputCBB"].focus();
+    },
     /**
      * Mô tả: Toggle menu
      * created by : BNTIEN

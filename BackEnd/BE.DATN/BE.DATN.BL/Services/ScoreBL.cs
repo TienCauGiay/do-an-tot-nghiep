@@ -3,7 +3,7 @@ using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Interfaces.UnitOfWork;
 using BE.DATN.BL.Models.Response;
-using BE.DATN.BL.Models.Score;
+using BE.DATN.BL.Models.Score; 
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -51,21 +51,34 @@ namespace BE.DATN.BL.Services
 
         }
 
-        public async Task<ReponseService> GetAllScoreViewAsync()
+        public async Task<ResponseServiceScore> GetFilterPagingAsync(int limit, int offset, string? textSearch)
         {
             try
-            { 
-                var res = await _scoreDL.GetAllScoreViewAsync();
-                return new ReponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            {
+                if (textSearch == null)
+                {
+                    textSearch = string.Empty;
+                }
+                var res = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch);
+                return new ResponseServiceScore()
+                {
+                    Code = StatusCodes.Status200OK,
+                    Message = "Lấy dữ liệu thành công",
+                    Data = res.Item1,
+                    TotalPage = (int)Math.Ceiling((decimal)(res.Item2 > 0 ? res.Item2 : 0) / limit),
+                    TotalRecord = res.Item2,
+                    CurrentPage = offset,
+                    CurrentPageRecords = res.Item1?.Count()
+                };
             }
             catch (Exception ex)
             {
-                return new ReponseService
-                    (
-                        StatusCodes.Status500InternalServerError,
-                        ex.Message,
-                        new Object()
-                    );
+                return new ResponseServiceScore()
+                {
+                    Code = StatusCodes.Status500InternalServerError,
+                    Message = ex.Message,
+                    Data = new List<score_view>()
+                };
             }
         }
 
@@ -85,6 +98,6 @@ namespace BE.DATN.BL.Services
                         new Object()
                     );
             }
-        }
+        } 
     }
 }

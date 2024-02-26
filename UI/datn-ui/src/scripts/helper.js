@@ -155,6 +155,19 @@ const helperCommon = {
       return false;
     },
 
+  /**
+   * Mô tả: Hàm kiểm tra 1 chuỗi có phải số thực không
+   * created by : BNTIEN
+   * created date: 26-02-2024 21:54:48
+   */
+    isDecimal: (text) => {
+      if (!text) return false;
+      const regex = /^[0-9]*\.?[0-9]+$/;
+      if (regex.test(text)) {
+        return true;
+      }
+      return false;
+    },
     /**
      * Mô tả: Hàm format tiền tệ
      * created by : BNTIEN

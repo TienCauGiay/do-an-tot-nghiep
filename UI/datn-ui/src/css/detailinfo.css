@@ -1,5 +1,5 @@
 #detail-info {
-    height: 95%;
+    height: 85%;
     background-color: white;
     z-index: 8888;
     border-radius: 4px;
@@ -10,20 +10,50 @@
 /* Media query cho màn hình có chiều rộng 1280px trở lên */
 @media (min-width: 1280px) {
     #detail-info {
-        width: 70%;
+        width: 60%;
     }
 }
   
 /* Media query cho màn hình có chiều rộng nhỏ hơn 1280px và lớn hơn 1024px */
 @media (max-width: 1279px) and (min-width: 1025px) {
     #detail-info {
-        width: calc(100% - 200px); /* width giảm dần từ 70% tới 100% */
+        width: calc(100% - 300px); /* width giảm dần từ 70% tới 100% */
     }
 }
   
 /* Media query cho màn hình có chiều rộng nhỏ hơn hoặc bằng 1024px */
 @media (max-width: 1024px) {
     #detail-info {
+        width: 100%;
+    }
+}
+
+#detail-info-score {
+    height: 85%;
+    background-color: white;
+    z-index: 8888;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+  
+/* Media query cho màn hình có chiều rộng 1280px trở lên */
+@media (min-width: 1280px) {
+    #detail-info-score {
+        width: 45%;
+    }
+}
+  
+/* Media query cho màn hình có chiều rộng nhỏ hơn 1280px và lớn hơn 1024px */
+@media (max-width: 1279px) and (min-width: 1025px) {
+    #detail-info-score {
+        width: calc(100% - 400px); /* width giảm dần từ 70% tới 100% */
+    }
+}
+  
+/* Media query cho màn hình có chiều rộng nhỏ hơn hoặc bằng 1024px */
+@media (max-width: 1024px) {
+    #detail-info-score {
         width: 100%;
     }
 }
