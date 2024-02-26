@@ -16,10 +16,10 @@ namespace BE.DATN.API.Controllers
             _scoreBL = scoreBL;
         }
 
-        [HttpGet("get_all_score_view")]
-        public async Task<IActionResult> GetAllScoreView()
+        [HttpGet("paging_filter")]
+        public async Task<IActionResult> GetFilterPaging(int limit, int offset, string? textSearch)
         {
-            var res = await _scoreBL.GetAllScoreViewAsync();  
+            var res = await _scoreBL.GetFilterPagingAsync(limit, offset, textSearch);  
             return Ok(res);
         }
 

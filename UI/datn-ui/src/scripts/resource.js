@@ -17,7 +17,17 @@ const MSResource = {
             "phone_number": {Limit: 50, Warning : "Điện thoại di động tối đa 50 kí tự"}, 
             "email": {Limit: 100, Warning : "Email tối đa 100 kí tự"}, 
             "teacher_code": {Limit: 20, Warning : "Mã giảng viên tối đa 20 kí tự"},
-            "teacher_name": {Limit: 100, Warning : "Tên giảng viên tối đa 100 kí tự"}, 
+            "teacher_name": {Limit: 100, Warning : "Tên giảng viên tối đa 100 kí tự"},
+            "score_attendance":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
+            "score_test":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
+            "score_exam":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
+            "score_average":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
+        },
+        NOT_NUMBER: {
+            score_attendance: "Điểm chuyên cần không hợp lệ",
+            score_test: "Điểm kiểm tra không hợp lệ",
+            score_exam: "Điểm thi không hợp lệ",
+            score_average: "Điểm trung bình không hợp lệ",
         },
         TOOLTIP:{
             ALERT: "Thông báo",
@@ -60,10 +70,25 @@ const MSResource = {
             Email: "EMAIL",
             Feature: "CHỨC NĂNG"
         },
+        Score_Column:{
+            SubjectCode: "MÃ MH",
+            SubjectName: "TÊN MÔN HỌC",
+            NumberTC: "SỐ TÍN CHỈ",
+            StudentCode: "MÃ SV",
+            StudentName: "TÊN SINH VIÊN",
+            TeacherCode: "MÃ GV",
+            TeacherName: "TÊN GIẢNG VIÊN",
+            ScoreAttendance: "ĐIỂM CC",
+            ScoreTest: "ĐIỂM KT",
+            ScoreExam: "ĐIỂM THI",
+            ScoreAverage: "ĐIỂM TB",
+            EvaluateState: "TRẠNG THÁI", 
+            Feature: "CHỨC NĂNG"
+        },
         TEXT_CONTENT:{
             ManagementStudent: "Quản lí sinh viên",
             ManagementTeacher: "Quản lí giảng viên",
-
+            ManagementScore: "Quản lí điểm",
             FILE_NAME: "Danh_sach_nhan_vien",
             NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI",
             NAME_ACCOUNT_LOGIN: "Bùi Ngọc Tiến",
@@ -137,6 +162,16 @@ const MSResource = {
             TeacherName: "Tên giảng viên",
             Subject: "Môn giảng dạy",
             PlaceholderSubject:"-- Chọn môn --", 
+            AddScore: "Nhập điểm",
+            UpdateScore: "Sửa điểm",
+            Student: "Sinh viên",
+            Teacher: "Giảng viên",
+            PlaceholderStudent:"-- Chọn sinh viên --", 
+            PlaceholderTeacher:"-- Chọn giảng viên --",
+            ScoreAttendance: "Điểm chuyên cần",
+            ScoreTest: "Điểm kiểm tra",
+            ScoreExam: "Điểm thi",
+            ScoreAverage: "Điểm trung bình",
         },
         DIALOG:{
             TITLE:{
@@ -167,31 +202,7 @@ const MSResource = {
             SUCCESS:"Thành công!",
             UNDO:"",
         }, 
-    },
-    'en-EN':{
-        TEXT_CONTENT:{
-            SUCCESS_DELETE : "Successful delele",
-            SUCCESS_CTEATE : "Successful add",
-            SUCCESS_UPDATE : "Successful update",
-            SPLIT_DATE : "T",
-            GENDER:{
-                Male: "Male",
-                Female: "Female",
-                Other: "Other"
-            },
-            CODE_NOT_NULL: "Code cannot be blank.",
-            NAME_NOT_NULL: "Fullname cannot be blank.",
-            UNIT_NOT_NULL: "Unit cannot be blank.",
-            CODE_END_MUST_NUMBER: "Code must end be number",
-            DOB_ISVALID: "Date of birth is valid",
-            CMNDDATE_ISVALID: "Invalid ID card issuance date",
-            PAGE:{
-                PREVIOUS: "previous",
-                NEXT: "next",
-                NUMBER: "number"
-            }
-        },
-    },
+    }, 
     REGEX:{
         END_MUST_NUMBER:/\d$/,
         EMAIL:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,

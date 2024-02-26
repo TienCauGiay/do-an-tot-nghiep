@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION func_get_all_score_view()
+CREATE OR REPLACE FUNCTION func_get_filter_paging_score(p_limit integer, p_offset integer, p_text_search text)
 RETURNS TABLE 
 (
 score_id uuid, 
@@ -65,8 +65,16 @@ begin
 		left join student st on sc.student_id = st.student_id 
 		left join teacher tc on sc.teacher_id = tc.teacher_id 
 		left join subject sb on tc.subject_id = sb.subject_id
+	where 
+		st.student_code ilike '%' || p_text_search || '%'
+		or st.student_name ilike '%' || p_text_search || '%'
+		or tc.teacher_code ilike '%' || p_text_search || '%'
+		or tc.teacher_name ilike '%' || p_text_search || '%'
+		or sb.subject_code ilike '%' || p_text_search || '%'
+		or sb.subject_name ilike '%' || p_text_search || '%'
 	order by 
-		sc.student_id, sb.subject_code
+		st.student_code, sb.subject_code
+	limit p_limit offset (p_offset - 1)* p_limit
 	;
 	
 	RETURN QUERY select * from tmp_result;
