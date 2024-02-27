@@ -1,9 +1,10 @@
 <template>
   <button @click="isShowImportExcel = !isShowImportExcel" :class="{ bcg: isShowImportExcel }">
     <div class="dropdown-white-icon">
-      <div class="import-excel" v-if="isShowImportExcel">
+      <!-- <div class="import-excel" v-if="isShowImportExcel" @click="importEx">
         {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.IMPORT_EXCEL }}
-      </div>
+      </div> -->
+      <input class="import-excel" v-if="isShowImportExcel" type="file" @change="importEx($event)" />
     </div>
   </button>
 </template>
@@ -17,6 +18,13 @@ export default {
       // Khai báo biến quy định trạng thái hiển thị nhập excel
       isShowImportExcel: false,
     };
+  },
+
+  methods: {
+    // Xử lí xuất excel
+    importEx($event) {
+      this.$emit("importExcel", $event);
+    },
   },
 };
 </script>

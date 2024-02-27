@@ -10,7 +10,7 @@ namespace BE.DATN.DL.Repository
     {
         public StudentDL(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-        }
+        } 
 
         public async Task<(List<student_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch)
         {
@@ -36,6 +36,15 @@ namespace BE.DATN.DL.Repository
             }
 
             return (students, totalRecord);
-        } 
+        }
+
+        public async Task<List<student>?> GetByListCodeAsync(List<string> studentCodes)
+        {
+            var query = "SELECT * FROM student WHERE student_code = ANY(@p_student_codes)";
+
+            var students = await _unitOfWork.Connection.QueryAsync<student>(query, new { p_student_codes = studentCodes.ToArray() }, transaction: _unitOfWork.Transaction);
+
+            return students.ToList();
+        }  
     }
 }

@@ -49,7 +49,7 @@
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
           @click="btnOpenFormDetail"
         ></ms-button-default>
-        <ms-button-icon></ms-button-icon>
+        <ms-button-icon @importExcel="importExcel"></ms-button-icon>
       </div>
     </div>
     <div id="list-score" class="list-entity">
@@ -832,6 +832,29 @@ export default {
         await scoreService.exportData(link);
         this.isShowLoading = false;
       } catch {
+        return;
+      }
+    },
+
+    /**
+     * Mô tả: Xử lí nhập điểm từ file excel
+     * created by : BNTIEN
+     * created date: 27-02-2024 21:11:46
+     */
+    async importExcel($event) {
+      const file = $event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const res = await scoreService.importExcel(formData);
+        if (res && res.data && res.data.Code == this.$_MSEnum.STATUS.OK) {
+          this.contentToastSuccess = "Nhập khẩu thành công";
+          this.onShowToastMessage();
+          await this.getDataScore();
+        }
+      } catch (error) {
+        this.contentToastSuccess = "Nhập khẩu không thành thành công";
+        this.onShowToastMessage();
         return;
       }
     },
