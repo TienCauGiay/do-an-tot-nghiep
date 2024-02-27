@@ -19,7 +19,7 @@ namespace BE.DATN.API.Controllers
         [HttpGet("paging_filter")]
         public async Task<IActionResult> GetFilterPaging(int limit, int offset, string? textSearch)
         {
-            var res = await _scoreBL.GetFilterPagingAsync(limit, offset, textSearch);  
+            var res = await _scoreBL.GetFilterPagingAsync(limit, offset, textSearch);
             return Ok(res);
         }
 
@@ -27,6 +27,15 @@ namespace BE.DATN.API.Controllers
         public async Task<IActionResult> GetByStudentIdScoreView(Guid student_id)
         {
             var res = await _scoreBL.GetByStudentIdScoreViewAsync(student_id);
+            return Ok(res);
+        }
+
+        [HttpPost("import_excel")]
+        public async Task<IActionResult> ImportExcel()
+        {
+            var formCollection = await Request.ReadFormAsync();
+            var file = formCollection.Files.GetFile("file");
+            var res = await _scoreBL.ImportExcelAsync(file);
             return Ok(res);
         }
     }

@@ -34,6 +34,15 @@ class ScoreService extends BaseServices {
         });
         return response;
     }
+
+    async importExcel(formData){
+        const response = await this.entity.post(`${this.getBaseUrl()}/import_excel`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        return response;
+    }
 }
 
 export default new ScoreService();
