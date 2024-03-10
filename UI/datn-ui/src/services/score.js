@@ -2,22 +2,7 @@ import BaseServices from "./base";
 import MSResource from "@/scripts/resource.js";
 
 class ScoreService extends BaseServices {
-    controller = "Scores"; 
-
-    /**
-     * Mô tả: Xuất danh sách nhân viên ra excel
-     * created by : BNTIEN
-     * created date: 04-07-2023 00:34:50
-     */
-    async exportData(link){
-        const response = await this.entity.get(`${this.getBaseUrl()}/export`, { responseType: 'blob' });
-        const file = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-        const url = window.URL.createObjectURL(file);
-        link.href = url;
-        link.setAttribute('download', MSResource["vn-VI"].TEXT_CONTENT.FILE_NAME);
-        link.click();
-        return response;
-    }
+    controller = "Scores";  
 
     /**
      * Mô tả: Tìm kiếm phân trang
@@ -41,6 +26,22 @@ class ScoreService extends BaseServices {
             'Content-Type': 'multipart/form-data'
           }
         });
+        return response;
+    }
+
+    
+    /**
+     * Mô tả: Xử lí xuất khẩu điểm ra file excel
+     * created by : BNTIEN
+     * created date: 04-07-2023 00:34:50
+     */
+    async exportData(link){
+        const response = await this.entity.get(`${this.getBaseUrl()}/export`, { responseType: 'blob' });
+        const file = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        const url = window.URL.createObjectURL(file);
+        link.href = url;
+        link.setAttribute('download', MSResource["vn-VI"].TEXT_CONTENT.FILE_NAME);
+        link.click();
         return response;
     }
 }

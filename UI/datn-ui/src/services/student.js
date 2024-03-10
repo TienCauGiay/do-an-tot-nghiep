@@ -34,6 +34,17 @@ class StudentService extends BaseServices {
         });
         return response;
     }
+
+    
+    /**
+     * Mô tả: Lấy dữ liệu cho Biểu đồ thống kê số sinh viên đầu vào/đầu ra Trường Đại học Kevin
+     * created by : BNTIEN
+     * created date: 10-03-2024 20:07:05
+     */
+    async getStatisticNumberStudent(){
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_statistic_number_student`);
+        return response;
+    }
 }
 
 export default new StudentService();

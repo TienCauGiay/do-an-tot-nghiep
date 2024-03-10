@@ -19,5 +19,7 @@ namespace BE.DATN.BL.Models.Student
         public string? phone_number { get; set; }
         public string? email { get; set; }
         public string? image { get; set; }
+        public DateTime? admission_year { get; set; }
+        public DateTime? graduation_year { get; set; }
     }
 }

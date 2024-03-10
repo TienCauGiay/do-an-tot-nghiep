@@ -10,3 +10,15 @@ F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.B
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\refint\BE.DATN.BL.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.pdb
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\ref\BE.DATN.BL.dll
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\bin\Debug\net6.0\BE.DATN.BL.deps.json
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\bin\Debug\net6.0\BE.DATN.BL.dll
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\bin\Debug\net6.0\BE.DATN.BL.pdb
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.csproj.AssemblyReference.cache
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.GeneratedMSBuildEditorConfig.editorconfig
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.AssemblyInfoInputs.cache
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.AssemblyInfo.cs
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.csproj.CoreCompileInputs.cache
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.dll
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\refint\BE.DATN.BL.dll
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\BE.DATN.BL.pdb
+D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.BL\obj\Debug\net6.0\ref\BE.DATN.BL.dll

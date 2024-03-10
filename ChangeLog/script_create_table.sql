@@ -119,6 +119,8 @@ create table student(
 	phone_number text,
 	email text,
 	image text,
+	admission_year date,
+	graduation_year date,
 	created_by text,
 	created_date date,
 	modified_by text,

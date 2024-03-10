@@ -90,7 +90,7 @@ const MSResource = {
             ManagementTeacher: "Quản lí giảng viên",
             ManagementScore: "Quản lí điểm",
             FILE_NAME: "Danh_sach_nhan_vien",
-            NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI",
+            NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC KEVIN",
             NAME_ACCOUNT_LOGIN: "Bùi Ngọc Tiến",
             ACCOUNTANT: "TRANG CHỦ",
             NO_DATA: "Không có dữ liệu",
@@ -202,6 +202,11 @@ const MSResource = {
             SUCCESS:"Thành công!",
             UNDO:"",
         }, 
+        Chart:{
+            Employee:{
+                TitleChart: "Biểu đồ thống kê số sinh viên đầu vào/đầu ra Trường Đại học Kevin"
+            }
+        }
     }, 
     REGEX:{
         END_MUST_NUMBER:/\d$/,

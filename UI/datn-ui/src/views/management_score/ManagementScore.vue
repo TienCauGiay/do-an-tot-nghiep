@@ -39,7 +39,7 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.REFRESH"
       ></div>
       <div
-        @click="exportData"
+        @click="exportExcel"
         class="excel-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>

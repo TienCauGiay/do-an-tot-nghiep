@@ -21,6 +21,13 @@ namespace BE.DATN.API.Controllers
         {
             var res = await _studentBL.GetFilterPagingAsync(limit, offset, textSearch);
             return Ok(res);
-        } 
+        }
+
+        [HttpGet("get_statistic_number_student")]
+        public async Task<IActionResult> GetStatisticNumberStudent()
+        {
+            var res = await _studentBL.GetStatisticNumberStudentAsync();
+            return Ok(res);
+        }
     }
 }

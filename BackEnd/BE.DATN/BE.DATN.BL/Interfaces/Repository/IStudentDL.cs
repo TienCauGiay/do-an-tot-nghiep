@@ -12,5 +12,7 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<(List<student_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch);
 
         Task<List<student>?> GetByListCodeAsync(List<string> studentCodes);
+        Task<List<statistic_number_student_view>?> GetStatisticNumberStudentAsync();
+
     }
 }
