@@ -12,6 +12,12 @@ namespace BE.DATN.BL.Models.Response
         public string? Message { get; set; }
         public Object? Data { get; set; }
 
+        public ReponseService(int Code, string Message)
+        {
+            this.Code = Code;
+            this.Message = Message; 
+        }
+
         public ReponseService(int Code, string Message, Object Data)
         {
             this.Code = Code;

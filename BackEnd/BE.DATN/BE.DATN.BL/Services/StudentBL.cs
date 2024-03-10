@@ -74,6 +74,19 @@ namespace BE.DATN.BL.Services
                     Data = new List<student_view>()
                 };
             }
-        } 
+        }
+
+        public async Task<ReponseService> GetStatisticNumberStudentAsync()
+        {
+            try
+            {
+                var res = await _studentDL.GetStatisticNumberStudentAsync();
+                return new ReponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch(Exception ex)
+            {
+                return new ReponseService(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

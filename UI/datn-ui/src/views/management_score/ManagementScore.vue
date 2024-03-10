@@ -39,7 +39,7 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.REFRESH"
       ></div>
       <div
-        @click="exportData"
+        @click="exportExcel"
         class="excel-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
@@ -825,7 +825,7 @@ export default {
      * created by : BNTIEN
      * created date: 01-07-2023 22:35:32
      */
-    async exportData() {
+    async exportExcel() {
       try {
         const link = this.$refs.ExportScore;
         this.isShowLoading = true;
