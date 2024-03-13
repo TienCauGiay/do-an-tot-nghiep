@@ -129,7 +129,7 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> UpdateAsync(TEntity entity)
+        public virtual async Task<ReponseService> UpdateAsync(TEntity entity)
         {
             try
             {

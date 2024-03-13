@@ -4,7 +4,7 @@
 create table role(
 	role_id uuid primary key,
 	role_code text,
-	description text,
+	role_name text,
 	created_by text,
 	created_date date,
 	modified_by text,
@@ -14,7 +14,7 @@ create table role(
 /**
  * Table tài khoản đăng nhập người dùng
  */
-create table users(
+create table user(
 	user_id uuid primary key,
 	user_name text not null,
 	pass_word text not null,
@@ -154,7 +154,7 @@ INSERT into "role" VALUES
 
 select * from "role" r ;
 
-INSERT into users VALUES 
+INSERT into "user" VALUES 
 (uuid_generate_v4(), N'admin', N'1', '70ca8ff8-1a05-4e17-808a-693601d9f291', 1, 'Bùi Ngọc Tiến', now(), '', now()),
 (uuid_generate_v4(), N'bnt', N'1', 'e0ba5c53-0428-4a10-987b-13153c6f6943', 1, 'Bùi Ngọc Tiến', now(), '', now()),
 (uuid_generate_v4(), N'dna', N'1', 'e0ba5c53-0428-4a10-987b-13153c6f6943', 0, 'Bùi Ngọc Tiến', now(), '', now()),
@@ -168,7 +168,7 @@ INSERT into users VALUES
 (uuid_generate_v4(), N'pvm', N'1', 'e0ba5c53-0428-4a10-987b-13153c6f6943', 1, 'Bùi Ngọc Tiến', now(), '', now()),
 (uuid_generate_v4(), N'ttn', N'1', 'e0ba5c53-0428-4a10-987b-13153c6f6943', 1, 'Bùi Ngọc Tiến', now(), '', now());
 
-select * from users u; 
+select * from "user" u; 
 
 INSERT into faculty VALUES 
 ('87f016b3-97bb-4c94-9f5a-f090720d056a', N'cd', N'Cầu đường', 'Bùi Ngọc Tiến', now(), '', now()),

@@ -23,7 +23,8 @@ namespace BE.DATN.DL.Repository
             int? totalRecord = 0;
 
             using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
-                "select * from func_get_filter_paging_student(:p_limit, :p_offset, :p_text_search); select count(student_id) from student",
+                "select * from func_get_filter_paging_student(:p_limit, :p_offset, :p_text_search); " +
+                "select count(student_id) from student st left join classes cl on st.classes_id = cl.classes_id where st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%';",
                 parameters,
                 commandType: CommandType.Text,
                 transaction: _unitOfWork.Transaction))

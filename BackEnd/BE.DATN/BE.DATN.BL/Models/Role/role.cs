@@ -11,6 +11,6 @@ namespace BE.DATN.BL.Models.Role
     {
         public Guid role_id { get; set; }
         public string role_code { get; set; }
-        public string description { get; set; }
+        public string role_name { get; set; }
     }
 }

@@ -3,7 +3,7 @@ import ManagementStudent from '@/views/management_student/ManagementStudent.vue'
 import ManagementTeacher from '@/views/management_teacher/ManagementTeacher.vue'
 import ManagementScore from '@/views/management_score/ManagementScore.vue'
 import StatisticPage from '@/views/statistic_page/StatisticPage.vue'
-import ManagementAccount from '@/views/management_account/ManagementAccount.vue' 
+import ManagementUser from '@/views/management_user/ManagementUser.vue' 
 
 /**
  * Mô tả: Định nghĩa các router
@@ -15,7 +15,7 @@ const routers = [
     {path: "/management-teacher", component: ManagementTeacher, name: "ManagementTeacher"},
     {path: "/management-score", component: ManagementScore, name: "ManagementScore"},
     {path: "/statistic", component: StatisticPage, name: "StatisticPage"},
-    {path: "/management-account", component: ManagementAccount, name: "ManagementAccount"}, 
+    {path: "/management-user", component: ManagementUser, name: "ManagementUser"}, 
     // {path: "/category/provider", component: ProviderList, name: "ProviderListRouter"},
     // {
     //     path: "/cash", 

@@ -34,6 +34,10 @@ builder.Services.AddScoped<IClassesBL, ClassesBL>();
 builder.Services.AddScoped<IClassesDL, ClassesDL>();
 builder.Services.AddScoped<ISubjectBL, SubjectBL>();
 builder.Services.AddScoped<ISubjectDL, SubjectDL>();
+builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddScoped<IUserDL, UserDL>();
+builder.Services.AddScoped<IRoleBL, RoleBL>();
+builder.Services.AddScoped<IRoleDL, RoleDL>();
 
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
 

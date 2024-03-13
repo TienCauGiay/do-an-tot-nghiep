@@ -57,6 +57,36 @@
         width: 100%;
     }
 }
+
+#detail-info-user {
+    height: 60%;
+    background-color: white;
+    z-index: 8888;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+  
+/* Media query cho màn hình có chiều rộng 1280px trở lên */
+@media (min-width: 1280px) {
+    #detail-info-user {
+        width: 45%;
+    }
+}
+  
+/* Media query cho màn hình có chiều rộng nhỏ hơn 1280px và lớn hơn 1024px */
+@media (max-width: 1279px) and (min-width: 1025px) {
+    #detail-info-user {
+        width: calc(100% - 400px); /* width giảm dần từ 70% tới 100% */
+    }
+}
+  
+/* Media query cho màn hình có chiều rộng nhỏ hơn hoặc bằng 1024px */
+@media (max-width: 1024px) {
+    #detail-info-user {
+        width: 100%;
+    }
+}
   
 .container-overlay{
     background-color: rgba(41, 37, 37, 0.781);

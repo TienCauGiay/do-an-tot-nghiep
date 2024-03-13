@@ -1489,11 +1489,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.API\\BE.DATN.API.csproj",
+      "projectUniqueName": "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.API\\BE.DATN.API.csproj",
       "projectName": "BE.DATN.API",
-      "projectPath": "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.API\\BE.DATN.API.csproj",
+      "projectPath": "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.API\\BE.DATN.API.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.API\\obj\\",
+      "outputPath": "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1510,11 +1510,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.BL\\BE.DATN.BL.csproj": {
-              "projectPath": "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.BL\\BE.DATN.BL.csproj"
+            "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.BL\\BE.DATN.BL.csproj": {
+              "projectPath": "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.BL\\BE.DATN.BL.csproj"
             },
-            "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.DL\\BE.DATN.DL.csproj": {
-              "projectPath": "D:\\oke\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.DL\\BE.DATN.DL.csproj"
+            "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.DL\\BE.DATN.DL.csproj": {
+              "projectPath": "F:\\DHGTVT\\do-an-tot-nghiep\\BackEnd\\BE.DATN\\BE.DATN.DL\\BE.DATN.DL.csproj"
             }
           }
         }
