@@ -85,10 +85,17 @@ const MSResource = {
             EvaluateState: "TRẠNG THÁI", 
             Feature: "CHỨC NĂNG"
         },
+        User_Column:{
+            UserName: "TÊN ĐĂNG NHẬP",
+            RoleName: "QUYỀN TRUY CẬP",
+            Status: "TRẠNG THÁI",
+            Feature: "CHỨC NĂNG"
+        },
         TEXT_CONTENT:{
             ManagementStudent: "Quản lí sinh viên",
             ManagementTeacher: "Quản lí giảng viên",
             ManagementScore: "Quản lí điểm",
+            ManagementUser: "Danh sách tài khoản",
             FILE_NAME: "Danh_sach_nhan_vien",
             NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC KEVIN",
             NAME_ACCOUNT_LOGIN: "Bùi Ngọc Tiến",
@@ -99,7 +106,7 @@ const MSResource = {
                 ManagementTeacher: "Quản lí giảng viên",
                 ManagementScore: "Quản lí điểm",
                 Statistic: "Báo cáo thống kê",
-                ManagementAccount: "Quản lí tài khoản",
+                ManagementUser: "Quản lí tài khoản",
             },
             EMPLOYEE: "Nhân viên",
             ALL_CATEGORY: "Tất cả danh mục",
@@ -141,7 +148,9 @@ const MSResource = {
             },
             FUNCTION: "function",
             titleDialogSystemError: "Lỗi hệ thống!!!",
-            contentDialogSystemError: "Vui lòng liên hệ Buif  để được trợ giúp."
+            contentDialogSystemError: "Vui lòng liên hệ Buif  để được trợ giúp.",
+            resetPassWork: "Lấy lại mật khẩu" ,
+            resetPassWorkSuccess: "Lấy lại mật khẩu thành công" ,
         },
         FORM:{
             AddStudent:"Thêm sinh viên",
@@ -172,6 +181,14 @@ const MSResource = {
             ScoreTest: "Điểm kiểm tra",
             ScoreExam: "Điểm thi",
             ScoreAverage: "Điểm trung bình",
+            AddUser: "Thêm tài khoản",
+            UpdateUser: "Cập nhật thông tin tài khoản",
+            Role: "Quyền truy cập",
+            UserName: "Tên đăng nhập",
+            PlaceholderRole: "Phân quyền",
+            Status: "Trạng thái hoạt động",
+            Active: "Hoạt động",
+            InActive: "Ngưng sử dụng",
         },
         DIALOG:{
             TITLE:{

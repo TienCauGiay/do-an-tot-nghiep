@@ -591,7 +591,7 @@ export default {
           try {
             let scoreCreate = this.convertScore();
             // Nếu mã nhân viên chưa tồn tại trong hệ thống
-            const res = await teacherService.create(scoreCreate);
+            const res = await scoreService.create(scoreCreate);
             if (
               res &&
               res.data &&
@@ -621,7 +621,7 @@ export default {
           } else {
             try {
               let scoreUpdate = this.convertScore();
-              const res = await teacherService.update(scoreUpdate);
+              const res = await scoreService.update(scoreUpdate);
               this.teacher = {};
               this.$_MSEmitter.emit("setFormModeAdd");
               this.focusCode();

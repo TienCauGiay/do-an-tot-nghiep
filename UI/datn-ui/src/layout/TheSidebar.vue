@@ -32,9 +32,9 @@
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link to="/management-account" class="menu-item-a">
+          <router-link to="/management-user" class="menu-item-a">
             <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementAccount }}</span>
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementUser }}</span>
           </router-link>
         </li>
       </ul>

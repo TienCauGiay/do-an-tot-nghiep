@@ -25,14 +25,14 @@ namespace BE.DATN.DL.Repository
 
         public async Task<List<TEntity>?> GetAllAsync()
         {
-            var selectQuery = $"SELECT * FROM {tableName}";
+            var selectQuery = $"SELECT * FROM public.{tableName}";
             var result = await _unitOfWork.Connection.QueryAsync<TEntity>(selectQuery, null, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
             return (List<TEntity>?)result;
         }
 
         public async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            var selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_id = @Id";
+            var selectQuery = $"SELECT * FROM public.{tableName} WHERE {tableName}_id = @Id";
 
             var parameters = new { Id = id };
 
@@ -43,7 +43,7 @@ namespace BE.DATN.DL.Repository
 
         public async Task<TEntity?> GetByCodeAsync(string code)
         {
-            var selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_code = @Code";
+            var selectQuery = $"SELECT * FROM public.{tableName} WHERE {tableName}_code = @Code";
 
             var parameters = new { Code = code };
 
@@ -83,7 +83,7 @@ namespace BE.DATN.DL.Repository
             propertyNames = propertyNames.TrimEnd(',', ' ');
             parameterNames = parameterNames.TrimEnd(',', ' ');
 
-            var insertQuery = $"INSERT INTO {tableName} ({propertyNames}) VALUES ({parameterNames})";
+            var insertQuery = $"INSERT INTO public.{tableName} ({propertyNames}) VALUES ({parameterNames})";
 
             var result = await _unitOfWork.Connection.ExecuteAsync(insertQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
 
@@ -99,7 +99,7 @@ namespace BE.DATN.DL.Repository
             foreach (var entity in entities)
             {
                 var notNullProps = entity.GetType().GetProperties().Where(prop => prop.GetValue(entity) != null);
-                query += $"INSERT INTO {tableName} (";
+                query += $"INSERT INTO public.{tableName} (";
                 query += string.Join(", ", notNullProps.Select(prop => prop.Name));
                 query += ") Values (";
                 query += string.Join(", ", notNullProps.Select(prop => $"@{prop.Name}_{index}"));
@@ -121,7 +121,7 @@ namespace BE.DATN.DL.Repository
         public async Task<int> UpdateAsync(TEntity entity)
         {
             var parameters = new DynamicParameters();
-            var updateQuery = $"UPDATE {tableName} SET ";
+            var updateQuery = $"UPDATE public.{tableName} SET ";
 
             foreach (var prop in entity.GetType().GetProperties())
             {
@@ -163,7 +163,7 @@ namespace BE.DATN.DL.Repository
             {
                 var notNullProps = entity.GetType().GetProperties().Where(prop => prop.GetValue(entity) != null);
 
-                queryBuilder.Append($"UPDATE {tableName} SET ");
+                queryBuilder.Append($"UPDATE public.{tableName} SET ");
                 queryBuilder.Append(string.Join(", ", notNullProps.Select(prop => $"{prop.Name} = @{prop.Name}_{index}")));
 
                 // Assuming you have a key property named "Id"
@@ -186,7 +186,7 @@ namespace BE.DATN.DL.Repository
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            var deleteQuery = $"DELETE FROM {tableName} WHERE {tableName}_id = @Id";
+            var deleteQuery = $"DELETE FROM public.{tableName} WHERE {tableName}_id = @Id";
             var parameters = new { Id = id };
             var result = await _unitOfWork.Connection.ExecuteAsync(deleteQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
 
@@ -202,7 +202,7 @@ namespace BE.DATN.DL.Repository
             }
 
             string idParameters = string.Join(", ", parameters.ParameterNames.Select(p => $"@{p}"));
-            string query = $"DELETE FROM {tableName} WHERE {tableName}_id IN ({idParameters})";
+            string query = $"DELETE FROM public.{tableName} WHERE {tableName}_id IN ({idParameters})";
 
             var result = await _unitOfWork.Connection.ExecuteAsync(query, parameters, _unitOfWork.Transaction);
             return result;
@@ -210,7 +210,7 @@ namespace BE.DATN.DL.Repository
 
         public virtual async Task<List<TEntity>?> SearchAsync(string textSearch)
         { 
-            var selectQuery = $"SELECT * FROM {tableName} WHERE {tableName}_name ILIKE @TextSearch"; 
+            var selectQuery = $"SELECT * FROM public.{tableName} WHERE {tableName}_name ILIKE @TextSearch"; 
 
             var parameters = new { TextSearch = $"%{textSearch}%" };
 
