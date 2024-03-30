@@ -29,7 +29,7 @@ namespace BE.DATN.DL.Repository
 
             using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
                 "select * from func_get_filter_paging_teacher(:p_limit, :p_offset, :p_text_search); " +
-                "select count(tc.teacher_id) from teacher tc left join subject sb on tc.subject_id = sb.subject_id where tc.teacher_code ilike '%' || :p_text_search || '%' or tc.teacher_name ilike '%' || :p_text_search || '%';",
+                "select count(tc.teacher_id) from teacher tc left join faculty f on tc.faculty_id = f.faculty_id where tc.teacher_code ilike '%' || :p_text_search || '%' or tc.teacher_name ilike '%' || :p_text_search || '%';",
                 parameters,
                 commandType: CommandType.Text,
                 transaction: _unitOfWork.Transaction))

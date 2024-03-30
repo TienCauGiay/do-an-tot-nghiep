@@ -68,12 +68,12 @@
               <th class="e-fullname">
                 {{ this.$_MSResource[this.$_LANG_CODE].Teacher_Column.TeacherName }}
               </th>
-              <th class="e-id">
+              <!-- <th class="e-id">
                 {{ this.$_MSResource[this.$_LANG_CODE].Teacher_Column.SubjectCode }}
               </th>
               <th class="e-fullname">
                 {{ this.$_MSResource[this.$_LANG_CODE].Teacher_Column.SubjectName }}
-              </th>
+              </th> -->
               <th class="e-gender-table">
                 {{ this.$_MSResource[this.$_LANG_CODE].Teacher_Column.Gender }}
               </th>
@@ -118,12 +118,12 @@
               <td class="e-fullname" :title="item.teacher_name">
                 {{ item.teacher_name }}
               </td>
-              <td class="e-id" :title="item.subject_code">
+              <!-- <td class="e-id" :title="item.subject_code">
                 {{ item.subject_code }}
               </td>
               <td class="e-fullname" :title="item.subject_name">
                 {{ item.subject_name }}
-              </td>
+              </td> -->
               <td class="e-gender-table">
                 {{ item.gender }}
               </td>
@@ -258,7 +258,7 @@
 
 <script>
 import TeacherDetail from "./TeacherDetail.vue";
-import helperCommon from "@/scripts/helper.js";
+import helperCommon from "@/helpers/helper.js";
 import teacherService from "@/services/teacher.js";
 
 export default {

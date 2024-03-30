@@ -10,7 +10,7 @@ namespace BE.DATN.BL.Models.Teacher
     public class teacher : BaseModel
     {
         public Guid teacher_id { get; set; }
-        public Guid subject_id { get; set; }
+        public Guid faculty_id { get; set; }
         public string teacher_code { get; set; }
         public string teacher_name { get; set; }
         public DateTime? birthday { get; set; }

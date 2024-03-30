@@ -27,6 +27,6 @@ namespace BE.DATN.API.Controllers
         {
             var res = await _userBL.ResetPassWorkAsync(user_id);
             return Ok(res); 
-        }
+        } 
     }
 }

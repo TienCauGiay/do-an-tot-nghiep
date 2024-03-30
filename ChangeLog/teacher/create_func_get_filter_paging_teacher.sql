@@ -1,20 +1,7 @@
-CREATE OR REPLACE FUNCTION func_get_filter_paging_teacher(p_limit int, p_offset int, p_text_search text)
-RETURNS TABLE 
-(
-teacher_id uuid,
-teacher_code text,
-teacher_name text,
-subject_id uuid,
-subject_code text,
-subject_name text,
-birthday date,
-gender text,
-address text,
-phone_number text,
-email text
-)
-AS
-$$
+CREATE OR REPLACE FUNCTION public.func_get_filter_paging_teacher(p_limit integer, p_offset integer, p_text_search text)
+ RETURNS TABLE(teacher_id uuid, teacher_code text, teacher_name text, faculty_id uuid, faculty_code text, faculty_name text, birthday date, gender text, address text, phone_number text, email text)
+ LANGUAGE plpgsql
+AS $function$
 DECLARE  
 begin
 	/**
@@ -26,9 +13,9 @@ begin
 		teacher_id uuid,
 		teacher_code text,
 		teacher_name text,
-		subject_id uuid,
-		subject_code text,
-		subject_name text,
+		faculty_id uuid,
+		faculty_code text,
+		faculty_name text,
 		birthday date,
 		gender text,
 		address text,
@@ -41,16 +28,16 @@ begin
 		tc.teacher_id,
 		tc.teacher_code,
 		tc.teacher_name,
-		tc.subject_id,
-		sb.subject_code, 
-		sb.subject_name,
+		tc.faculty_id,
+		f.faculty_code, 
+		f.faculty_name,
 		tc.birthday,
 		tc.gender,
 		tc.address,
 		tc.phone_number,
 		tc.email
 	from teacher tc
-	left join subject sb on tc.subject_id = sb.subject_id 
+	left join faculty f on tc.faculty_id = f.faculty_id 
 	where 
 		tc.teacher_code ilike '%' || p_text_search || '%'
 		or tc.teacher_name ilike '%' || p_text_search || '%'
@@ -61,5 +48,5 @@ begin
 	
 	RETURN QUERY select * from tmp_result;
 END;
-$$
-LANGUAGE plpgsql;
+$function$
+;
