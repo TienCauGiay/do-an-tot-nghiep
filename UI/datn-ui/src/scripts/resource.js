@@ -171,6 +171,8 @@ const MSResource = {
             TeacherName: "Tên giảng viên",
             Subject: "Môn giảng dạy",
             PlaceholderSubject:"-- Chọn môn --", 
+            Faculty: "Khoa",
+            PlaceholderFaculty:"-- Chọn khoa --", 
             AddScore: "Nhập điểm",
             UpdateScore: "Sửa điểm",
             Student: "Sinh viên",

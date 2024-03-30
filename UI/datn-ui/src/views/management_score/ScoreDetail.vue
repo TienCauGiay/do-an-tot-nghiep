@@ -154,7 +154,7 @@
 import teacherService from "@/services/teacher.js";
 import studentService from "@/services/student.js";
 import scoreService from "@/services/score.js";
-import helperCommon from "@/scripts/helper.js";
+import helperCommon from "@/helpers/helper.js";
 
 export default {
   name: "ScoreDetail",

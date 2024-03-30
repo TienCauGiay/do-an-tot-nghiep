@@ -2,6 +2,7 @@
 using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Interfaces.UnitOfWork;
+using BE.DATN.BL.Models.ClassRegistration;
 using BE.DATN.BL.Models.Response;
 using BE.DATN.BL.Models.Score;
 using BE.DATN.BL.Models.Student;
@@ -27,12 +28,16 @@ namespace BE.DATN.BL.Services
 
         private readonly ITeacherDL _teacherDL;
 
-        public ScoreBL(IScoreDL scoreDL, IUnitOfWork unitOfWork, IStudentDL studentDL, ITeacherDL teacherDL) : base(scoreDL, unitOfWork)
+        private readonly IClassRegistrationDL _classRegistrationDL;
+
+        public ScoreBL(IScoreDL scoreDL, IUnitOfWork unitOfWork, IStudentDL studentDL, ITeacherDL teacherDL,
+            IClassRegistrationDL classRegistrationDL) : base(scoreDL, unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _scoreDL = scoreDL;
             _studentDL = studentDL;
             _teacherDL = teacherDL;
+            _classRegistrationDL = classRegistrationDL;
         }
 
         protected override void ValidateBusiness(score entity, ModelState state)
@@ -133,22 +138,25 @@ namespace BE.DATN.BL.Services
                             score_id = Guid.NewGuid(),
                             student_code = worksheet.Cells[row, 1].Value.ToString(),
                             teacher_code = worksheet.Cells[row, 2].Value.ToString(),
-                            score_attendance = float.Parse(worksheet.Cells[row, 3].Value.ToString()),
-                            score_test = float.Parse(worksheet.Cells[row, 4].Value.ToString()),
-                            score_exam = float.Parse(worksheet.Cells[row, 5].Value.ToString())
+                            class_registration_code = worksheet.Cells[row, 3].Value.ToString(),
+                            score_attendance = float.Parse(worksheet.Cells[row, 4].Value.ToString()),
+                            score_test = float.Parse(worksheet.Cells[row, 5].Value.ToString()),
+                            score_exam = float.Parse(worksheet.Cells[row, 6].Value.ToString())
                         };
 
                         listScoreImport.Add(scoreRow);
                     }
                     if (listScoreImport != null && listScoreImport.Count > 0)
                     {
-                        var teacherFirst = listScoreImport[0];
+                        var scoreImportFirst = listScoreImport[0];
                         // Lấy student_id và teacher_id theo student_code và teacher_code 
                         var teacherByCode = new teacher();
-                        if (teacherFirst != null)
+                        var classRegistrationByCode = new class_registration();
+                        if (scoreImportFirst != null)
                         {
-                            teacherByCode = await _teacherDL.GetByCodeAsync(teacherFirst.teacher_code);
-                        }
+                            teacherByCode = await _teacherDL.GetByCodeAsync(scoreImportFirst.teacher_code);
+                            classRegistrationByCode = await _classRegistrationDL.GetByCodeAsync(scoreImportFirst.class_registration_code);
+                        } 
 
                         var listStudentByCode = await _studentDL.GetByListCodeAsync(listScoreImport.Select(x => x.student_code).ToList());
 
@@ -174,6 +182,19 @@ namespace BE.DATN.BL.Services
                                 (
                                     StatusCodes.Status400BadRequest,
                                     "Mã giảng viên không tồn tại trong hệ thống",
+                                    new Object()
+                                );
+                            }
+                            if (classRegistrationByCode != null)
+                            {
+                                scoreItemSave.class_registration_id = classRegistrationByCode.class_registration_id;
+                            }
+                            else
+                            {
+                                return new ReponseService
+                                (
+                                    StatusCodes.Status400BadRequest,
+                                    "Mã lớp học phần không tồn tại trong hệ thống",
                                     new Object()
                                 );
                             }

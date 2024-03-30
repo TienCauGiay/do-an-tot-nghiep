@@ -43,7 +43,7 @@ namespace BE.DATN.DL.Repository
 
             using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
                 "select * from public.func_get_filter_paging_score(:p_limit, :p_offset, :p_text_search); " +
-                "select count(sc.score_id) from score sc left join student st on sc.student_id = st.student_id left join teacher tc on sc.teacher_id = tc.teacher_id left join subject sb on tc.subject_id = sb.subject_id where st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%' or tc.teacher_code ilike '%' || :p_text_search || '%' or tc.teacher_name ilike '%' || :p_text_search || '%' or sb.subject_code ilike '%' || :p_text_search || '%' or sb.subject_name ilike '%' || :p_text_search || '%';",
+                "select count(sc.score_id) from score sc inner join student st on sc.student_id = st.student_id inner join teacher tc on sc.teacher_id = tc.teacher_id inner join class_registration cr on sc.class_registration_id = cr.class_registration_id inner join subject sb on cr.subject_id = sb.subject_id where st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%' or tc.teacher_code ilike '%' || :p_text_search || '%' or tc.teacher_name ilike '%' || :p_text_search || '%' or sb.subject_code ilike '%' || :p_text_search || '%' or sb.subject_name ilike '%' || :p_text_search || '%';",
                 parameters,
                 commandType: CommandType.Text,
                 transaction: _unitOfWork.Transaction))

@@ -12,6 +12,7 @@ namespace BE.DATN.BL.Models.Score
         public Guid score_id { get; set; }
         public Guid student_id { get; set; }
         public Guid teacher_id { get; set; }
+        public Guid class_registration_id { get; set; }
         public float score_attendance { get; set; }
         public float score_test { get; set; }
         public float score_exam { get; set; }

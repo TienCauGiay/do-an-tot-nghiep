@@ -98,7 +98,7 @@
 <script>
 import roleService from "@/services/role.js";
 import userService from "@/services/user.js";
-import helperCommon from "@/scripts/helper.js";
+import helperCommon from "@/helpers/helper.js";
 
 export default {
   name: "UserDetail",

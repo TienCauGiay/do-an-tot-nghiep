@@ -122,19 +122,19 @@
           </div>
         </div>
         <div class="half-content">
-          <div class="col-md-l" style="position: relative" ref="MenuItemSubject">
+          <div class="col-md-l" style="position: relative" ref="MenuItemFaculty">
             <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.Subject }}
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.Faculty }}
               <span class="s-require">*</span>
             </label>
             <ms-combobox
               :isBorderRedCBB="isBorderRed"
               :entityCBB="teacher"
               :errorsCBB="errors"
-              :listEntitySearchCBB="listSubjectSearch"
-              :propName="'subject_name'"
-              :propId="'subject_id'"
-              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderSubject"
+              :listEntitySearchCBB="listFacultySearch"
+              :propName="'faculty_name'"
+              :propId="'faculty_id'"
+              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderFaculty"
             ></ms-combobox>
           </div>
         </div>
@@ -227,8 +227,8 @@
 
 <script>
 import teacherService from "@/services/teacher.js";
-import subjectService from "@/services/subject.js";
-import helperCommon from "@/scripts/helper.js";
+import facultyService from "@/services/faculty.js";
+import helperCommon from "@/helpers/helper.js";
 
 export default {
   name: "TeacherDetail",
@@ -257,15 +257,15 @@ export default {
     });
 
     this.$_MSEmitter.on("onSelectedEntityCBB", (data) => {
-      this.onSelectedSubject(data);
+      this.onSelectedFaculty(data);
     });
     this.$_MSEmitter.on("onSearchChangeCBB", (newValue) => {
       this.onSearchChange(newValue);
     });
     this.$_MSEmitter.on("onKeyDownEntityCBB", (index) => {
-      this.teacher.subject_name = this.listSubjectSearch[index].subject_name;
-      this.teacher.subject_id = this.listSubjectSearch[index].subject_id;
-      this.isBorderRed.subject_name = false;
+      this.teacher.faculty_name = this.listFacultySearch[index].faculty_name;
+      this.teacher.faculty_id = this.listFacultySearch[index].faculty_id;
+      this.isBorderRed.faculty_name = false;
     });
   },
 
@@ -284,8 +284,8 @@ export default {
         "teacher_name",
         "gender",
         "birthday",
-        "subject_id",
-        "subject_name",
+        "faculty_id",
+        "faculty_name",
         "address",
         "phone_number",
         "email",
@@ -293,7 +293,7 @@ export default {
       // Khai báo đối tượng teacher
       teacher: {},
       // Khai báo danh sách đơn vị tìm kiếm
-      listSubjectSearch: [],
+      listFacultySearch: [],
       // Khai báo trạng thái hiển thị của dialog cảnh báo dữ liệu k được để trống
       isShowDialogDataNotNull: false,
       // Khai báo biến xác định nội dung trường nào k được để trống
@@ -340,14 +340,14 @@ export default {
 
   methods: {
     /**
-     * Mô tả: Hàm lấy danh sách subject từ api
+     * Mô tả: Hàm lấy danh sách faculty từ api
      * created by : BNTIEN
      * created date: 29-05-2023 07:56:10
      */
-    async getListSubject() {
+    async getListFaculty() {
       try {
-        const res = await subjectService.search("");
-        this.listSubjectSearch = res.data.Data;
+        const res = await facultyService.search("");
+        this.listFacultySearch = res.data.Data;
       } catch {
         return;
       }
@@ -359,7 +359,7 @@ export default {
      */
     async loadData() {
       try {
-        await this.getListSubject();
+        await this.getListFaculty();
         // Nếu form ở trạng thái thêm mới
         // Chuyển đối tượng sang chuỗi json
         let res = JSON.stringify(this.teacherSelected);
@@ -386,24 +386,24 @@ export default {
     },
 
     /**
-     * Mô tả: Lắng nghe sự thay đổi text trong input search subject và tìm kiếm trong combobox
+     * Mô tả: Lắng nghe sự thay đổi text trong input search faculty và tìm kiếm trong combobox
      * created by : BNTIEN
      * created date: 06-06-2023 22:31:16
      */
     async onSearchChange(newValue) {
-      this.isBorderRed.subject_name = false;
-      this.isBorderRed.subject_id = false;
+      this.isBorderRed.faculty_name = false;
+      this.isBorderRed.faculty_id = false;
       try {
         // Xóa bỏ timeout trước đó nếu có
         clearTimeout(this.searchTimeout);
-        this.teacher.subject_name = newValue;
-        delete this.teacher.subject_id;
+        this.teacher.faculty_name = newValue;
+        delete this.teacher.faculty_id;
         if (!newValue.trim()) {
           newValue = "";
         }
         this.searchTimeout = setTimeout(async () => {
-          const newListSubject = await subjectService.search(newValue);
-          this.listSubjectSearch = newListSubject.data.Data;
+          const newListFaculty = await facultyService.search(newValue);
+          this.listFacultySearch = newListFaculty.data.Data;
         }, 500);
       } catch {
         return;
@@ -437,10 +437,10 @@ export default {
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
-    onSelectedSubject(subject) {
-      this.teacher.subject_name = subject.subject_name;
-      this.teacher.subject_id = subject.subject_id;
-      this.isBorderRed.subject_name = false;
+    onSelectedFaculty(faculty) {
+      this.teacher.faculty_name = faculty.faculty_name;
+      this.teacher.faculty_id = faculty.faculty_id;
+      this.isBorderRed.faculty_name = false;
     },
     /**
      * Mô tả: Hàm set các lỗi nhập liệu phía fontend
@@ -492,9 +492,9 @@ export default {
                 this.setErrorMaxLength(refInput);
               }
               break;
-            case "subject_id":
+            case "faculty_id":
               break;
-            case "subject_name":
+            case "faculty_name":
               if (helperCommon.isEmptyInput(this.teacher[refInput])) {
                 this.setError(refInput);
               }
@@ -755,14 +755,14 @@ export default {
           listPropError.push(key);
         }
       }
-      // thêm thuộc tính subject_name vào listPropError để xử lí focus nếu chưa có
-      if (listPropError.includes("subject_id") && !listPropError.includes("subject_name")) {
-        listPropError.push("subject_name");
+      // thêm thuộc tính faculty_name vào listPropError để xử lí focus nếu chưa có
+      if (listPropError.includes("faculty_id") && !listPropError.includes("faculty_name")) {
+        listPropError.push("faculty_name");
       }
       for (const prop of this.teacherProperty) {
         if (listPropError.includes(prop)) {
           // đợi DOM cập nhật trước khi thực thi focus
-          if (prop === "subject_id" || prop === "subject_name") {
+          if (prop === "faculty_id" || prop === "faculty_name") {
             this.$nextTick(() => {
               this.$_MSEmitter.emit("focusInputCBB");
             });

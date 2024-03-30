@@ -260,7 +260,7 @@
 </template>
 <script>
 import ScoreDetail from "./ScoreDetail.vue";
-import helperCommon from "@/scripts/helper.js";
+import helperCommon from "@/helpers/helper.js";
 import scoreService from "@/services/score.js";
 
 export default {

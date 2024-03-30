@@ -17,6 +17,8 @@ namespace BE.DATN.BL.Models.Score
         public string student_name { get; set;}
         public string teacher_code { get; set; }
         public string teacher_name { get;set; }
+        public string class_registration_code { get; set; }
+        public string class_registration_name { get; set; }
         public EvaluateState evaluate_state { get; set; }
         public string evaluate_state_name 
         { 

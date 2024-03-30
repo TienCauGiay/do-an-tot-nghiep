@@ -57,27 +57,6 @@ create table subject(
 );
 
 /**
- * Table thông tin giảng viên
- */
-create table teacher(
-	teacher_id uuid primary key,
-	subject_id uuid not null,
-	teacher_code text,
-	teacher_name text,
-	birthday date,
-	gender text,
-	address text,
-	phone_number text,
-	email text,
-	image text,
-	created_by text,
-	created_date date,
-	modified_by text,
-	modified_date date,
-	CONSTRAINT fk_teacher_subject FOREIGN KEY(subject_id) REFERENCES subject(subject_id)
-);
-
-/**
  * Table thông tin khoa
  */
 create table faculty(
@@ -129,12 +108,49 @@ create table student(
 );
 
 /**
- * Table thông tin điểm số
+ * Table thông tin giảng viên
+ */
+create table teacher(
+	teacher_id uuid primary key,
+	faculty_id uuid not null,
+	teacher_code text,
+	teacher_name text,
+	birthday date,
+	gender text,
+	address text,
+	phone_number text,
+	email text,
+	image text,
+	created_by text,
+	created_date date,
+	modified_by text,
+	modified_date date,
+	CONSTRAINT fk_teacher_faculty FOREIGN KEY(faculty_id) REFERENCES faculty(faculty_id)
+);
+
+/**
+ * Table Lớp học phần
+ */
+create table class_registration(
+	class_registration_id uuid primary key,
+	subject_id uuid not null,
+	class_registration_code text,
+	class_registration_name text,
+	created_by text,
+	created_date date,
+	modified_by text,
+	modified_date date, 
+	CONSTRAINT fk_class_registration_subject FOREIGN KEY(subject_id) REFERENCES subject(subject_id)
+);
+
+/**
+ * Table Thông tin điểm số
  */
 create table score(
 	score_id uuid primary key,
 	student_id uuid not null,
 	teacher_id uuid not null,
+	class_registration_id uuid not null,
 	score_attendance  float,
 	score_test float,
 	score_exam float,
@@ -144,8 +160,9 @@ create table score(
 	modified_by text,
 	modified_date date,
 	CONSTRAINT fk_score_student FOREIGN KEY(student_id) REFERENCES student(student_id),
-	CONSTRAINT fk_score_teacher FOREIGN KEY(teacher_id) REFERENCES teacher(teacher_id)
-);
+	CONSTRAINT fk_score_teacher FOREIGN KEY(teacher_id) REFERENCES teacher(teacher_id),
+	CONSTRAINT fk_score_class_registration FOREIGN KEY(class_registration_id) REFERENCES class_registration(class_registration_id)
+); 
 
 INSERT into "role" VALUES 
 ('70ca8ff8-1a05-4e17-808a-693601d9f291', N'admin', N'Quản trị viên', 'Bùi Ngọc Tiến', now(), '', now()),

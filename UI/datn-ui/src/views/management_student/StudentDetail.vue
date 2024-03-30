@@ -228,7 +228,7 @@
 <script>
 import studentService from "@/services/student.js";
 import classService from "@/services/classes.js";
-import helperCommon from "@/scripts/helper.js";
+import helperCommon from "@/helpers/helper.js";
 
 export default {
   name: "StudentDetail",
