@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BE.DATN.BL.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,9 @@ namespace BE.DATN.BL.Models.User
 {
     public class login
     {
-        public string user_name;
+        public Guid user_id;
+        public string user_name ;
         public string pass_word;
-        public int role_code;
+        public EnumPermission role_code;
     }
 }

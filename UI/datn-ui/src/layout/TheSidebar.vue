@@ -7,36 +7,14 @@
     </div>
     <div class="menu">
       <ul class="nav">
-        <li class="menu-item">
-          <router-link to="/management-student" class="menu-item-a">
-            <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementStudent }}</span>
-          </router-link>
-        </li>
-        <li class="menu-item">
-          <router-link to="/management-teacher" class="menu-item-a">
-            <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementTeacher }}</span>
-          </router-link>
-        </li>
-        <li class="menu-item">
-          <router-link to="/management-score" class="menu-item-a">
-            <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementScore }}</span>
-          </router-link>
-        </li>
-        <li class="menu-item">
-          <router-link to="/statistic" class="menu-item-a">
-            <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.Statistic }}</span>
-          </router-link>
-        </li>
-        <li class="menu-item">
-          <router-link to="/management-user" class="menu-item-a">
-            <!-- <i class="icon-tb cash-icon"></i> -->
-            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR.ManagementUser }}</span>
-          </router-link>
-        </li>
+        <template v-for="(item, index) in listSidebar" :key="index">
+          <li class="menu-item">
+            <router-link :to="item.Link" class="menu-item-a">
+              <!-- <i class="icon-tb cash-icon"></i> -->
+              <span>{{ item.Text }}</span>
+            </router-link>
+          </li>
+        </template>
       </ul>
     </div>
   </div>
@@ -45,6 +23,20 @@
 <script>
 export default {
   name: "TheSidebar",
+
+  data() {
+    return {
+      permission: parseInt(sessionStorage.getItem("permission")),
+      listSidebar: [],
+    };
+  },
+
+  created() {
+    let listAllSideBar = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ITEM_SIDEBAR;
+    if (listAllSideBar) {
+      this.listSidebar = listAllSideBar.filter((x) => x.Permission.includes(this.permission));
+    }
+  },
 };
 </script>
 

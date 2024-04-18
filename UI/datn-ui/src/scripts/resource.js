@@ -101,15 +101,36 @@ const MSResource = {
             FILE_NAME: "Danh_sach_nhan_vien",
             NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC KEVIN",
             NAME_ACCOUNT_LOGIN: "Bùi Ngọc Tiến",
+            LOGOUT: "Đăng xuất",
             ACCOUNTANT: "TRANG CHỦ",
             NO_DATA: "Không có dữ liệu",
-            ITEM_SIDEBAR:{
-                ManagementStudent: "Quản lí sinh viên",
-                ManagementTeacher: "Quản lí giảng viên",
-                ManagementScore: "Quản lí điểm",
-                Statistic: "Báo cáo thống kê",
-                ManagementUser: "Quản lí tài khoản",
-            },
+            ITEM_SIDEBAR: [ 
+                {
+                    Text: "Quản lí sinh viên",
+                    Link: "/management-student",
+                    Permission: [1], 
+                },
+                {
+                    Text: "Quản lí giảng viên",
+                    Link: "/management-teacher",
+                    Permission: [1], 
+                },
+                {
+                    Text: "Tra cứu điểm",
+                    Link: "/management-score",
+                    Permission: [1, 2, 3], 
+                },
+                {
+                    Text: "Báo cáo thống kê",
+                    Link: "/statistic",
+                    Permission: [1, 2, 3], 
+                },
+                {
+                    Text: "Quản lí tài khoản",
+                    Link: "/management-user",
+                    Permission: [1], 
+                }
+            ],
             EMPLOYEE: "Nhân viên",
             ALL_CATEGORY: "Tất cả danh mục",
             UTILITIES: "Tiện ích",

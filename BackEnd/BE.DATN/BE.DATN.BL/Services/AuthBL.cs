@@ -1,4 +1,5 @@
 ﻿using BE.DATN.BL.Common;
+using BE.DATN.BL.Enums;
 using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Models.Response;
@@ -30,29 +31,29 @@ namespace BE.DATN.BL.Services
 
             try
             {
-
                 // Kiểm tra xác thực người dùng bằng user_name và pass_word
                 var userLogin = await _userDL.CheckLoginAsync(userName, passWord);
                 if (userLogin == null)
                 {
                     return new ReponseLogin(StatusCodes.Status400BadRequest,
                         "Tên đăng nhập hoặc mật khẩu không đúng.",
-                        "");
+                        "",
+                        EnumPermission.None);
                 }
 
                 // Tạo claims cho user
-                var claims = new[]
-                {
-                    new Claim("user_name", userLogin.user_name),
-                    new Claim("pass_work", userLogin.pass_word),
-                    new Claim("role_code", userLogin.role_code.ToString())
-                };
+                var claims = new List<Claim>
+                    {
+                        new Claim("user_id", userLogin.user_id.ToString()),
+                        new Claim("user_name", userLogin.user_name),
+                        new Claim("role_code", userLogin.role_code.ToString())
+                    };
 
                 // Tạo key từ secret key
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
 
                 // Tạo signing credentials từ key
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); 
 
                 // Tạo token
                 var token = new JwtSecurityToken(
@@ -65,12 +66,14 @@ namespace BE.DATN.BL.Services
 
                 return new ReponseLogin(StatusCodes.Status200OK,
                     "Đăng nhập thành công",
-                    new JwtSecurityTokenHandler().WriteToken(token));
+                    new JwtSecurityTokenHandler().WriteToken(token),
+                    userLogin.role_code);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ReponseLogin();
             }
         }
+
     }
 }
