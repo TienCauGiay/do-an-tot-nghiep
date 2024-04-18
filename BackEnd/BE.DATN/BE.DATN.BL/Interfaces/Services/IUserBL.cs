@@ -11,6 +11,6 @@ namespace BE.DATN.BL.Interfaces.Services
     public interface IUserBL : IBaseBL<user>
     {
         Task<ResponseServiceUser> GetFilterPagingAsync(int limit, int offset, string? textSearch);
-        Task<ReponseService> ResetPassWorkAsync(Guid user_id);
+        Task<ResponseService> ResetPassWorkAsync(Guid user_id);
     }
 }

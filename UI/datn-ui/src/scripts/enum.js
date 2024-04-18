@@ -174,6 +174,13 @@ const MSEnum = {
         // Giảng viên
         Teacher: 3,
     },
+
+    FILTER_OPTION: {
+        // Không xác định
+        None: 0,
+        // Lớp theo học
+        Class: 1, 
+    },
 } 
 
 export default MSEnum;

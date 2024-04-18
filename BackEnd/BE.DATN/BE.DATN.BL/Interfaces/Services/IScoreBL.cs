@@ -12,7 +12,7 @@ namespace BE.DATN.BL.Interfaces.Services
     public interface IScoreBL : IBaseBL<score>
     {
         Task<ResponseServiceScore> GetFilterPagingAsync(int limit, int offset, string? textSearch);
-        Task<ReponseService> GetByStudentIdScoreViewAsync(Guid student_id); 
-        Task<ReponseService> ImportExcelAsync(IFormFile formFile);
+        Task<ResponseService> GetByStudentIdScoreViewAsync(Guid student_id); 
+        Task<ResponseService> ImportExcelAsync(IFormFile formFile);
     }
 }

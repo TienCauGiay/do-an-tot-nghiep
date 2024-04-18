@@ -4,25 +4,27 @@
   </div>
   <div class="content-main-body">
     <div class="content-action">
-      <button
-        :disabled="isDisableExcuteBatch"
-        class="delete-multiple"
-        @click="onShowExcuteBatch"
-        :class="{ 'no-disable': !isDisableExcuteBatch }"
-        ref="DeleteMulti"
-      >
-        <div class="select-function-delete">
-          <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EXCUTE_BATCH }}</span>
-          <div class="delete-multiple-icon">
-            <div class="function-icon-disable"></div>
+      <div class="content-action-left">
+        <button
+          :disabled="isDisableExcuteBatch"
+          class="delete-multiple"
+          @click="onShowExcuteBatch"
+          :class="{ 'no-disable': !isDisableExcuteBatch }"
+          ref="DeleteMulti"
+        >
+          <div class="select-function-delete">
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EXCUTE_BATCH }}</span>
+            <div class="delete-multiple-icon">
+              <div class="function-icon-disable"></div>
+            </div>
           </div>
-        </div>
-        <div class="menu-delete" v-show="isShowMenuExcuteBatch">
-          <div class="menu-item-delete" @click="onShowDialogDeleteMulti">
-            {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
+          <div class="menu-delete" v-show="isShowMenuExcuteBatch">
+            <div class="menu-item-delete" @click="onShowDialogDeleteMulti">
+              {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
+            </div>
           </div>
-        </div>
-      </button>
+        </button>
+      </div>
       <div class="search-entity">
         <input
           type="search"
@@ -43,7 +45,7 @@
         class="excel-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
-      <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div>
+      <!-- <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div> -->
       <div class="insert-data">
         <ms-button-default
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"

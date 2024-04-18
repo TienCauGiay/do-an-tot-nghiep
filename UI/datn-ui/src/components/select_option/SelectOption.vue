@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <div class="a-cbb" id="a-cbb">
+    <div class="a-cbb" :style="customStyle" id="a-cbb">
       <input
         type="text"
         class="a-textfield-cbb"
@@ -8,6 +8,7 @@
         :value="entity[propName]"
         readonly
         @keydown="onKeyDownEntity"
+        :placeholder="placeholderValue"
       />
       <button
         :disabled="isDisabledMenu"
@@ -38,7 +39,16 @@
 export default {
   name: "SelectOption",
 
-  props: ["listData", "propName", "propCode", "isDisabledMenu", "entity", "indexSelect"],
+  props: [
+    "listData",
+    "propName",
+    "propCode",
+    "isDisabledMenu",
+    "entity",
+    "indexSelect",
+    "placeholderValue",
+    "customStyle",
+  ],
 
   mounted() {
     if (this.indexSelect) {

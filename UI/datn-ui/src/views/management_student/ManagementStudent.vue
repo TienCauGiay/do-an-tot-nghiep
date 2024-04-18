@@ -4,25 +4,48 @@
   </div>
   <div class="content-main-body">
     <div class="content-action">
-      <button
-        :disabled="isDisableExcuteBatch"
-        class="delete-multiple"
-        @click="onShowExcuteBatch"
-        :class="{ 'no-disable': !isDisableExcuteBatch }"
-        ref="DeleteMulti"
-      >
-        <div class="select-function-delete">
-          <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EXCUTE_BATCH }}</span>
-          <div class="delete-multiple-icon">
-            <div class="function-icon-disable"></div>
+      <div class="content-action-left">
+        <button
+          :disabled="isDisableExcuteBatch"
+          class="delete-multiple"
+          @click="onShowExcuteBatch"
+          :class="{ 'no-disable': !isDisableExcuteBatch }"
+          ref="DeleteMulti"
+        >
+          <div class="select-function-delete">
+            <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EXCUTE_BATCH }}</span>
+            <div class="delete-multiple-icon">
+              <div class="function-icon-disable"></div>
+            </div>
           </div>
-        </div>
-        <div class="menu-delete" v-show="isShowMenuExcuteBatch">
-          <div class="menu-item-delete" @click="onShowDialogDeleteMulti">
-            {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
+          <div class="menu-delete" v-show="isShowMenuExcuteBatch">
+            <div class="menu-item-delete" @click="onShowDialogDeleteMulti">
+              {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
+            </div>
           </div>
+        </button>
+        <ms-select-option
+          :listData="listOptionFilter"
+          :propCode="'option_code'"
+          :propName="'option_name'"
+          :entity="optionFilter"
+          :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterType"
+          :indexSelect="listOptionFilter.findIndex((obj) => obj.option_code == optionFilter.option_code)"
+        ></ms-select-option>
+        <ms-select-option
+          :listData="listConditionFilter"
+          :propCode="'condition_code'"
+          :propName="'condition_name'"
+          :entity="conditionFilter"
+          :customStyle="'width: 250px;'"
+          :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterCondition"
+          :indexSelect="listConditionFilter.findIndex((obj) => obj.condition_code == conditionFilter.condition_code)"
+          :isDisabledMenu="isDisabledMenuConditionFilter"
+        ></ms-select-option>
+        <div class="delete-filter" @click="deleteFilterCondition">
+          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DeleteFilterCondition }}
         </div>
-      </button>
+      </div>
       <div class="search-entity">
         <input
           type="search"
@@ -43,7 +66,7 @@
         class="excel-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
-      <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div>
+      <!-- <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div> -->
       <div class="insert-data">
         <ms-button-default
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
@@ -297,6 +320,13 @@ export default {
     this.$_MSEmitter.on("closeToastMessage", () => {
       this.btnCloseToastMessage();
     });
+    this.$_MSEmitter.on("onSelectedSelectOption", async (item, propCode) => {
+      if (propCode == "option_code") {
+        await this.handleSelectOptionFilter(item);
+      } else if (propCode == "condition_code") {
+        await this.handleFilterCondition(item);
+      }
+    });
   },
 
   mounted() {
@@ -340,6 +370,7 @@ export default {
       formatDate: helperCommon.formatDate,
       // Khai báo biến lưu nội dung tìm kiếm
       textSearch: "",
+      customFilter: "",
       // Khai báo trang hiện tại trong phân trang
       currentPage: this.$_MSEnum.RECORD.CURRENT_PAGE,
       // Khai báo số trang tối đa hiển thị trong phân trang
@@ -362,6 +393,16 @@ export default {
       selectedStudent: {},
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
+      optionFilter: {},
+      listOptionFilter: [
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.Class,
+          option_name: "Lớp theo học",
+        },
+      ],
+      conditionFilter: {},
+      listConditionFilter: [],
+      isDisabledMenuConditionFilter: true,
     };
   },
 
@@ -451,9 +492,27 @@ export default {
     async getDataStudent() {
       try {
         this.isShowLoading = true;
-        const resfilter = await studentService.getFilter(this.selectedRecord, this.currentPage, "");
+        const resfilter = await studentService.getFilter(this.selectedRecord, this.currentPage, "", "");
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
+      } catch {
+        return;
+      }
+    },
+    /**
+     * Mô tả: Hàm lấy dữ các điều kiện lọc
+     * created by : BNTIEN
+     * created date: 29-05-2023 07:49:20
+     */
+    async getDataOptionFilter(optionFilter) {
+      try {
+        this.isShowLoading = true;
+        const resfilter = await studentService.getOptionFilter(optionFilter);
+        this.isShowLoading = false;
+        if (resfilter && resfilter.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(resfilter.data.Code)) {
+          this.listConditionFilter = resfilter.data.Data;
+          console.log(this.listConditionFilter);
+        }
       } catch {
         return;
       }
@@ -468,7 +527,7 @@ export default {
       this.currentPage = this.$_MSEnum.RECORD.CURRENT_PAGE;
       this.indexSelectedRecord = this.$_MSEnum.RECORD.INDEX_SELECTED_DEFAULT;
       this.textSearch = "";
-      await this.getDataStudent();
+      await this.deleteFilterCondition();
     },
     /**
      * Mô tả: Hàm xử lí sự kiên mở form chi tiết khi click vào button thêm mới sinh viên
@@ -644,11 +703,16 @@ export default {
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
+        this.currentPage = this.$_MSEnum.RECORD.CURRENT_PAGE;
+        if (!this.customFilter.trim()) {
+          this.customFilter = "";
+        }
         this.isShowLoading = true;
         const filteredStudents = await studentService.getFilter(
           this.selectedRecord,
           this.currentPage,
-          this.textSearch.trim()
+          this.textSearch.trim(),
+          this.customFilter.trim()
         );
         this.isShowLoading = false;
         this.dataTable = filteredStudents.data;
@@ -681,8 +745,16 @@ export default {
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
+        if (!this.customFilter.trim()) {
+          this.customFilter = "";
+        }
         this.isShowLoading = true;
-        const resfilter = await studentService.getFilter(this.selectedRecord, this.currentPage, this.textSearch.trim());
+        const resfilter = await studentService.getFilter(
+          this.selectedRecord,
+          this.currentPage,
+          this.textSearch.trim(),
+          this.customFilter.trim()
+        );
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -849,6 +921,43 @@ export default {
         return;
       }
     },
+
+    /**
+     * Mô tả: Xử lí chọn điều kiện lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 20:53:30
+     */
+    async handleSelectOptionFilter(item) {
+      this.optionFilter = item;
+      this.isDisabledMenuConditionFilter = false;
+      await this.getDataOptionFilter(item.option_code);
+    },
+
+    /**
+     * Mô tả: Xử lí lọc dữ liệu theo điều kiện đã chọn
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:19:13
+     */
+    async handleFilterCondition(item) {
+      this.conditionFilter = item;
+      if (this.optionFilter.option_code == this.$_MSEnum.FILTER_OPTION.Class) {
+        this.customFilter = `cl.classes_code = '${item.condition_code}'`;
+      }
+      await this.onSearchStudent();
+    },
+
+    /**
+     * Mô tả: Xóa điều kiện lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:11:49
+     */
+    async deleteFilterCondition() {
+      this.optionFilter = {};
+      this.conditionFilter = {};
+      this.customFilter = "";
+      this.isDisabledMenuConditionFilter = true;
+      this.onSearchStudent();
+    },
   },
 
   beforeUnmount() {
@@ -861,6 +970,7 @@ export default {
     this.$_MSEmitter.off("unConfirmDeleteEntity");
     this.$_MSEmitter.off("confirmDeleteMultiple");
     this.$_MSEmitter.off("closeToastMessage");
+    this.$_MSEmitter.off("onSelectedSelectOption");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);
@@ -868,7 +978,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url(@/css/maincontent.css);
 @import url(@/css/paging.css);
 

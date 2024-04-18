@@ -91,16 +91,16 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> GetByStudentIdScoreViewAsync(Guid student_id)
+        public async Task<ResponseService> GetByStudentIdScoreViewAsync(Guid student_id)
         {
             try
             {
                 var res = await _scoreDL.GetByStudentIdScoreViewAsync(student_id);
-                return new ReponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -109,13 +109,13 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> ImportExcelAsync(IFormFile formFile)
+        public async Task<ResponseService> ImportExcelAsync(IFormFile formFile)
         {
             try
             {
                 if (formFile == null || formFile.Length == 0)
                 {
-                    return new ReponseService
+                    return new ResponseService
                     (
                         StatusCodes.Status400BadRequest,
                         "Không có file được upload",
@@ -178,7 +178,7 @@ namespace BE.DATN.BL.Services
                             }
                             else
                             {
-                                return new ReponseService
+                                return new ResponseService
                                 (
                                     StatusCodes.Status400BadRequest,
                                     "Mã giảng viên không tồn tại trong hệ thống",
@@ -191,7 +191,7 @@ namespace BE.DATN.BL.Services
                             }
                             else
                             {
-                                return new ReponseService
+                                return new ResponseService
                                 (
                                     StatusCodes.Status400BadRequest,
                                     "Mã lớp học phần không tồn tại trong hệ thống",
@@ -213,7 +213,7 @@ namespace BE.DATN.BL.Services
                             }
                             else
                             {
-                                return new ReponseService
+                                return new ResponseService
                                 (
                                     StatusCodes.Status400BadRequest,
                                     $"Mã sinh viên {score.student_code} không tồn tại trong hệ thống",
@@ -225,12 +225,12 @@ namespace BE.DATN.BL.Services
                     }
                     // cất dữ liệu
                     var res = await _scoreDL.InsertMultipleAsync(scoreSave);
-                    return new ReponseService(StatusCodes.Status200OK, "Nhập khẩu điểm thành công", res);
+                    return new ResponseService(StatusCodes.Status200OK, "Nhập khẩu điểm thành công", res);
                 }
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,

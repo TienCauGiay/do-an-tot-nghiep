@@ -24,16 +24,16 @@ namespace BE.DATN.BL.Services
             _unitOfWork = unitOfWork;
         } 
 
-        public async Task<ReponseService> GetAllAsync()
+        public async Task<ResponseService> GetAllAsync()
         {
             try
             {
                 var res = await _baseDL.GetAllAsync();
-                return new ReponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError, 
                         ex.Message, 
@@ -42,16 +42,16 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> GetByIdAsync(Guid id)
+        public async Task<ResponseService> GetByIdAsync(Guid id)
         {
             try
             {
                 var res = await _baseDL.GetByIdAsync(id);
-                return new ReponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -60,16 +60,16 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> GetByCodeAsync(string code)
+        public async Task<ResponseService> GetByCodeAsync(string code)
         {
             try
             {
                 var res = await _baseDL.GetByCodeAsync(code);
-                return new ReponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -91,17 +91,17 @@ namespace BE.DATN.BL.Services
         /// <param name="entity"></param>
         protected abstract void ValidateBusinessMultiple(List<TEntity> entities, ModelState statte);
 
-        public async Task<ReponseService> InsertAsync(TEntity entity)
+        public async Task<ResponseService> InsertAsync(TEntity entity)
         {
             try
             {
                 ValidateBusiness(entity, ModelState.Insert);
                 var res = await _baseDL.InsertAsync(entity);
-                return new ReponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -110,17 +110,17 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> InsertMultipleAsync(List<TEntity> entities)
+        public async Task<ResponseService> InsertMultipleAsync(List<TEntity> entities)
         {
             try
             {
                 ValidateBusinessMultiple(entities, ModelState.Insert);
                 var res = await _baseDL.InsertMultipleAsync(entities);
-                return new ReponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -129,17 +129,17 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public virtual async Task<ReponseService> UpdateAsync(TEntity entity)
+        public virtual async Task<ResponseService> UpdateAsync(TEntity entity)
         {
             try
             {
                 ValidateBusiness(entity, ModelState.Update);
                 var res = await _baseDL.UpdateAsync(entity);
-                return new ReponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -148,17 +148,17 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> UpdateMultipleAsync(List<TEntity> entities)
+        public async Task<ResponseService> UpdateMultipleAsync(List<TEntity> entities)
         {
             try
             {
                 ValidateBusinessMultiple(entities, ModelState.Update);
                 var res = await _baseDL.UpdateMultipleAsync(entities);
-                return new ReponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -180,17 +180,17 @@ namespace BE.DATN.BL.Services
         /// <param name="ids"></param>
         protected abstract void ValidateBeforeDeleteMultiple(List<Guid> ids); 
 
-        public async Task<ReponseService> DeleteAsync(Guid id)
+        public async Task<ResponseService> DeleteAsync(Guid id)
         {
             try
             {
                 ValidateBeforeDelete(id);
                 var res = await _baseDL.DeleteAsync(id);
-                return new ReponseService(StatusCodes.Status200OK, "Xóa dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Xóa dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -199,17 +199,17 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> DeleteMultipleAsync(List<Guid> ids)
+        public async Task<ResponseService> DeleteMultipleAsync(List<Guid> ids)
         {
             try
             {
                 ValidateBeforeDeleteMultiple(ids);
                 var res = await _baseDL.DeleteMultipleAsync(ids);
-                return new ReponseService(StatusCodes.Status200OK, "Xóa dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Xóa dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
@@ -218,17 +218,17 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> SearchAsync(string? textSearch)
+        public async Task<ResponseService> SearchAsync(string? textSearch)
         {
             try
             {
                 textSearch = textSearch ?? string.Empty;
                 var res = await _baseDL.SearchAsync(textSearch);
-                return new ReponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService
+                return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,

@@ -2,6 +2,7 @@
 using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Interfaces.UnitOfWork;
+using BE.DATN.BL.Models.Core;
 using BE.DATN.BL.Models.Response;
 using BE.DATN.BL.Models.Student;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +20,16 @@ namespace BE.DATN.BL.Services
 
         private readonly IStudentDL _studentDL;
 
-        public StudentBL(IStudentDL studentDL, IUnitOfWork unitOfWork) : base(studentDL, unitOfWork)
+        private readonly IClassesDL _classesDL;
+
+        private readonly IClassRegistrationDL _classRegistrationDL;
+
+        public StudentBL(IStudentDL studentDL, IClassesDL classesDL, IClassRegistrationDL classRegistrationDL, IUnitOfWork unitOfWork) : base(studentDL, unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _studentDL = studentDL;
+            _classesDL = classesDL;
+            _classRegistrationDL = classRegistrationDL;
         }
 
         protected override void ValidateBusiness(student entity, ModelState state)
@@ -45,7 +52,7 @@ namespace BE.DATN.BL.Services
 
         }
 
-        public async Task<ResponseServiceStudent> GetFilterPagingAsync(int limit, int offset, string? textSearch)
+        public async Task<ResponseServiceStudent> GetFilterPagingAsync(int limit, int offset, string? textSearch, string? customFilter)
         {
             try
             {
@@ -53,7 +60,11 @@ namespace BE.DATN.BL.Services
                 {
                     textSearch = string.Empty;
                 }
-                var res = await _studentDL.GetFilterPagingAsync(limit, offset, textSearch);
+                if (customFilter == null)
+                {
+                    customFilter = "1 = 1";
+                }
+                var res = await _studentDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
                 return new ResponseServiceStudent()
                 {
                     Code = StatusCodes.Status200OK,
@@ -76,16 +87,50 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ReponseService> GetStatisticNumberStudentAsync()
+        public async Task<ResponseService> GetStatisticNumberStudentAsync()
         {
             try
             {
                 var res = await _studentDL.GetStatisticNumberStudentAsync();
-                return new ReponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService(StatusCodes.Status500InternalServerError, ex.Message);
+                return new ResponseService(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        public async Task<ResponseService> GetOptionFilter(EnumOptionFilterStudent optionFilter)
+        {
+            try
+            {
+                var res = new List<condition_data>();
+                switch (optionFilter)
+                {
+                    case EnumOptionFilterStudent.Class:
+                        var lstClass = await _classesDL.GetAllAsync(); 
+                        if(lstClass != null && lstClass.Count > 0) 
+                        {
+                            lstClass = lstClass.Distinct().ToList();
+                            foreach (var c in lstClass)
+                            {
+                                var conditionData = new condition_data()
+                                {
+                                    condition_code = c.classes_code,
+                                    condition_name = c.classes_name
+                                };
+                                res.Add(conditionData);
+                            }
+                        }
+                        break; 
+                    default:
+                        break;
+                }
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }
