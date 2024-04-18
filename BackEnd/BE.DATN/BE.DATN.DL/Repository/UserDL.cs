@@ -16,7 +16,7 @@ namespace BE.DATN.DL.Repository
     {  
         public UserDL(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-        }
+        } 
 
         public async Task<(List<user_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch)
         {
@@ -54,6 +54,18 @@ namespace BE.DATN.DL.Repository
             var result = await _unitOfWork.Connection.ExecuteAsync(updateQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
 
             return result;
+        }
+
+        public async Task<login?> CheckLoginAsync(string user_name, string? pass_word)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("p_user_name", user_name);
+            parameters.Add("p_pass_word", pass_word);
+
+            string query = "select u.*, r.role_code from public.user u inner join public.role r on u.role_id = r.role_id where u.user_name = :p_user_name and u.pass_word = :p_pass_word;";
+
+            var result = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<login>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+            return (login?)result;
         }
     }
 }

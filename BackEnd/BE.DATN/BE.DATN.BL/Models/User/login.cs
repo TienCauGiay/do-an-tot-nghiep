@@ -8,8 +8,8 @@ namespace BE.DATN.BL.Models.User
 {
     public class login
     {
-        public string username;
-        public string password;
-        public string token;
+        public string user_name;
+        public string pass_word;
+        public int role_code;
     }
 }

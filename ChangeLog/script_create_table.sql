@@ -3,7 +3,7 @@
  */
 create table role(
 	role_id uuid primary key,
-	role_code text,
+	role_code int,
 	role_name text,
 	created_by text,
 	created_date date,

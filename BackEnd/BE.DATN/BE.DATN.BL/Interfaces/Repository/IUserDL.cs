@@ -11,5 +11,6 @@ namespace BE.DATN.BL.Interfaces.Repository
     {
         Task<(List<user_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch);
         Task<int> ResetPassWorkAsync(Guid user_id);
+        Task<login?> CheckLoginAsync(string user_name, string? pass_word);
     }
 }

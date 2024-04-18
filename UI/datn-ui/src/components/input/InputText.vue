@@ -1,7 +1,7 @@
 <template>
   <input
     class="textfield"
-    type="text"
+    :type="typeValue"
     :value="modelValue"
     @input="onInput($event)"
     :title="titleContent"
@@ -17,6 +17,10 @@ export default {
     modelValue: String,
     titleContent: String,
     maxLength: Number,
+    typeValue: {
+      type: String,
+      default: "text",
+    },
   },
   methods: {
     focus() {

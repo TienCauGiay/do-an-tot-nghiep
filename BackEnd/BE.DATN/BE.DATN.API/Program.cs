@@ -42,8 +42,21 @@ builder.Services.AddScoped<IUserBL, UserBL>();
 builder.Services.AddScoped<IUserDL, UserDL>();
 builder.Services.AddScoped<IRoleBL, RoleBL>();
 builder.Services.AddScoped<IRoleDL, RoleDL>();
+builder.Services.AddScoped<IAuthBL, AuthBL>();
 
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
+
+// Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -56,16 +69,32 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+// Sử dụng xác thực và phân quyền
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseCors("AllowAnyOrigin"); // Áp dụng cấu hình CORS ở đây
 
-app.UseCors(builder =>
+app.UseEndpoints(endpoints =>
 {
-    builder.AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader();
+    endpoints.MapControllers();
 });
 
+app.Use(async (context, next) =>
+{
+    // Kiểm tra xem request có được xác thực hay không
+    if (!context.User.Identity.IsAuthenticated)
+    {
+        // Nếu không được xác thực, trả về lỗi hoặc redirect đến trang đăng nhập
+        context.Response.StatusCode = 401; // Unauthorized
+        await context.Response.WriteAsync("Unauthorized");
+        return;
+    }
+
+    // Tiếp tục xử lý request
+    await next();
+});
 
 app.Run();

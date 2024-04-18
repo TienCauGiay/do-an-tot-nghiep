@@ -1,8 +1,16 @@
 const { defineConfig } = require('@vue/cli-service')
+
 module.exports = defineConfig({
   transpileDependencies: true,
   productionSourceMap: true,
-  configureWebpack:{
-    devtool : "source-map"
-  },
+  configureWebpack: {
+    devtool: 'source-map',
+    resolve: {
+      fallback: {
+        "crypto": require.resolve("crypto-browserify"),
+        "stream": require.resolve("stream-browserify"),
+        "util": require.resolve("util/")
+      }
+    }
+  }
 })
