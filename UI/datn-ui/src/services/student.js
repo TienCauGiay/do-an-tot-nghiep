@@ -24,12 +24,13 @@ class StudentService extends BaseServices {
      * created by : BNTIEN
      * created date: 17-06-2023 03:50:28
      */ 
-    async getFilter(limit, offset, textSearch){
+    async getFilter(limit, offset, textSearch, customFilter){
         const response = await this.entity.get(`${this.getBaseUrl()}/paging_filter`, {
             params: {
                 limit: limit,
                 offset: offset,
                 textSearch: textSearch,
+                customFilter: customFilter,
             }
         });
         return response;
@@ -43,6 +44,20 @@ class StudentService extends BaseServices {
      */
     async getStatisticNumberStudent(){
         const response = await this.entity.get(`${this.getBaseUrl()}/get_statistic_number_student`);
+        return response;
+    }
+
+    /**
+     * Mô tả: Lấy dữ liệu cho combo chọn hình thức lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:40:19
+     */
+    async getOptionFilter(option_filter){
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_option_filter`, {
+            params: {
+                option_filter: option_filter, 
+            }
+        });
         return response;
     }
 }

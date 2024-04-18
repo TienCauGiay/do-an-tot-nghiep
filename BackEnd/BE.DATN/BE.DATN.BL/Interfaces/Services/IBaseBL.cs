@@ -9,15 +9,15 @@ namespace BE.DATN.BL.Interfaces.Services
 {
     public interface IBaseBL<TEntity>
     {
-        Task<ReponseService> GetAllAsync();
-        Task<ReponseService> GetByIdAsync(Guid id);
-        Task<ReponseService> GetByCodeAsync(string code);
-        Task<ReponseService> InsertAsync(TEntity entity);
-        Task<ReponseService> InsertMultipleAsync(List<TEntity> entities);
-        Task<ReponseService> UpdateAsync(TEntity entity);
-        Task<ReponseService> UpdateMultipleAsync(List<TEntity> entities);
-        Task<ReponseService> DeleteAsync(Guid id);
-        Task<ReponseService> DeleteMultipleAsync(List<Guid> ids);
-        Task<ReponseService> SearchAsync(string? textSearch);
+        Task<ResponseService> GetAllAsync();
+        Task<ResponseService> GetByIdAsync(Guid id);
+        Task<ResponseService> GetByCodeAsync(string code);
+        Task<ResponseService> InsertAsync(TEntity entity);
+        Task<ResponseService> InsertMultipleAsync(List<TEntity> entities);
+        Task<ResponseService> UpdateAsync(TEntity entity);
+        Task<ResponseService> UpdateMultipleAsync(List<TEntity> entities);
+        Task<ResponseService> DeleteAsync(Guid id);
+        Task<ResponseService> DeleteMultipleAsync(List<Guid> ids);
+        Task<ResponseService> SearchAsync(string? textSearch);
     }
 }

@@ -1,5 +1,7 @@
-﻿using BE.DATN.BL.Interfaces.Repository;
+﻿using BE.DATN.BL.Enums;
+using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.UnitOfWork;
+using BE.DATN.BL.Models.Core;
 using BE.DATN.BL.Models.Student;
 using Dapper;
 using System.Data;
@@ -10,21 +12,22 @@ namespace BE.DATN.DL.Repository
     {
         public StudentDL(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-        } 
+        }
 
-        public async Task<(List<student_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch)
+        public async Task<(List<student_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch, string customFilter)
         {
             var parameters = new DynamicParameters();
             parameters.Add("p_limit", limit);
             parameters.Add("p_offset", offset);
             parameters.Add("p_text_search", textSearch);
+            parameters.Add("p_custom_filter", customFilter);
 
             var students = new List<student_view>();
             int? totalRecord = 0;
 
             using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
-                "select * from func_get_filter_paging_student(:p_limit, :p_offset, :p_text_search); " +
-                "select count(student_id) from student st left join classes cl on st.classes_id = cl.classes_id where st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%';",
+                "select * from func_get_filter_paging_student(:p_limit, :p_offset, :p_text_search, :p_custom_filter); " +
+                "select count(student_id) from student st left join classes cl on st.classes_id = cl.classes_id where (st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%') and (" + customFilter + ");", 
                 parameters,
                 commandType: CommandType.Text,
                 transaction: _unitOfWork.Transaction))
@@ -38,6 +41,7 @@ namespace BE.DATN.DL.Repository
 
             return (students, totalRecord);
         }
+
 
         public async Task<List<student>?> GetByListCodeAsync(List<string> studentCodes)
         {

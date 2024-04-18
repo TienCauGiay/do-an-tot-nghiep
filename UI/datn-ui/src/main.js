@@ -43,7 +43,7 @@ app.component("ms-combobox", ComboboxDefault);
 app.component("ms-select-option", SelectOption);
 app.component("ms-combobox-select-single", ComboboxSelectSingle);
 app.component("ms-combobox-select-multiple", ComboboxSelectMultiple);
-app.component("ms-form-combobox", FormCombobox);
+app.component("ms-form-combobox", FormCombobox); 
 app.config.globalProperties.$_MSEnum = MSEnum;
 app.config.globalProperties.$_MSResource = MSResource;
 app.config.globalProperties.$_MSEmitter = MSEmitter;

@@ -76,7 +76,7 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public override async Task<ReponseService> UpdateAsync(user userUpdate)
+        public override async Task<ResponseService> UpdateAsync(user userUpdate)
         {
             var userById = await _userDL.GetByIdAsync(userUpdate.user_id);
             if(userById != null)
@@ -84,7 +84,7 @@ namespace BE.DATN.BL.Services
                 userUpdate.pass_word = userById.pass_word;
                 return await base.UpdateAsync(userUpdate);
             }
-            return new ReponseService
+            return new ResponseService
                 (
                         StatusCodes.Status500InternalServerError,
                         "Cập nhật thông tin user không thành công",
@@ -92,16 +92,16 @@ namespace BE.DATN.BL.Services
                 );
         }
 
-        public async Task<ReponseService> ResetPassWorkAsync(Guid user_id)
+        public async Task<ResponseService> ResetPassWorkAsync(Guid user_id)
         {
             try
             { 
                 var res = await _userDL.ResetPassWorkAsync(user_id);
-                return new ReponseService(StatusCodes.Status200OK, "Lấy lại mật khẩu thành công", res);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy lại mật khẩu thành công", res);
             }
             catch (Exception ex)
             {
-                return new ReponseService(StatusCodes.Status500InternalServerError, "Lấy lại mật khẩu không thành công", new Object());
+                return new ResponseService(StatusCodes.Status500InternalServerError, "Lấy lại mật khẩu không thành công", new Object());
             }
         }
     }

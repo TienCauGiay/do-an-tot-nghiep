@@ -54,6 +54,13 @@
       :valueNotNull="dataNotNull"
       :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.LOGIN_FAILED"
     ></ms-dialog-data-not-null>
+    <img
+      v-show="isShowLoading"
+      class="loading"
+      :class="{ 'loadding-form-detail': isShowFormDetail }"
+      src="../../assets/img/loading.svg"
+      alt="loading"
+    />
   </div>
 </template>
 
@@ -79,6 +86,7 @@ export default {
       // Khai báo biến xác định nội dung trường nào k được để trống
       dataNotNull: [],
       isShowDialogDataNotNull: false,
+      isShowLoading: false,
     };
   },
   created() {
@@ -88,31 +96,38 @@ export default {
   },
   methods: {
     async handleLogin() {
-      this.validateLogin();
-      if (this.dataNotNull.length > 0) {
-        this.isShowDialogDataNotNull = true;
-      } else {
-        let res = await authService.login(this.user);
-        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code)) {
-          sessionStorage.setItem("token", res.data.Token);
-          const permission = parseInt(res.data.Permission);
-          sessionStorage.setItem("permission", permission);
+      try {
+        this.validateLogin();
+        if (this.dataNotNull.length > 0) {
+          this.isShowDialogDataNotNull = true;
+        } else {
+          this.isShowLoading = true;
+          let res = await authService.login(this.user);
+          this.isShowLoading = false;
+          if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code)) {
+            sessionStorage.setItem("token", res.data.Token);
+            const permission = parseInt(res.data.Permission);
+            sessionStorage.setItem("permission", permission);
 
-          switch (permission) {
-            case this.$_MSEnum.PERMISSION.Admin:
-              this.$router.push("/management-student");
-              break;
-            case this.$_MSEnum.PERMISSION.Student:
-              this.$router.push("/management-score");
-              break;
-            case this.$_MSEnum.PERMISSION.Teacher:
-              this.$router.push("/management-score");
-              break;
-            default:
-              this.$router.push("/login");
-              break;
+            switch (permission) {
+              case this.$_MSEnum.PERMISSION.Admin:
+                this.$router.push("/management-student");
+                break;
+              case this.$_MSEnum.PERMISSION.Student:
+                this.$router.push("/management-score");
+                break;
+              case this.$_MSEnum.PERMISSION.Teacher:
+                this.$router.push("/management-score");
+                break;
+              default:
+                this.$router.push("/login");
+                break;
+            }
           }
         }
+      } catch (error) {
+        console.log(error);
+        this.isShowLoading = false;
       }
     },
     /**

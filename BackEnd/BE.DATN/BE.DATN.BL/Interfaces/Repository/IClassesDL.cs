@@ -1,4 +1,6 @@
-﻿using BE.DATN.BL.Models.Classes;
+﻿using BE.DATN.BL.Enums;
+using BE.DATN.BL.Models.Classes;
+using BE.DATN.BL.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

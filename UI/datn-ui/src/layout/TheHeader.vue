@@ -8,21 +8,21 @@
       <div class="dropdown-grey-icon icon-tb"></div>
     </div>
     <div class="header-action">
-      <div
+      <!-- <div
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING"
         class="setting-icon icon-l"
         style="scale: 1.2 1.2"
       ></div>
       <div :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP" class="question-icon icon-tb"></div>
-      <div :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.ALERT" class="toast-notification-icon icon-l"></div>
+      <div :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.ALERT" class="toast-notification-icon icon-l"></div> -->
       <div ref="Logout" class="info-user">
+        <p>
+          <!-- {{ this.userName }} -->
+        </p>
         <div class="avatar-icon icon-l" @click="isShowLogout = !isShowLogout"></div>
         <div class="avartar-item" v-if="isShowLogout" @click="logout">
           {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.LOGOUT }}
         </div>
-        <p>
-          <!-- {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NAME_ACCOUNT_LOGIN }} -->
-        </p>
         <!-- <div class="dropdown-grey-icon icon-tb"></div> -->
       </div>
     </div>
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       isShowLogout: false,
+      userName: sessionStorage.getItem("user"),
     };
   },
 
@@ -53,6 +54,7 @@ export default {
       try {
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("permission");
+        sessionStorage.removeItem("user");
         this.$router.push("/login");
       } catch (error) {
         console.log(error);
