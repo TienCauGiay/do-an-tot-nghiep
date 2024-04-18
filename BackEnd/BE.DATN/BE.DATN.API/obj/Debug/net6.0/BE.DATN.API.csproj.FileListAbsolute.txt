@@ -58,6 +58,10 @@ F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Dapper.d
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\EPPlus.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\EPPlus.Interfaces.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
@@ -66,6 +70,7 @@ F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Swashbuc
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\System.Drawing.Common.dll
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll

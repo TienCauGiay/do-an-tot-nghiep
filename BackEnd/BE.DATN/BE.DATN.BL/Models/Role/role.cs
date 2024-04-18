@@ -10,7 +10,7 @@ namespace BE.DATN.BL.Models.Role
     public class role : BaseModel
     {
         public Guid role_id { get; set; }
-        public string role_code { get; set; }
+        public int role_code { get; set; }
         public string role_name { get; set; }
     }
 }

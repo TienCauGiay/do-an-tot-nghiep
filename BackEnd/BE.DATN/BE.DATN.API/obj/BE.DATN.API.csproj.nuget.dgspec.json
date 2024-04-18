@@ -119,9 +119,17 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[7.5.0, )"
+            },
             "Npgsql": {
               "target": "Package",
               "version": "[7.0.6, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.5.0, )"
             }
           },
           "imports": [

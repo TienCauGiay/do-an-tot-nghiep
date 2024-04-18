@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const helperCommon = {
   /**
    * Mô tả: Hàm xử lí chuỗi thành định dạng ngày tháng năm (dd/MM/yyyy)
@@ -186,7 +188,22 @@ const helperCommon = {
 
       // Thêm dấu ngoặc đơn nếu số âm
       return isNegative ? `(${formattedValue})` : formattedValue;
+    },
+
+    /**
+   * Mô tả: Hàm giải mã token
+   * created by : BNTIEN
+   * created date: 07-04-2023 14:48:13
+   */
+  decodeToken: (token) => {
+    try {
+      const decoded = jwt.verify(token, 'Qaz@1wsx#Edc$2rfv%Tgb^Yhn&Ujm*3Ik<4ol>5P;6@z9Wx8Sv7Gf6Rt5Yb4UBNTIEN'); // Thay 'your_secret_key' bằng secret key của bạn
+      return decoded;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
     }
+  }
 }
 
 export default helperCommon;

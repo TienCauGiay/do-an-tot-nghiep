@@ -9,6 +9,8 @@ const MSResource = {
             "teacher_code": "Mã giảng viên không được để trống",
             "teacher_name": "Tên giảng viên không được để trống",
             "subject_name": "Môn học không được để trống",
+            "user_name": "Tài khoản không được để trống",
+            "pass_word": "Mật khẩu không được để trống",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -197,6 +199,7 @@ const MSResource = {
                 CLOSE_RECORD: "Cất bản ghi?",
                 CONFIRM_DELETE: "Xác nhận xóa?",
                 DATA_INVALID: "Dữ liệu không hợp lệ!",
+                LOGIN_FAILED: "Đăng nhập không thành công",
             },
             CONTENT:{
                 CONFIRM_DELETE_PRE: "Bạn có thực sự muốn xóa nhân viên <",
@@ -225,7 +228,12 @@ const MSResource = {
             Employee:{
                 TitleChart: "Biểu đồ thống kê số sinh viên đầu vào/đầu ra Trường Đại học Kevin"
             }
-        }
+        },
+        LOGIN: {
+            LoginText: "Đăng nhập",
+            UserName: "Tài khoản",
+            PassWord: "Mật khẩu",
+        },
     }, 
     REGEX:{
         END_MUST_NUMBER:/\d$/,
