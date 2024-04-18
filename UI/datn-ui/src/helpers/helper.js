@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); 
 
 const helperCommon = {
   /**
@@ -197,10 +197,11 @@ const helperCommon = {
    */
   decodeToken: (token) => {
     try {
-      const decoded = jwt.verify(token, 'Qaz@1wsx#Edc$2rfv%Tgb^Yhn&Ujm*3Ik<4ol>5P;6@z9Wx8Sv7Gf6Rt5Yb4UBNTIEN'); // Thay 'your_secret_key' bằng secret key của bạn
-      return decoded;
+      const secretKey = 'Qaz@1#Edc$2rfv%Tgb^Yhn&Ujm*3Ik<4ol>5P;6@z9Wx8Sv7Gf6Rt5Yb4UBNTIEN';
+      const decoded = jwt.verify(token, secretKey); 
+        return decoded;
     } catch (error) {
-      console.error('Error decoding token:', error);
+      console.error(error);
       return null;
     }
   }

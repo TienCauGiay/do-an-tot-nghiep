@@ -1,0 +1,22 @@
+.unauthorized-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .unauthorized-container-title{
+    font-size: 50px;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .unauthorized-container-content{
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

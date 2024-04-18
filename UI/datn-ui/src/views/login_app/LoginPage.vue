@@ -14,6 +14,7 @@
               @mouseenter="isHovering.user_name = true"
               @mouseleave="isHovering.user_name = false"
               :maxLength="50"
+              @keydown.enter="handleLogin"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.user_name && isBorderRed.user_name">
               {{ errors["user_name"] }}
@@ -32,6 +33,7 @@
               @mouseleave="isHovering.pass_word = false"
               :maxLength="50"
               :typeValue="'password'"
+              @keydown.enter="handleLogin"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.pass_word && isBorderRed.pass_word">
               {{ errors["pass_word"] }}
@@ -91,7 +93,26 @@ export default {
         this.isShowDialogDataNotNull = true;
       } else {
         let res = await authService.login(this.user);
-        console.log(res.data.data);
+        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code)) {
+          sessionStorage.setItem("token", res.data.Token);
+          const permission = parseInt(res.data.Permission);
+          sessionStorage.setItem("permission", permission);
+
+          switch (permission) {
+            case this.$_MSEnum.PERMISSION.Admin:
+              this.$router.push("/management-student");
+              break;
+            case this.$_MSEnum.PERMISSION.Student:
+              this.$router.push("/management-score");
+              break;
+            case this.$_MSEnum.PERMISSION.Teacher:
+              this.$router.push("/management-score");
+              break;
+            default:
+              this.$router.push("/login");
+              break;
+          }
+        }
       }
     },
     /**

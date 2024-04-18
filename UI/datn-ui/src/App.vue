@@ -32,24 +32,21 @@ export default {
   },
   data() {
     return {
-      hasToken: false,
+      hasToken: sessionStorage.getItem("token") ? true : false,
     };
   },
-  mounted() {
-    this.checkToken();
+  watch: {
+    $route() {
+      this.checkToken();
+    },
   },
   methods: {
     checkToken() {
-      if (sessionStorage.getItem("token")) {
-        this.hasToken = true;
-      } else {
-        this.hasToken = false;
-      }
+      this.hasToken = sessionStorage.getItem("token") ? true : false;
     },
   },
 };
 </script>
-
 <style>
 @import url(@/css/blockexercise.css);
 @import url(@/css/base/icon.css);

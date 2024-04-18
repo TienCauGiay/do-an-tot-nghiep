@@ -15,12 +15,15 @@
       ></div>
       <div :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP" class="question-icon icon-tb"></div>
       <div :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.ALERT" class="toast-notification-icon icon-l"></div>
-      <div class="info-user">
-        <div class="avatar-icon icon-l"></div>
+      <div ref="Logout" class="info-user">
+        <div class="avatar-icon icon-l" @click="isShowLogout = !isShowLogout"></div>
+        <div class="avartar-item" v-if="isShowLogout" @click="logout">
+          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.LOGOUT }}
+        </div>
         <p>
-          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NAME_ACCOUNT_LOGIN }}
+          <!-- {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NAME_ACCOUNT_LOGIN }} -->
         </p>
-        <div class="dropdown-grey-icon icon-tb"></div>
+        <!-- <div class="dropdown-grey-icon icon-tb"></div> -->
       </div>
     </div>
   </div>
@@ -29,9 +32,63 @@
 <script>
 export default {
   name: "TheHeader",
+
+  data() {
+    return {
+      isShowLogout: false,
+    };
+  },
+
+  mounted() {
+    window.addEventListener("click", this.handleClickOutsideLogout);
+  },
+
+  methods: {
+    /**
+     * Mô tả: Xử lí đăng xuất
+     * created by : BNTIEN
+     * created date: 18-04-2024 16:42:24
+     */
+    logout() {
+      try {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("permission");
+        this.$router.push("/login");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    handleClickOutsideLogout(event) {
+      if (this.$refs.Logout && !this.$refs.Logout.contains(event.target)) {
+        this.isShowLogout = false;
+      }
+    },
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("click", this.handleClickOutsideLogout);
+  },
 };
 </script>
 
-<style>
+<style scoped>
 @import url(@/css/headercontent.css);
+
+.avartar-item {
+  position: absolute;
+  width: 85px;
+  top: 35px;
+  left: -35px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 4px;
+  padding: 5px 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.avartar-item:hover {
+  background-color: var(--color-border-default);
+  color: var(--color-btn-default);
+}
 </style>

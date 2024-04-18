@@ -162,7 +162,18 @@ const MSEnum = {
         Update: 2,
         // Xóa
         Delete: 3,
-    }
+    },
+
+    PERMISSION: {
+        // Không xác định
+        None: 0,
+        // Quản trị viên
+        Admin: 1,
+        // Sinh viên
+        Student: 2,
+        // Giảng viên
+        Teacher: 3,
+    },
 } 
 
 export default MSEnum;
