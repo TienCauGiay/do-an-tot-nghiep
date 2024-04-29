@@ -1,5 +1,4 @@
 import BaseServices from "./base";
-import MSResource from "@/scripts/resource.js";
 
 class StudentService extends BaseServices {
     controller = "Students"; 
@@ -9,12 +8,20 @@ class StudentService extends BaseServices {
      * created by : BNTIEN
      * created date: 04-07-2023 00:34:50
      */
-    async exportData(link){
-        const response = await this.entity.get(`${this.getBaseUrl()}/export`, { responseType: 'blob' });
+    async exportData(link, limit, offset, textSearch, customFilter){
+        const response = await this.entity.get(`${this.getBaseUrl()}/export`, { 
+            responseType: 'blob', 
+            params: {
+                limit: limit,
+                offset: offset,
+                textSearch: textSearch,
+                customFilter: customFilter,
+            }   
+        });
         const file = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
         const url = window.URL.createObjectURL(file);
         link.href = url;
-        link.setAttribute('download', MSResource["vn-VI"].TEXT_CONTENT.FILE_NAME);
+        link.setAttribute('download', 'Danh_Sach_Sinh_Vien');
         link.click();
         return response;
     }
@@ -52,11 +59,21 @@ class StudentService extends BaseServices {
      * created by : BNTIEN
      * created date: 18-04-2024 21:40:19
      */
-    async getOptionFilter(option_filter){
+    async getOptionFilter(optionFilter, textSearch){
         const response = await this.entity.get(`${this.getBaseUrl()}/get_option_filter`, {
             params: {
-                option_filter: option_filter, 
+                optionFilter: optionFilter, 
+                textSearch: textSearch
             }
+        });
+        return response;
+    }
+
+    async importExcel(formData){
+        const response = await this.entity.post(`${this.getBaseUrl()}/import_excel`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         });
         return response;
     }

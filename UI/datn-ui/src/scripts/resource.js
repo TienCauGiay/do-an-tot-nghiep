@@ -116,19 +116,19 @@ const MSResource = {
                     Permission: [1], 
                 },
                 {
-                    Text: "Tra cứu điểm",
+                    Text: "Quản lí điểm",
                     Link: "/management-score",
                     Permission: [1, 2, 3], 
                 },
                 {
                     Text: "Báo cáo thống kê",
                     Link: "/statistic",
-                    Permission: [1, 2, 3], 
+                    Permission: [1, 3], 
                 },
                 {
                     Text: "Quản lí tài khoản",
                     Link: "/management-user",
-                    Permission: [1], 
+                    Permission: [1, 2, 3], 
                 }
             ],
             EMPLOYEE: "Nhân viên",

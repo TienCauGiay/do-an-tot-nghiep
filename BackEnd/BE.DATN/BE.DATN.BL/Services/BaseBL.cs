@@ -97,6 +97,7 @@ namespace BE.DATN.BL.Services
             {
                 ValidateBusiness(entity, ModelState.Insert);
                 var res = await _baseDL.InsertAsync(entity);
+                await AfterInsertAsync(entity);
                 return new ResponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
             }
             catch (Exception ex)
@@ -110,12 +111,18 @@ namespace BE.DATN.BL.Services
             }
         }
 
+        protected virtual async Task AfterInsertAsync(TEntity entity)
+        {
+
+        }
+
         public async Task<ResponseService> InsertMultipleAsync(List<TEntity> entities)
         {
             try
             {
                 ValidateBusinessMultiple(entities, ModelState.Insert);
                 var res = await _baseDL.InsertMultipleAsync(entities);
+                await AfterInsertMultipleAsync(entities);
                 return new ResponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
             }
             catch (Exception ex)
@@ -127,6 +134,11 @@ namespace BE.DATN.BL.Services
                         new Object()
                     );
             }
+        }
+
+        protected virtual async Task AfterInsertMultipleAsync(List<TEntity> entities)
+        {
+
         }
 
         public virtual async Task<ResponseService> UpdateAsync(TEntity entity)
