@@ -56,7 +56,7 @@
     ></ms-dialog-data-not-null>
     <img
       v-show="isShowLoading"
-      class="loading"
+      class="loading-custom"
       :class="{ 'loadding-form-detail': isShowFormDetail }"
       src="../../assets/img/loading.svg"
       alt="loading"
@@ -219,5 +219,13 @@ export default {
   bottom: 0;
   right: 0;
   z-index: 9000;
+}
+
+.loading-custom {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  animation: spin 1s infinite linear;
+  z-index: 9999;
 }
 </style>

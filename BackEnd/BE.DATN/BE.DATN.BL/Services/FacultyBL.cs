@@ -19,6 +19,11 @@ namespace BE.DATN.BL.Services
             _facultyDL = facultyDL;
         }
 
+        protected override async Task AfterInsertAsync(faculty entity)
+        {
+            
+        }
+
         protected override void ValidateBeforeDelete(Guid id)
         {
             

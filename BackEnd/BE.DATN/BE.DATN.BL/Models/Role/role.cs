@@ -1,4 +1,5 @@
-﻿using BE.DATN.BL.Models.Core;
+﻿using BE.DATN.BL.Enums;
+using BE.DATN.BL.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace BE.DATN.BL.Models.Role
     public class role : BaseModel
     {
         public Guid role_id { get; set; }
-        public int role_code { get; set; }
+        public EnumPermission role_code { get; set; }
         public string role_name { get; set; }
     }
 }

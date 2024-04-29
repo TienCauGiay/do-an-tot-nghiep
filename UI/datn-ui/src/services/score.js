@@ -1,5 +1,4 @@
 import BaseServices from "./base";
-import MSResource from "@/scripts/resource.js";
 
 class ScoreService extends BaseServices {
     controller = "Scores";  
@@ -9,12 +8,13 @@ class ScoreService extends BaseServices {
      * created by : BNTIEN
      * created date: 17-06-2023 03:50:28
      */ 
-    async getFilter(limit, offset, textSearch){
+    async getFilter(limit, offset, textSearch, customFilter){
         const response = await this.entity.get(`${this.getBaseUrl()}/paging_filter`, {
             params: {
                 limit: limit,
                 offset: offset,
                 textSearch: textSearch,
+                customFilter: customFilter,
             }
         });
         return response;
@@ -35,13 +35,36 @@ class ScoreService extends BaseServices {
      * created by : BNTIEN
      * created date: 04-07-2023 00:34:50
      */
-    async exportData(link){
-        const response = await this.entity.get(`${this.getBaseUrl()}/export`, { responseType: 'blob' });
+    async exportData(link, limit, offset, textSearch, customFilter){
+        const response = await this.entity.get(`${this.getBaseUrl()}/export`, { 
+            responseType: 'blob', 
+            params: {
+                limit: limit,
+                offset: offset,
+                textSearch: textSearch,
+                customFilter: customFilter,
+            }   
+        });
         const file = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
         const url = window.URL.createObjectURL(file);
         link.href = url;
-        link.setAttribute('download', MSResource["vn-VI"].TEXT_CONTENT.FILE_NAME);
+        link.setAttribute('download', 'Danh_Sach_Diem');
         link.click();
+        return response;
+    }
+
+    /**
+     * Mô tả: Lấy dữ liệu cho combo chọn hình thức lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:40:19
+     */
+    async getOptionFilter(optionFilter, textSearch){
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_option_filter`, {
+            params: {
+                optionFilter: optionFilter, 
+                textSearch: textSearch
+            }
+        });
         return response;
     }
 }

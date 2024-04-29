@@ -6,9 +6,10 @@
         class="a-textfield-cbb"
         :class="{ noDisabled: !isDisabledMenu }"
         :value="entity[propName]"
-        readonly
+        :readonly="isReadonly || isDisabledMenu"
         @keydown="onKeyDownEntity"
         :placeholder="placeholderValue"
+        @input="onSearchChange"
       />
       <button
         :disabled="isDisabledMenu"
@@ -48,6 +49,7 @@ export default {
     "indexSelect",
     "placeholderValue",
     "customStyle",
+    "isReadonly",
   ],
 
   mounted() {
@@ -69,6 +71,21 @@ export default {
   },
 
   methods: {
+    /**
+     * Mô tả: Lắng nghe sự thay đổi text trong input search và tìm kiếm trong ms-select_option
+     * created by : BNTIEN
+     * created date: 06-06-2023 22:31:16
+     */
+    async onSearchChange() {
+      try {
+        await this.$_MSEmitter.emit("onSearchChangeSelectOption", event.target.value, this.propCode);
+        if (this.listData && this.listData.length > 0) {
+          this.isShowMenuSelect = true;
+        }
+      } catch {
+        return;
+      }
+    },
     /**
      * Mô tả: Hàm xử scroll theo khi bấm lên xuống
      * created by : BNTIEN

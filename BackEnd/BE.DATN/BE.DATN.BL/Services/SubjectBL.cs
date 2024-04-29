@@ -23,6 +23,11 @@ namespace BE.DATN.BL.Services
             _subjectDL = subjectDL;
         }
 
+        protected override async Task AfterInsertAsync(subject entity)
+        {
+            
+        }
+
         protected override void ValidateBeforeDelete(Guid id)
         {
             

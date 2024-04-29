@@ -24,6 +24,28 @@
             </div>
           </div>
         </button>
+        <ms-select-option
+          :listData="listOptionFilter"
+          :propCode="'option_code'"
+          :propName="'option_name'"
+          :entity="optionFilter"
+          :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterType"
+          :indexSelect="listOptionFilter.findIndex((obj) => obj.option_code == optionFilter.option_code)"
+          :isReadonly="true"
+        ></ms-select-option>
+        <ms-select-option
+          :listData="listConditionFilter"
+          :propCode="'condition_code'"
+          :propName="'condition_name'"
+          :entity="conditionFilter"
+          :customStyle="'width: 250px;'"
+          :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterCondition"
+          :indexSelect="listConditionFilter.findIndex((obj) => obj.condition_code == conditionFilter.condition_code)"
+          :isDisabledMenu="isDisabledMenuConditionFilter"
+        ></ms-select-option>
+        <div class="delete-filter" @click="deleteFilterCondition">
+          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DeleteFilterCondition }}
+        </div>
       </div>
       <div class="search-entity">
         <input
@@ -302,6 +324,18 @@ export default {
     this.$_MSEmitter.on("closeToastMessage", () => {
       this.btnCloseToastMessage();
     });
+    this.$_MSEmitter.on("onSelectedSelectOption", async (item, propCode) => {
+      if (propCode == "option_code") {
+        await this.handleSelectOptionFilter(item);
+      } else if (propCode == "condition_code") {
+        await this.handleFilterCondition(item);
+      }
+    });
+    this.$_MSEmitter.on("onSearchChangeSelectOption", async (textSearch, propCode) => {
+      if (propCode == "condition_code") {
+        await this.onSearchChangeConditionData(textSearch);
+      }
+    });
   },
 
   mounted() {
@@ -345,6 +379,7 @@ export default {
       formatDate: helperCommon.formatDate,
       // Khai báo biến lưu nội dung tìm kiếm
       textSearch: "",
+      customFilter: "",
       // Khai báo trang hiện tại trong phân trang
       currentPage: this.$_MSEnum.RECORD.CURRENT_PAGE,
       // Khai báo số trang tối đa hiển thị trong phân trang
@@ -367,6 +402,28 @@ export default {
       selectedScore: {},
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
+      optionFilter: {},
+      listOptionFilter: [
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.StudentCode,
+          option_name: "Mã sinh viên",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.StudentName,
+          option_name: "Tên sinh viên",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.SubjectName,
+          option_name: "Tên môn học",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.TeacherName,
+          option_name: "Tên giảng viên",
+        },
+      ],
+      conditionFilter: {},
+      listConditionFilter: [],
+      isDisabledMenuConditionFilter: true,
     };
   },
 
@@ -449,6 +506,23 @@ export default {
 
   methods: {
     /**
+     * Mô tả: Hàm lấy dữ các điều kiện lọc
+     * created by : BNTIEN
+     * created date: 29-05-2023 07:49:20
+     */
+    async getDataOptionFilter(optionFilter, textSearch) {
+      try {
+        this.isShowLoading = true;
+        const resfilter = await scoreService.getOptionFilter(optionFilter, textSearch);
+        this.isShowLoading = false;
+        if (resfilter && resfilter.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(resfilter.data.Code)) {
+          this.listConditionFilter = resfilter.data.Data;
+        }
+      } catch {
+        return;
+      }
+    },
+    /**
      * Mô tả: Hàm lấy dữ liệu sinh viên từ api
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:20
@@ -456,7 +530,7 @@ export default {
     async getDataScore() {
       try {
         this.isShowLoading = true;
-        const resfilter = await scoreService.getFilter(this.selectedRecord, this.currentPage, "");
+        const resfilter = await scoreService.getFilter(this.selectedRecord, this.currentPage, "", "");
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -473,7 +547,7 @@ export default {
       this.currentPage = this.$_MSEnum.RECORD.CURRENT_PAGE;
       this.indexSelectedRecord = this.$_MSEnum.RECORD.INDEX_SELECTED_DEFAULT;
       this.textSearch = "";
-      await this.getDataScore();
+      await this.deleteFilterCondition();
     },
     /**
      * Mô tả: Hàm xử lí sự kiên mở form chi tiết khi click vào button thêm mới sinh viên
@@ -632,11 +706,15 @@ export default {
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
+        if (!this.customFilter.trim()) {
+          this.customFilter = "";
+        }
         this.isShowLoading = true;
         const filteredScores = await scoreService.getFilter(
           this.selectedRecord,
           this.currentPage,
-          this.textSearch.trim()
+          this.textSearch.trim(),
+          this.customFilter.trim()
         );
         this.isShowLoading = false;
         this.dataTable = filteredScores.data;
@@ -669,8 +747,16 @@ export default {
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
+        if (!this.customFilter.trim()) {
+          this.customFilter = "";
+        }
         this.isShowLoading = true;
-        const resfilter = await scoreService.getFilter(this.selectedRecord, this.currentPage, this.textSearch.trim());
+        const resfilter = await scoreService.getFilter(
+          this.selectedRecord,
+          this.currentPage,
+          this.textSearch.trim(),
+          this.customFilter.trim()
+        );
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -822,21 +908,6 @@ export default {
         return;
       }
     },
-    /**
-     * Mô tả: Xử lí xuất dữ liệu ra excel
-     * created by : BNTIEN
-     * created date: 01-07-2023 22:35:32
-     */
-    async exportData() {
-      try {
-        const link = this.$refs.ExportScore;
-        this.isShowLoading = true;
-        await scoreService.exportData(link);
-        this.isShowLoading = false;
-      } catch {
-        return;
-      }
-    },
 
     /**
      * Mô tả: Xử lí nhập điểm từ file excel
@@ -860,6 +931,92 @@ export default {
         return;
       }
     },
+
+    /**
+     * Mô tả: Xử lí xuất dữ liệu ra excel
+     * created by : BNTIEN
+     * created date: 01-07-2023 22:35:32
+     */
+    async exportExcel() {
+      try {
+        const link = this.$refs.ExportScore;
+        this.isShowLoading = true;
+        await scoreService.exportData(
+          link,
+          this.dataTable.TotalRecord,
+          1,
+          this.textSearch.trim(),
+          this.customFilter.trim()
+        );
+        this.isShowLoading = false;
+      } catch {
+        return;
+      }
+    },
+
+    /**
+     * Mô tả: Xử lí chọn điều kiện lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 20:53:30
+     */
+    async handleSelectOptionFilter(item) {
+      this.optionFilter = item;
+      this.isDisabledMenuConditionFilter = false;
+      await this.getDataOptionFilter(item.option_code, "");
+    },
+
+    /**
+     * Mô tả: Xử lí lọc dữ liệu theo điều kiện đã chọn
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:19:13
+     */
+    async handleFilterCondition(item) {
+      this.conditionFilter = item;
+      switch (this.optionFilter.option_code) {
+        case this.$_MSEnum.FILTER_OPTION.StudentCode:
+          this.customFilter = `st.student_code ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.StudentName:
+          this.customFilter = `st.student_name ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.SubjectName:
+          this.customFilter = `sb.subject_name ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.TeacherName:
+          this.customFilter = `tc.teacher_name ilike '%${item.condition_code}%'`;
+          break;
+        default:
+          break;
+      }
+      await this.onSearchScore();
+    },
+
+    /**
+     * Mô tả: Xóa điều kiện lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:11:49
+     */
+    async deleteFilterCondition() {
+      this.optionFilter = {};
+      this.conditionFilter = {};
+      this.customFilter = "";
+      this.isDisabledMenuConditionFilter = true;
+      this.onSearchScore();
+    },
+
+    /**
+     * Mô tả: Tìm kiếm ở select option chọn điều kiện lọc
+     * created by : BNTIEN
+     * created date: 27-04-2024 14:20:28
+     */
+    async onSearchChangeConditionData(textSearch) {
+      try {
+        this.conditionFilter.condition_name = textSearch;
+        await this.getDataOptionFilter(this.optionFilter.option_code, textSearch);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 
   beforeUnmount() {
@@ -872,6 +1029,8 @@ export default {
     this.$_MSEmitter.off("unConfirmDeleteEntity");
     this.$_MSEmitter.off("confirmDeleteMultiple");
     this.$_MSEmitter.off("closeToastMessage");
+    this.$_MSEmitter.off("onSelectedSelectOption");
+    this.$_MSEmitter.off("onSearchChangeSelectOption");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);

@@ -24,6 +24,28 @@
             </div>
           </div>
         </button>
+        <ms-select-option
+          :listData="listOptionFilter"
+          :propCode="'option_code'"
+          :propName="'option_name'"
+          :entity="optionFilter"
+          :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterType"
+          :indexSelect="listOptionFilter.findIndex((obj) => obj.option_code == optionFilter.option_code)"
+          :isReadonly="true"
+        ></ms-select-option>
+        <ms-select-option
+          :listData="listConditionFilter"
+          :propCode="'condition_code'"
+          :propName="'condition_name'"
+          :entity="conditionFilter"
+          :customStyle="'width: 250px;'"
+          :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterCondition"
+          :indexSelect="listConditionFilter.findIndex((obj) => obj.condition_code == conditionFilter.condition_code)"
+          :isDisabledMenu="isDisabledMenuConditionFilter"
+        ></ms-select-option>
+        <div class="delete-filter" @click="deleteFilterCondition">
+          {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DeleteFilterCondition }}
+        </div>
       </div>
       <div class="search-entity">
         <input
@@ -41,7 +63,7 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.REFRESH"
       ></div>
       <div
-        @click="exportData"
+        @click="exportExcel"
         class="excel-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
@@ -51,7 +73,7 @@
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
           @click="btnOpenFormDetail"
         ></ms-button-default>
-        <ms-button-icon></ms-button-icon>
+        <ms-button-icon @importExcel="importExcel"></ms-button-icon>
       </div>
     </div>
     <div id="list-teacher" class="list-entity">
@@ -300,6 +322,18 @@ export default {
     this.$_MSEmitter.on("closeToastMessage", () => {
       this.btnCloseToastMessage();
     });
+    this.$_MSEmitter.on("onSelectedSelectOption", async (item, propCode) => {
+      if (propCode == "option_code") {
+        await this.handleSelectOptionFilter(item);
+      } else if (propCode == "condition_code") {
+        await this.handleFilterCondition(item);
+      }
+    });
+    this.$_MSEmitter.on("onSearchChangeSelectOption", async (textSearch, propCode) => {
+      if (propCode == "condition_code") {
+        await this.onSearchChangeConditionData(textSearch);
+      }
+    });
   },
 
   mounted() {
@@ -343,6 +377,7 @@ export default {
       formatDate: helperCommon.formatDate,
       // Khai báo biến lưu nội dung tìm kiếm
       textSearch: "",
+      customFilter: "",
       // Khai báo trang hiện tại trong phân trang
       currentPage: this.$_MSEnum.RECORD.CURRENT_PAGE,
       // Khai báo số trang tối đa hiển thị trong phân trang
@@ -365,6 +400,24 @@ export default {
       selectedTeacher: {},
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
+      optionFilter: {},
+      listOptionFilter: [
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.Faculty,
+          option_name: "Lọc theo khoa",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.Gender,
+          option_name: "Lọc theo giới tính",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.Address,
+          option_name: "Lọc theo tỉnh",
+        },
+      ],
+      conditionFilter: {},
+      listConditionFilter: [],
+      isDisabledMenuConditionFilter: true,
     };
   },
 
@@ -447,6 +500,23 @@ export default {
 
   methods: {
     /**
+     * Mô tả: Hàm lấy dữ các điều kiện lọc
+     * created by : BNTIEN
+     * created date: 29-05-2023 07:49:20
+     */
+    async getDataOptionFilter(optionFilter, textSearch) {
+      try {
+        this.isShowLoading = true;
+        const resfilter = await teacherService.getOptionFilter(optionFilter, textSearch);
+        this.isShowLoading = false;
+        if (resfilter && resfilter.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(resfilter.data.Code)) {
+          this.listConditionFilter = resfilter.data.Data;
+        }
+      } catch {
+        return;
+      }
+    },
+    /**
      * Mô tả: Hàm lấy dữ liệu sinh viên từ api
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:20
@@ -454,7 +524,7 @@ export default {
     async getDataTeacher() {
       try {
         this.isShowLoading = true;
-        const resfilter = await teacherService.getFilter(this.selectedRecord, this.currentPage, "");
+        const resfilter = await teacherService.getFilter(this.selectedRecord, this.currentPage, "", "");
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -471,7 +541,7 @@ export default {
       this.currentPage = this.$_MSEnum.RECORD.CURRENT_PAGE;
       this.indexSelectedRecord = this.$_MSEnum.RECORD.INDEX_SELECTED_DEFAULT;
       this.textSearch = "";
-      await this.getDataTeacher();
+      await this.deleteFilterCondition();
     },
     /**
      * Mô tả: Hàm xử lí sự kiên mở form chi tiết khi click vào button thêm mới sinh viên
@@ -647,11 +717,15 @@ export default {
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
+        if (!this.customFilter.trim()) {
+          this.customFilter = "";
+        }
         this.isShowLoading = true;
         const filteredTeachers = await teacherService.getFilter(
           this.selectedRecord,
           this.currentPage,
-          this.textSearch.trim()
+          this.textSearch.trim(),
+          this.customFilter.trim()
         );
         this.isShowLoading = false;
         this.dataTable = filteredTeachers.data;
@@ -684,8 +758,16 @@ export default {
         if (!this.textSearch.trim()) {
           this.textSearch = "";
         }
+        if (!this.customFilter.trim()) {
+          this.customFilter = "";
+        }
         this.isShowLoading = true;
-        const resfilter = await teacherService.getFilter(this.selectedRecord, this.currentPage, this.textSearch.trim());
+        const resfilter = await teacherService.getFilter(
+          this.selectedRecord,
+          this.currentPage,
+          this.textSearch.trim(),
+          this.customFilter.trim()
+        );
         this.isShowLoading = false;
         this.dataTable = resfilter.data;
       } catch {
@@ -842,13 +924,103 @@ export default {
      * created by : BNTIEN
      * created date: 01-07-2023 22:35:32
      */
-    async exportData() {
+    async exportExcel() {
       try {
         const link = this.$refs.ExportTeacher;
         this.isShowLoading = true;
-        await teacherService.exportData(link);
+        await teacherService.exportData(
+          link,
+          this.dataTable.TotalRecord,
+          1,
+          this.textSearch.trim(),
+          this.customFilter.trim()
+        );
         this.isShowLoading = false;
       } catch {
+        return;
+      }
+    },
+
+    /**
+     * Mô tả: Xử lí chọn điều kiện lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 20:53:30
+     */
+    async handleSelectOptionFilter(item) {
+      this.optionFilter = item;
+      this.isDisabledMenuConditionFilter = false;
+      await this.getDataOptionFilter(item.option_code, "");
+    },
+
+    /**
+     * Mô tả: Xử lí lọc dữ liệu theo điều kiện đã chọn
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:19:13
+     */
+    async handleFilterCondition(item) {
+      this.conditionFilter = item;
+      switch (this.optionFilter.option_code) {
+        case this.$_MSEnum.FILTER_OPTION.Faculty:
+          this.customFilter = `f.faculty_code ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.Gender:
+          this.customFilter = `tc.gender ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.Address:
+          this.customFilter = `tc.address ilike '%${item.condition_name}%'`;
+          break;
+        default:
+          break;
+      }
+      await this.onSearchTeacher();
+    },
+
+    /**
+     * Mô tả: Xóa điều kiện lọc
+     * created by : BNTIEN
+     * created date: 18-04-2024 21:11:49
+     */
+    async deleteFilterCondition() {
+      this.optionFilter = {};
+      this.conditionFilter = {};
+      this.customFilter = "";
+      this.isDisabledMenuConditionFilter = true;
+      this.onSearchTeacher();
+    },
+
+    /**
+     * Mô tả: Tìm kiếm ở select option chọn điều kiện lọc
+     * created by : BNTIEN
+     * created date: 27-04-2024 14:20:28
+     */
+    async onSearchChangeConditionData(textSearch) {
+      try {
+        this.conditionFilter.condition_name = textSearch;
+        await this.getDataOptionFilter(this.optionFilter.option_code, textSearch);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    /**
+     * Mô tả: Xử lí nhập điểm từ file excel
+     * created by : BNTIEN
+     * created date: 27-02-2024 21:11:46
+     */
+    async importExcel($event) {
+      const file = $event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const res = await teacherService.importExcel(formData);
+        if (res && res.data && res.data.Code == this.$_MSEnum.STATUS.OK) {
+          this.contentToastSuccess = "Nhập khẩu thành công";
+          this.onShowToastMessage();
+          await this.getDataTeacher();
+        }
+      } catch (error) {
+        this.contentToastSuccess = "Nhập khẩu không thành thành công";
+        this.onShowToastMessage();
         return;
       }
     },
@@ -864,6 +1036,8 @@ export default {
     this.$_MSEmitter.off("unConfirmDeleteEntity");
     this.$_MSEmitter.off("confirmDeleteMultiple");
     this.$_MSEmitter.off("closeToastMessage");
+    this.$_MSEmitter.off("onSelectedSelectOption");
+    this.$_MSEmitter.off("onSearchChangeSelectOption");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);

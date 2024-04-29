@@ -104,5 +104,10 @@ namespace BE.DATN.BL.Services
                 return new ResponseService(StatusCodes.Status500InternalServerError, "Lấy lại mật khẩu không thành công", new Object());
             }
         }
+
+        protected override async Task AfterInsertAsync(user entity)
+        {
+            
+        }
     }
 }

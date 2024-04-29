@@ -1,13 +1,19 @@
-﻿using BE.DATN.BL.Enums;
+﻿using BE.DATN.BL.Common;
+using BE.DATN.BL.Enums;
 using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Interfaces.UnitOfWork;
-using BE.DATN.BL.Models.Core;
+using BE.DATN.BL.Models.Classes;
+using BE.DATN.BL.Models.ClassRegistration;
 using BE.DATN.BL.Models.Response;
+using BE.DATN.BL.Models.Score;
 using BE.DATN.BL.Models.Student;
+using BE.DATN.BL.Models.User;
 using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +30,23 @@ namespace BE.DATN.BL.Services
 
         private readonly IClassRegistrationDL _classRegistrationDL;
 
-        public StudentBL(IStudentDL studentDL, IClassesDL classesDL, IClassRegistrationDL classRegistrationDL, IUnitOfWork unitOfWork) : base(studentDL, unitOfWork)
+        private readonly IRoleDL _roleDL;
+
+        private readonly IUserDL _userDL;
+
+        public StudentBL(IStudentDL studentDL, 
+            IClassesDL classesDL, 
+            IClassRegistrationDL classRegistrationDL, 
+            IRoleDL roleDL,
+            IUserDL userDL,
+            IUnitOfWork unitOfWork) : base(studentDL, unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _studentDL = studentDL;
             _classesDL = classesDL;
             _classRegistrationDL = classRegistrationDL;
+            _roleDL = roleDL;
+            _userDL = userDL;
         }
 
         protected override void ValidateBusiness(student entity, ModelState state)
@@ -100,37 +117,195 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ResponseService> GetOptionFilter(EnumOptionFilterStudent optionFilter)
+        public async Task<ResponseService> GetOptionFilterAsync(EnumOptionFilter optionFilter, string? textSearch)
         {
             try
             {
-                var res = new List<condition_data>();
-                switch (optionFilter)
+                if(string.IsNullOrEmpty(textSearch))
                 {
-                    case EnumOptionFilterStudent.Class:
-                        var lstClass = await _classesDL.GetAllAsync(); 
-                        if(lstClass != null && lstClass.Count > 0) 
-                        {
-                            lstClass = lstClass.Distinct().ToList();
-                            foreach (var c in lstClass)
-                            {
-                                var conditionData = new condition_data()
-                                {
-                                    condition_code = c.classes_code,
-                                    condition_name = c.classes_name
-                                };
-                                res.Add(conditionData);
-                            }
-                        }
-                        break; 
-                    default:
-                        break;
-                }
+                    textSearch = string.Empty;  
+                }   
+                var res = await _studentDL.GetOptionFilterAsync(optionFilter, textSearch);
                 return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
             }
             catch (Exception ex)
             {
                 return new ResponseService(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        public async Task<ResponseService> ImportExcelAsync(IFormFile formFile)
+        {
+            try
+            {
+                if (formFile == null || formFile.Length == 0)
+                {
+                    return new ResponseService
+                    (
+                        StatusCodes.Status400BadRequest,
+                        "Không có file được upload",
+                        new Object()
+                    );
+                }
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                // Sử dụng EPPlus để đọc tệp Excel
+                using (var package = new ExcelPackage(formFile.OpenReadStream()))
+                {
+                    var worksheet = package.Workbook.Worksheets[0]; // Lấy trang tính đầu tiên
+
+                    var listStudentImport = new List<student_import>();
+                    var studentSave = new List<student>();
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        DateTime dateTimeBirthday;
+                        var birthdayConVert = worksheet.Cells[row, 2].Value.ToString();
+                        DateTime.TryParseExact(birthdayConVert, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeBirthday);
+                        var studentRow = new student_import()
+                        {
+                            student_name = worksheet.Cells[row, 1].Value.ToString(),
+                            birthday = dateTimeBirthday,
+                            gender = worksheet.Cells[row, 3].Value.ToString(),
+                            address = worksheet.Cells[row, 4].Value.ToString(),
+                            phone_number = worksheet.Cells[row, 5].Value.ToString(),
+                            email = worksheet.Cells[row, 6].Value.ToString(),
+                            classes_code = worksheet.Cells[row, 7].Value.ToString(),
+                        };
+
+                        listStudentImport.Add(studentRow);
+                    }
+                    if (listStudentImport != null && listStudentImport.Count > 0)
+                    {
+                        var studentImportFirst = listStudentImport[0];
+                        // Lấy classes_id theo classes_code
+                        var classesByCode = new classes();
+                        if (studentImportFirst != null)
+                        {
+                            classesByCode = await _classesDL.GetByCodeAsync(studentImportFirst.classes_code);
+                        }
+
+                        if (classesByCode == null)
+                        {
+                            return new ResponseService
+                            (
+                                StatusCodes.Status400BadRequest,
+                                "Mã lớp học không tồn tại trong hệ thống",
+                                new Object()
+                            );
+                        } 
+
+                        foreach (var student in listStudentImport)
+                        { 
+                            student studentItemSave = new student()
+                            {
+                                student_id = Guid.NewGuid(),
+                                classes_id = classesByCode.classes_id,
+                                student_code = BNTUtil.GenerateCode(student.student_name, student.birthday),
+                                student_name = student.student_name,
+                                birthday = student.birthday,
+                                gender = student.gender,
+                                address = student.address,
+                                phone_number = student.phone_number,
+                                email = student.email,
+                                created_by = "Bùi Ngọc Tiến",
+                                created_date = DateTime.Now,
+                                modified_by = "",
+                                modified_date = DateTime.Now,   
+                                admission_year = DateTime.Now
+                            };
+                            studentSave.Add(studentItemSave);
+                        }
+                    }
+                    // cất dữ liệu
+                    var res = await InsertMultipleAsync(studentSave);
+                    return new ResponseService(StatusCodes.Status200OK, "Nhập khẩu sinh viên thành công", res);
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackAsync();
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
+        }
+
+        protected override async Task AfterInsertAsync(student entity)
+        {
+            // Lấy quyền
+            var roles = await _roleDL.GetAllAsync();
+            var role = roles.FirstOrDefault(x => x.role_code == EnumPermission.Student);
+
+            // Tạo tài khoản đăng nhập
+            var userNew = new user()
+            {
+                user_id = Guid.NewGuid(),
+                user_name = entity.student_code,
+                pass_word = "1",
+                role_id = role.role_id,
+                status = 1,
+                created_by = "Bùi Ngọc Tiến",
+                created_date = DateTime.Now,
+                modified_by = "",
+                modified_date= DateTime.Now,
+            };
+
+            await _userDL.InsertAsync(userNew);
+        }
+
+        protected override async Task AfterInsertMultipleAsync(List<student> entities)
+        {
+            if(entities != null && entities.Count > 0)
+            {
+                // Lấy quyền
+                var roles = await _roleDL.GetAllAsync();
+                var role = roles.FirstOrDefault(x => x.role_code == EnumPermission.Student);
+
+                var listUserNew = new List<user>();
+                foreach(var s in entities)
+                {
+                    var userNew = new user()
+                    {
+                        user_id = Guid.NewGuid(),
+                        user_name = s.student_code,
+                        pass_word = "1",
+                        role_id = role.role_id,
+                        status = 1,
+                        created_by = "Bùi Ngọc Tiến",
+                        created_date = DateTime.Now,
+                        modified_by = "",
+                        modified_date = DateTime.Now,
+                    };
+                    listUserNew.Add(userNew);
+                }
+
+                await _userDL.InsertMultipleAsync(listUserNew);
+            }  
+        }
+
+        public async Task<MemoryStream> ExportExcelAsync(int limit, int offset, string? textSearch, string? customFilter)
+        {
+            try
+            {
+                if (textSearch == null)
+                {
+                    textSearch = string.Empty;
+                }
+                if (customFilter == null)
+                {
+                    customFilter = "1 = 1";
+                }
+                var listStudentExport = await _studentDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
+
+                var res = await _studentDL.ExportExcelAsync(listStudentExport.Item1);
+                return res;
+            }
+            catch(Exception ex)
+            {
+                return new MemoryStream();
             }
         }
     }

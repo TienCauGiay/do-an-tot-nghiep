@@ -178,8 +178,22 @@ const MSEnum = {
     FILTER_OPTION: {
         // Không xác định
         None: 0,
-        // Lớp theo học
+        // Lọc theo lớp
         Class: 1, 
+        // Lọc theo giới tính
+        Gender: 2, 
+        // Lọc theo tỉnh
+        Address: 3, 
+        // Lọc theo khoa 
+        Faculty: 4,
+        // Lọc theo mã sinh viên
+        StudentCode: 5,
+        // Lọc theo tên sinh viên
+        StudentName: 6,
+        // Lọc theo tên môn học
+        SubjectName: 7,
+        // Lọc theo tên giảng viên
+        TeacherName: 8,
     },
 } 
 

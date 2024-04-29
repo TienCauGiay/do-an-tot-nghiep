@@ -60,7 +60,7 @@ namespace BE.DATN.BL.Services
 
         }
 
-        public async Task<ResponseServiceScore> GetFilterPagingAsync(int limit, int offset, string? textSearch)
+        public async Task<ResponseServiceScore> GetFilterPagingAsync(int limit, int offset, string? textSearch, string? customFilter)
         {
             try
             {
@@ -68,7 +68,11 @@ namespace BE.DATN.BL.Services
                 {
                     textSearch = string.Empty;
                 }
-                var res = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch);
+                if (customFilter == null)
+                {
+                    customFilter = "1 = 1";
+                }
+                var res = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
                 return new ResponseServiceScore()
                 {
                     Code = StatusCodes.Status200OK,
@@ -106,6 +110,23 @@ namespace BE.DATN.BL.Services
                         ex.Message,
                         new Object()
                     );
+            }
+        }
+
+        public async Task<ResponseService> GetOptionFilterAsync(EnumOptionFilter optionFilter, string? textSearch)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(textSearch))
+                {
+                    textSearch = string.Empty;
+                }
+                var res = await _scoreDL.GetOptionFilterAsync(optionFilter, textSearch);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -230,6 +251,7 @@ namespace BE.DATN.BL.Services
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackAsync();
                 return new ResponseService
                     (
                         StatusCodes.Status500InternalServerError,
@@ -237,6 +259,34 @@ namespace BE.DATN.BL.Services
                         new Object()
                     );
             }
+        }
+
+        public async Task<MemoryStream> ExportExcelAsync(int limit, int offset, string? textSearch, string? customFilter)
+        {
+            try
+            {
+                if (textSearch == null)
+                {
+                    textSearch = string.Empty;
+                }
+                if (customFilter == null)
+                {
+                    customFilter = "1 = 1";
+                }
+                var listStudentExport = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
+
+                var res = await _scoreDL.ExportExcelAsync(listStudentExport.Item1);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new MemoryStream();
+            }
+        }
+
+        protected override async Task AfterInsertAsync(score entity)
+        {
+            
         }
     }
 }

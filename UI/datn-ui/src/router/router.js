@@ -19,8 +19,8 @@ const routes = [
     { path: "/management-student", component: ManagementStudent, name: "ManagementStudent", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-teacher", component: ManagementTeacher, name: "ManagementTeacher", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-score", component: ManagementScore, name: "ManagementScore", meta: { requiresAuth: true } },
-    { path: "/statistic", component: StatisticPage, name: "StatisticPage", meta: { requiresAuth: true } },
-    { path: "/management-user", component: ManagementUser, name: "ManagementUser", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
+    { path: "/statistic", component: StatisticPage, name: "StatisticPage", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin, enumaration.PERMISSION.Teacher] } },
+    { path: "/management-user", component: ManagementUser, name: "ManagementUser", meta: { requiresAuth: true}},
 ]
 
 /**

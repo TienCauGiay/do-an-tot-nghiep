@@ -31,6 +31,7 @@
           :entity="optionFilter"
           :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterType"
           :indexSelect="listOptionFilter.findIndex((obj) => obj.option_code == optionFilter.option_code)"
+          :isReadonly="true"
         ></ms-select-option>
         <ms-select-option
           :listData="listConditionFilter"
@@ -62,7 +63,7 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.REFRESH"
       ></div>
       <div
-        @click="exportData"
+        @click="exportExcel"
         class="excel-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
@@ -72,7 +73,7 @@
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
           @click="btnOpenFormDetail"
         ></ms-button-default>
-        <ms-button-icon></ms-button-icon>
+        <ms-button-icon @importExcel="importExcel"></ms-button-icon>
       </div>
     </div>
     <div id="list-student" class="list-entity">
@@ -327,6 +328,11 @@ export default {
         await this.handleFilterCondition(item);
       }
     });
+    this.$_MSEmitter.on("onSearchChangeSelectOption", async (textSearch, propCode) => {
+      if (propCode == "condition_code") {
+        await this.onSearchChangeConditionData(textSearch);
+      }
+    });
   },
 
   mounted() {
@@ -397,7 +403,15 @@ export default {
       listOptionFilter: [
         {
           option_code: this.$_MSEnum.FILTER_OPTION.Class,
-          option_name: "Lớp theo học",
+          option_name: "Lọc theo lớp",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.Gender,
+          option_name: "Lọc theo giới tính",
+        },
+        {
+          option_code: this.$_MSEnum.FILTER_OPTION.Address,
+          option_name: "Lọc theo tỉnh",
         },
       ],
       conditionFilter: {},
@@ -504,14 +518,13 @@ export default {
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:20
      */
-    async getDataOptionFilter(optionFilter) {
+    async getDataOptionFilter(optionFilter, textSearch) {
       try {
         this.isShowLoading = true;
-        const resfilter = await studentService.getOptionFilter(optionFilter);
+        const resfilter = await studentService.getOptionFilter(optionFilter, textSearch);
         this.isShowLoading = false;
         if (resfilter && resfilter.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(resfilter.data.Code)) {
           this.listConditionFilter = resfilter.data.Data;
-          console.log(this.listConditionFilter);
         }
       } catch {
         return;
@@ -911,11 +924,17 @@ export default {
      * created by : BNTIEN
      * created date: 01-07-2023 22:35:32
      */
-    async exportData() {
+    async exportExcel() {
       try {
         const link = this.$refs.ExportStudent;
         this.isShowLoading = true;
-        await studentService.exportData(link);
+        await studentService.exportData(
+          link,
+          this.dataTable.TotalRecord,
+          1,
+          this.textSearch.trim(),
+          this.customFilter.trim()
+        );
         this.isShowLoading = false;
       } catch {
         return;
@@ -930,7 +949,7 @@ export default {
     async handleSelectOptionFilter(item) {
       this.optionFilter = item;
       this.isDisabledMenuConditionFilter = false;
-      await this.getDataOptionFilter(item.option_code);
+      await this.getDataOptionFilter(item.option_code, "");
     },
 
     /**
@@ -940,8 +959,18 @@ export default {
      */
     async handleFilterCondition(item) {
       this.conditionFilter = item;
-      if (this.optionFilter.option_code == this.$_MSEnum.FILTER_OPTION.Class) {
-        this.customFilter = `cl.classes_code = '${item.condition_code}'`;
+      switch (this.optionFilter.option_code) {
+        case this.$_MSEnum.FILTER_OPTION.Class:
+          this.customFilter = `cl.classes_code ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.Gender:
+          this.customFilter = `st.gender ilike '%${item.condition_code}%'`;
+          break;
+        case this.$_MSEnum.FILTER_OPTION.Address:
+          this.customFilter = `st.address ilike '%${item.condition_name}%'`;
+          break;
+        default:
+          break;
       }
       await this.onSearchStudent();
     },
@@ -958,6 +987,43 @@ export default {
       this.isDisabledMenuConditionFilter = true;
       this.onSearchStudent();
     },
+
+    /**
+     * Mô tả: Tìm kiếm ở select option chọn điều kiện lọc
+     * created by : BNTIEN
+     * created date: 27-04-2024 14:20:28
+     */
+    async onSearchChangeConditionData(textSearch) {
+      try {
+        this.conditionFilter.condition_name = textSearch;
+        await this.getDataOptionFilter(this.optionFilter.option_code, textSearch);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    /**
+     * Mô tả: Xử lí nhập điểm từ file excel
+     * created by : BNTIEN
+     * created date: 27-02-2024 21:11:46
+     */
+    async importExcel($event) {
+      const file = $event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const res = await studentService.importExcel(formData);
+        if (res && res.data && res.data.Code == this.$_MSEnum.STATUS.OK) {
+          this.contentToastSuccess = "Nhập khẩu thành công";
+          this.onShowToastMessage();
+          await this.getDataStudent();
+        }
+      } catch (error) {
+        this.contentToastSuccess = "Nhập khẩu không thành thành công";
+        this.onShowToastMessage();
+        return;
+      }
+    },
   },
 
   beforeUnmount() {
@@ -971,6 +1037,7 @@ export default {
     this.$_MSEmitter.off("confirmDeleteMultiple");
     this.$_MSEmitter.off("closeToastMessage");
     this.$_MSEmitter.off("onSelectedSelectOption");
+    this.$_MSEmitter.off("onSearchChangeSelectOption");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);

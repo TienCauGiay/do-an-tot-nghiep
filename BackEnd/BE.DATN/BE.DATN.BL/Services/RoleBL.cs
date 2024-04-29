@@ -20,6 +20,11 @@ namespace BE.DATN.BL.Services
             _roleDL = roleDL;
         }
 
+        protected override async Task AfterInsertAsync(role entity)
+        {
+            
+        }
+
         protected override void ValidateBeforeDelete(Guid id)
         {
             
