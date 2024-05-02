@@ -94,6 +94,11 @@ export default {
       this.onCloseDialog();
     });
   },
+  mounted() {
+    if (this.$refs.user_name) {
+      this.$refs.user_name.focus();
+    }
+  },
   methods: {
     async handleLogin() {
       try {
@@ -123,6 +128,9 @@ export default {
                 this.$router.push("/login");
                 break;
             }
+          } else {
+            this.dataNotNull.push("Tên đăng nhập hoặc mật khẩu không đúng");
+            this.isShowDialogDataNotNull = true;
           }
         }
       } catch (error) {

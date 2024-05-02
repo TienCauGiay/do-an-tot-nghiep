@@ -41,7 +41,7 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.REFRESH"
       ></div>
       <!-- <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div> -->
-      <div class="insert-data" id="insert-data">
+      <div class="insert-data" id="insert-data" v-if="sessionPermission == $_MSEnum.PERMISSION.Admin">
         <ms-button-default
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
           @click="btnOpenFormDetail"
@@ -58,10 +58,10 @@
                   <input class="checkbox-select-row" type="checkbox" @click="checkAllSelect" :checked="isCheckAll" />
                 </div>
               </th>
-              <th class="e-department">
+              <th class="e-bank-branch">
                 {{ this.$_MSResource[this.$_LANG_CODE].User_Column.UserName }}
               </th>
-              <th class="e-department">
+              <th class="e-bank-branch">
                 {{ this.$_MSResource[this.$_LANG_CODE].User_Column.RoleName }}
               </th>
               <th>
@@ -90,10 +90,10 @@
                   />
                 </div>
               </td>
-              <td class="e-department" :title="item.user_name">
+              <td class="e-bank-branch" :title="item.user_name">
                 {{ item.user_name }}
               </td>
-              <td class="e-department" :title="item.role_name">
+              <td class="e-bank-branch" :title="item.role_name">
                 {{ item.role_name }}
               </td>
               <td
@@ -113,7 +113,11 @@
                 <span @click="onUpdateFormDetail(item)">
                   {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.UPDATE }}
                 </span>
-                <div class="function-table-content" @click="onOpenFeatureMenu($event, item)">
+                <div
+                  v-if="sessionPermission == $_MSEnum.PERMISSION.Admin"
+                  class="function-table-content"
+                  @click="onOpenFeatureMenu($event, item)"
+                >
                   <div class="function-icon-table function-icon-select"></div>
                 </div>
               </td>
@@ -210,6 +214,7 @@
       @closeFormDetail="onCloseFormDetail"
       :userSelected="userUpdate"
       :statusFormMode="isStatusFormMode"
+      :sessionPermission="sessionPermission"
     ></UserDetail>
     <!-- dialog user confirm delete -->
     <ms-dialog-confirm-delete
@@ -327,6 +332,7 @@ export default {
       selectedUser: {},
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
+      sessionPermission: parseInt(sessionStorage.getItem("permission")),
     };
   },
 
@@ -884,5 +890,9 @@ input[type="checkbox"] {
 
 .menu-function-select {
   width: 130px;
+}
+
+table {
+  min-width: 100%;
 }
 </style>

@@ -68,7 +68,7 @@
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.EXCEL"
       ></div>
       <!-- <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div> -->
-      <div class="insert-data">
+      <div class="insert-data" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
         <ms-button-default
           :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ADD"
           @click="btnOpenFormDetail"
@@ -116,7 +116,11 @@
               <th class="e-bank-account">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.EvaluateState }}
               </th>
-              <th type="feat" class="text-center entity-border-right e-birthday">
+              <th
+                v-if="sessionPermission != $_MSEnum.PERMISSION.Student"
+                type="feat"
+                class="text-center entity-border-right e-birthday"
+              >
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.Feature }}
               </th>
             </tr>
@@ -169,7 +173,11 @@
               <td class="e-bank-account" :title="item.evaluate_state_name">
                 {{ item.evaluate_state_name }}
               </td>
-              <td class="text-center entity-border-right e-birthday function-table" @dblclick.stop>
+              <td
+                v-if="sessionPermission != $_MSEnum.PERMISSION.Student"
+                class="text-center entity-border-right e-birthday function-table"
+                @dblclick.stop
+              >
                 <span @click="onUpdateFormDetail(item)">
                   {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.UPDATE }}
                 </span>
@@ -424,6 +432,7 @@ export default {
       conditionFilter: {},
       listConditionFilter: [],
       isDisabledMenuConditionFilter: true,
+      sessionPermission: parseInt(sessionStorage.getItem("permission")),
     };
   },
 
@@ -607,10 +616,12 @@ export default {
      * created date: 29-05-2023 07:49:56
      */
     onUpdateFormDetail(score) {
-      this.scoreUpdate = score;
-      this.isShowFormDetail = true;
-      this.isOverlay = true;
-      this.isStatusFormMode = this.$_MSEnum.FORM_MODE.Edit;
+      if (this.sessionPermission != this.$_MSEnum.PERMISSION.Student) {
+        this.scoreUpdate = score;
+        this.isShowFormDetail = true;
+        this.isOverlay = true;
+        this.isStatusFormMode = this.$_MSEnum.FORM_MODE.Edit;
+      }
     },
     /**
      * Mô tả: Hàm set isStatusFormMode = ADD

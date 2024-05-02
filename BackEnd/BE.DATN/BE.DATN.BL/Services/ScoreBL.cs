@@ -8,6 +8,7 @@ using BE.DATN.BL.Models.Score;
 using BE.DATN.BL.Models.Student;
 using BE.DATN.BL.Models.Teacher;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -30,14 +31,30 @@ namespace BE.DATN.BL.Services
 
         private readonly IClassRegistrationDL _classRegistrationDL;
 
-        public ScoreBL(IScoreDL scoreDL, IUnitOfWork unitOfWork, IStudentDL studentDL, ITeacherDL teacherDL,
-            IClassRegistrationDL classRegistrationDL) : base(scoreDL, unitOfWork)
+        private readonly ITokenService _tokenService;
+
+        private readonly IConfiguration _configuration;
+
+        private Guid _userId = Guid.Empty;
+
+        private string _roleCode = "";
+
+        public ScoreBL(IScoreDL scoreDL, 
+            IStudentDL studentDL, 
+            ITeacherDL teacherDL,
+            IClassRegistrationDL classRegistrationDL,
+            IUnitOfWork unitOfWork, 
+            ITokenService tokenService,
+            IConfiguration configuration
+            ) : base(scoreDL, unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _scoreDL = scoreDL;
             _studentDL = studentDL;
             _teacherDL = teacherDL;
             _classRegistrationDL = classRegistrationDL;
+            _tokenService = tokenService;
+            _configuration = configuration;
         }
 
         protected override void ValidateBusiness(score entity, ModelState state)
@@ -64,6 +81,19 @@ namespace BE.DATN.BL.Services
         {
             try
             {
+                var token = _tokenService.GetToken();
+                var jwtService = new JwtService(_configuration["JwtSettings:SecretKey"], _configuration);
+
+                // Giải mã token
+                var principal = jwtService.ValidateToken(token);
+
+                // Truy cập thông tin từ các claims
+                if (principal != null)
+                {
+                    _userId = Guid.Parse(principal.FindFirst("user_id")?.Value);
+                    _roleCode = principal.FindFirst("role_code")?.Value; 
+                }
+
                 if (textSearch == null)
                 {
                     textSearch = string.Empty;
@@ -72,16 +102,29 @@ namespace BE.DATN.BL.Services
                 {
                     customFilter = "1 = 1";
                 }
-                var res = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
+                List<score_view>? data = null;
+                int? totalRecord = null;
+                if (_roleCode == EnumPermission.Student.ToString())
+                {
+                    var res = await _scoreDL.GetFilterPagingByRoleAsync(limit, offset, textSearch, customFilter, _userId, _roleCode);
+                    data = res.Item1;
+                    totalRecord = res.Item2; 
+                }
+                else
+                {
+                    var res = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
+                    data = res.Item1;
+                    totalRecord = res.Item2;
+                } 
                 return new ResponseServiceScore()
                 {
                     Code = StatusCodes.Status200OK,
                     Message = "Lấy dữ liệu thành công",
-                    Data = res.Item1,
-                    TotalPage = (int)Math.Ceiling((decimal)(res.Item2 > 0 ? res.Item2 : 0) / limit),
-                    TotalRecord = res.Item2,
+                    Data = data,
+                    TotalPage = (int)Math.Ceiling((decimal)(totalRecord > 0 ? totalRecord : 0) / limit),
+                    TotalRecord = totalRecord,
                     CurrentPage = offset,
-                    CurrentPageRecords = res.Item1?.Count()
+                    CurrentPageRecords = data?.Count()
                 };
             }
             catch (Exception ex)

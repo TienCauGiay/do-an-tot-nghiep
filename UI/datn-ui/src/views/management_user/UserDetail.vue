@@ -1,5 +1,9 @@
 <template>
-  <div id="detail-info-user" class="position-display-center" ref="FormDetail">
+  <div
+    :id="sessionPermission === $_MSEnum.PERMISSION.Admin ? 'detail-info-user' : 'detail-info-user-2'"
+    class="position-display-center"
+    ref="FormDetail"
+  >
     <div class="form-detail-toolbar">
       <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
       <div
@@ -16,7 +20,7 @@
           <b>{{ this.titleFormMode }}</b>
         </p>
       </div>
-      <div class="form-detail-content">
+      <div v-if="sessionPermission == $_MSEnum.PERMISSION.Admin" class="form-detail-content">
         <div class="full-content">
           <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.UserName }}</label>
           <div class="container-input">
@@ -63,6 +67,41 @@
           </div>
         </div>
       </div>
+      <div v-else class="form-detail-content">
+        <div class="full-content">
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.UserName }}</label>
+          <div class="container-input">
+            <ms-input
+              ref="user_name"
+              v-model="user.user_name"
+              :class="{ 'border-red': isBorderRed.user_name }"
+              @input="setIsBorderRed('user_name')"
+              @mouseenter="isHovering.user_name = true"
+              @mouseleave="isHovering.user_name = false"
+            ></ms-input>
+            <div class="ms-tooltip" v-if="isHovering.user_name && isBorderRed.user_name">
+              {{ errors["user_name"] }}
+            </div>
+          </div>
+        </div>
+        <div class="full-content">
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.PassWord }}</label>
+          <div class="container-input">
+            <ms-input
+              ref="pass_word"
+              v-model="user.pass_word"
+              :class="{ 'border-red': isBorderRed.pass_word }"
+              @input="setIsBorderRed('pass_word')"
+              @mouseenter="isHovering.pass_word = true"
+              @mouseleave="isHovering.pass_word = false"
+              :typeValue="'password'"
+            ></ms-input>
+            <div class="ms-tooltip" v-if="isHovering.pass_word && isBorderRed.pass_word">
+              {{ errors["pass_word"] }}
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="form-detail-action">
         <div class="action-left">
           <ms-button-extra
@@ -70,7 +109,7 @@
             @click="btnCancel"
           ></ms-button-extra>
         </div>
-        <div class="action-right">
+        <div class="action-right" v-if="sessionPermission == $_MSEnum.PERMISSION.Admin">
           <ms-button-extra
             :textButtonExtra="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE"
             @click="btnSave"
@@ -80,6 +119,13 @@
             :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE_AND_ADD"
             @click="btnSaveAndAdd"
             :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SAVE_AND_ADD"
+          ></ms-button-default>
+        </div>
+        <div class="action-right" v-else>
+          <ms-button-default
+            :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE"
+            @click="btnSave"
+            :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SAVE"
           ></ms-button-default>
         </div>
       </div>
@@ -103,7 +149,7 @@ import helperCommon from "@/helpers/helper.js";
 export default {
   name: "UserDetail",
 
-  props: ["userSelected", "statusFormMode"],
+  props: ["userSelected", "statusFormMode", "sessionPermission"],
 
   created() {
     this.loadData();
@@ -144,7 +190,7 @@ export default {
   data() {
     return {
       // Khai báo mảng lưu các thuộc tính cần validate theo thứ tự, phục vụ cho việc focus, hiển thị lỗi theo thứ tự
-      userProperty: ["user_name", "role_id", "role_name"],
+      userProperty: ["user_name", "pass_word", "role_id", "role_name"],
       // Khai báo đối tượng teacher
       user: {},
       // Khai báo danh sách đơn vị tìm kiếm
@@ -318,7 +364,7 @@ export default {
      * created by : BNTIEN
      * created date: 11-07-2023 10:07:22
      */
-    validateScore() {
+    validateUser() {
       try {
         for (const refInput of this.userProperty) {
           switch (refInput) {
@@ -326,6 +372,14 @@ export default {
               break;
             case "user_name":
               if (helperCommon.isEmptyInput(this.user[refInput])) {
+                this.setError(refInput);
+              }
+              break;
+            case "pass_word":
+              if (
+                helperCommon.isEmptyInput(this.user[refInput]) &&
+                this.sessionPermission != this.$_MSEnum.PERMISSION.Admin
+              ) {
                 this.setError(refInput);
               }
               break;
@@ -359,7 +413,7 @@ export default {
      */
     async btnSave() {
       if (this.statusFormMode === this.$_MSEnum.FORM_MODE.Add) {
-        this.validateScore();
+        this.validateUser();
         if (this.dataNotNull.length > 0) {
           this.isShowDialogDataNotNull = true;
         } else {
@@ -388,7 +442,7 @@ export default {
         // Nếu form ở trạng thái sửa
         // Kiểm tra xem dữ liệu có thay đổi hay k (Trường hợp đã thay đổi)
         if (this.hasDataChanged()) {
-          this.validateScore();
+          this.validateUser();
           if (this.dataNotNull.length > 0) {
             this.isShowDialogDataNotNull = true;
           } else {
@@ -425,7 +479,7 @@ export default {
     async btnSaveAndAdd() {
       // Nếu form ở trạng thái thêm mới
       if (this.statusFormMode === this.$_MSEnum.FORM_MODE.Add) {
-        this.validateScore();
+        this.validateUser();
         if (this.dataNotNull.length > 0) {
           this.isShowDialogDataNotNull = true;
         } else {
@@ -455,7 +509,7 @@ export default {
       } else {
         // Kiểm tra xem dữ liệu có thay đổi hay k
         if (this.hasDataChanged()) {
-          this.validateScore();
+          this.validateUser();
           if (this.dataNotNull.length > 0) {
             this.isShowDialogDataNotNull = true;
           } else {

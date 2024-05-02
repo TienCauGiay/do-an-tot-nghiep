@@ -213,6 +213,7 @@ const MSResource = {
             UpdateUser: "Cập nhật thông tin tài khoản",
             Role: "Quyền truy cập",
             UserName: "Tên đăng nhập",
+            PassWord: "Mật khẩu",
             PlaceholderRole: "Phân quyền",
             Status: "Trạng thái hoạt động",
             Active: "Hoạt động",

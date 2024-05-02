@@ -5,6 +5,7 @@ using BE.DATN.BL.Interfaces.UnitOfWork;
 using BE.DATN.BL.Models.Response; 
 using BE.DATN.BL.Models.User;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,25 @@ namespace BE.DATN.BL.Services
 
         private readonly IUserDL _userDL;
 
-        public UserBL(IUserDL userDL, IUnitOfWork unitOfWork) : base(userDL, unitOfWork)
+        private readonly ITokenService _tokenService;
+
+        private readonly IConfiguration _configuration;
+
+        private Guid _userId = Guid.Empty;
+
+        private string _roleCode = "";
+
+        public UserBL(
+                IUserDL userDL, 
+                IUnitOfWork unitOfWork,
+                ITokenService tokenService,
+                IConfiguration configuration
+            ) : base(userDL, unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userDL = userDL;
+            _tokenService = tokenService;
+            _configuration = configuration;
         } 
 
         protected override void ValidateBeforeDelete(Guid id)
@@ -49,20 +65,48 @@ namespace BE.DATN.BL.Services
         {
             try
             {
+                var token = _tokenService.GetToken();
+                var jwtService = new JwtService(_configuration["JwtSettings:SecretKey"], _configuration);
+
+                // Giải mã token
+                var principal = jwtService.ValidateToken(token);
+
+                // Truy cập thông tin từ các claims
+                if (principal != null)
+                {
+                    _userId = Guid.Parse(principal.FindFirst("user_id")?.Value);
+                    _roleCode = principal.FindFirst("role_code")?.Value;
+                }
                 if (textSearch == null)
                 {
                     textSearch = string.Empty;
                 }
-                var res = await _userDL.GetFilterPagingAsync(limit, offset, textSearch);
+
+                List<user_view>? data = null;
+                int? totalRecord = null;
+
+                if (_roleCode == EnumPermission.Admin.ToString())
+                {
+                    var res = await _userDL.GetFilterPagingAsync(limit, offset, textSearch);
+                    data = res.Item1;
+                    totalRecord = res.Item2;
+                }
+                else
+                {
+                    var res = await _userDL.GetFilterPagingByRoleAsync(limit, offset, textSearch, _userId);
+                    data = res.Item1;
+                    totalRecord = res.Item2;
+                }
+
                 return new ResponseServiceUser()
                 {
                     Code = StatusCodes.Status200OK,
                     Message = "Lấy dữ liệu thành công",
-                    Data = res.Item1,
-                    TotalPage = (int)Math.Ceiling((decimal)(res.Item2 > 0 ? res.Item2 : 0) / limit),
-                    TotalRecord = res.Item2,
+                    Data = data,
+                    TotalPage = (int)Math.Ceiling((decimal)(totalRecord > 0 ? totalRecord : 0) / limit),
+                    TotalRecord = totalRecord,
                     CurrentPage = offset,
-                    CurrentPageRecords = res.Item1?.Count()
+                    CurrentPageRecords = data?.Count()
                 };
             }
             catch (Exception ex)
@@ -78,10 +122,28 @@ namespace BE.DATN.BL.Services
 
         public override async Task<ResponseService> UpdateAsync(user userUpdate)
         {
-            var userById = await _userDL.GetByIdAsync(userUpdate.user_id);
-            if(userById != null)
+            var token = _tokenService.GetToken();
+            var jwtService = new JwtService(_configuration["JwtSettings:SecretKey"], _configuration);
+
+            // Giải mã token
+            var principal = jwtService.ValidateToken(token);
+
+            // Truy cập thông tin từ các claims
+            if (principal != null)
             {
-                userUpdate.pass_word = userById.pass_word;
+                _roleCode = principal.FindFirst("role_code")?.Value;
+            }
+            if (_roleCode == EnumPermission.Admin.ToString())
+            {
+                var userById = await _userDL.GetByIdAsync(userUpdate.user_id);
+                if (userById != null)
+                {
+                    userUpdate.pass_word = userById.pass_word;
+                    return await base.UpdateAsync(userUpdate);
+                }
+            }
+            else
+            {
                 return await base.UpdateAsync(userUpdate);
             }
             return new ResponseService
