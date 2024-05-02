@@ -3,27 +3,40 @@ using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Interfaces.UnitOfWork;
 using BE.DATN.BL.Services;
 using BE.DATN.DL.Repository;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Thêm dịch vụ vào bộ chứa
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Policy
-builder.Services.AddCors();
+// Thêm CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var connectionString = builder.Configuration["ConnectionString"];
 
 // Tiêm phụ thuộc
+builder.Services.AddHttpContextAccessor(); // Thêm dịch vụ HttpContextAccessor
+builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddScoped<IStudentBL, StudentBL>();
 builder.Services.AddScoped<IStudentDL, StudentDL>();
 builder.Services.AddScoped<ITeacherBL, TeacherBL>();
@@ -46,21 +59,9 @@ builder.Services.AddScoped<IAuthBL, AuthBL>();
 
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
 
-// Policy
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAnyOrigin",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Cấu hình pipeline xử lý yêu cầu HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -75,13 +76,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("AllowAnyOrigin"); // Áp dụng cấu hình CORS ở đây
+app.UseCors("AllowAnyOrigin"); // Áp dụng cấu hình CORS
 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
 
+// Middleware để kiểm tra xác thực
 app.Use(async (context, next) =>
 {
     // Kiểm tra xem request có được xác thực hay không

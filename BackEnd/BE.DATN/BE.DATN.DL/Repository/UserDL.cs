@@ -45,6 +45,34 @@ namespace BE.DATN.DL.Repository
             return (users, totalRecord);
         }
 
+        public async Task<(List<user_view>?, int?)> GetFilterPagingByRoleAsync(int limit, int offset, string textSearch, Guid userId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("p_limit", limit);
+            parameters.Add("p_offset", offset);
+            parameters.Add("p_text_search", textSearch);
+            parameters.Add("p_user_id", userId);
+
+            var users = new List<user_view>();
+            int? totalRecord = 0;
+
+            using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
+                "select * from func_get_filter_paging_by_role_user(:p_limit, :p_offset, :p_text_search, :p_user_id); " +
+                "select count(u.user_id) from public.user u where u.user_name ilike '%' || :p_text_search || '%' and u.user_id = :p_user_id;",
+                parameters,
+                commandType: CommandType.Text,
+                transaction: _unitOfWork.Transaction))
+            {
+                // Đọc danh sách sinh viên
+                users = (await multiResult.ReadAsync<user_view>()).ToList();
+
+                // Đọc totalRecord
+                totalRecord = await multiResult.ReadFirstOrDefaultAsync<int>();
+            }
+
+            return (users, totalRecord);
+        }
+
         public async Task<int> ResetPassWorkAsync(Guid user_id)
         {
             var updateQuery = $"update public.user set pass_word = 1 where user_id = @Id";
@@ -66,6 +94,6 @@ namespace BE.DATN.DL.Repository
 
             var result = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<login>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
             return (login?)result;
-        }
+        } 
     }
 }

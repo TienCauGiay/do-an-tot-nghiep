@@ -10,6 +10,7 @@ namespace BE.DATN.BL.Interfaces.Repository
     public interface IUserDL : IBaseDL<user>
     {
         Task<(List<user_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch);
+        Task<(List<user_view>?, int?)> GetFilterPagingByRoleAsync(int limit, int offset, string textSearch, Guid userId);
         Task<int> ResetPassWorkAsync(Guid user_id);
         Task<login?> CheckLoginAsync(string user_name, string? pass_word);
     }
