@@ -54,7 +54,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm gọi sự kiện xử lí khi chọn có
+     * Mô tả: Hàm gọi sự kiện xử lý khi chọn có
      * created by : BNTIEN
      * created date: 08-08-2023 08:09:46
      */

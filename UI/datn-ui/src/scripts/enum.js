@@ -15,7 +15,7 @@ const MSEnum = {
         // Tài nguyên yêu cầu không được tìm thấy trên máy chủ
         NOT_FOUND: 404,
 
-        // Xảy ra lỗi nội bộ trên máy chủ khi xử lí yêu cầu và không thể hoàn thành nó
+        // Xảy ra lỗi nội bộ trên máy chủ khi xử lý yêu cầu và không thể hoàn thành nó
         INTERNAL_SERVER_ERROR: 500
     },
 

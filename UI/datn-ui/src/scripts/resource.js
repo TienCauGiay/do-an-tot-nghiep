@@ -8,9 +8,12 @@ const MSResource = {
             "email": "Email không đúng định dạng", 
             "teacher_code": "Mã giảng viên không được để trống",
             "teacher_name": "Tên giảng viên không được để trống",
+            "class_registration_name": "Lớp học phần không được để trống",
             "subject_name": "Môn học không được để trống",
             "user_name": "Tài khoản không được để trống",
             "pass_word": "Mật khẩu không được để trống",
+            "faculty_code": "Mã khoa không được để trống",
+            "faculty_name": "Tên khoa không được để trống",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -24,6 +27,8 @@ const MSResource = {
             "score_test":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
             "score_exam":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
             "score_average":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
+            "faculty_code": {Limit: 20, Warning : "Mã khoa tối đa 20 kí tự"},
+            "faculty_name": {Limit: 100, Warning : "Tên khoa tối đa 100 kí tự"}, 
         },
         NOT_NUMBER: {
             score_attendance: "Điểm chuyên cần không hợp lệ",
@@ -93,10 +98,16 @@ const MSResource = {
             Status: "TRẠNG THÁI",
             Feature: "CHỨC NĂNG"
         },
+        Faculty_Column: {
+            FacultyCode: "MÃ KHOA",
+            FacultyName: "TÊN KHOA",
+            Feature: "CHỨC NĂNG",
+        },
         TEXT_CONTENT:{
-            ManagementStudent: "Quản lí sinh viên",
-            ManagementTeacher: "Quản lí giảng viên",
-            ManagementScore: "Quản lí điểm",
+            ManagementFaculty: "Quản lý khoa",
+            ManagementStudent: "Quản lý sinh viên",
+            ManagementTeacher: "Quản lý giảng viên",
+            ManagementScore: "Quản lý điểm",
             ManagementUser: "Danh sách tài khoản",
             FILE_NAME: "Danh_sach_nhan_vien",
             NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC KEVIN",
@@ -104,19 +115,34 @@ const MSResource = {
             LOGOUT: "Đăng xuất",
             ACCOUNTANT: "TRANG CHỦ",
             NO_DATA: "Không có dữ liệu",
-            ITEM_SIDEBAR: [ 
+            ITEM_SIDEBAR: [  
                 {
-                    Text: "Quản lí sinh viên",
+                    Text: "Quản lý sinh viên",
                     Link: "/management-student",
                     Permission: [1], 
                 },
                 {
-                    Text: "Quản lí giảng viên",
+                    Text: "Quản lý giảng viên",
                     Link: "/management-teacher",
                     Permission: [1], 
                 },
                 {
-                    Text: "Quản lí điểm",
+                    Text: "Quản lý khoa",
+                    Link: "/management-faculty",
+                    Permission: [1], 
+                },
+                {
+                    Text: "Quản lý lớp",
+                    Link: "/management-class",
+                    Permission: [1], 
+                },
+                {
+                    Text: "Quản lý môn học",
+                    Link: "/management-subject",
+                    Permission: [1], 
+                },
+                {
+                    Text: "Quản lý điểm",
                     Link: "/management-score",
                     Permission: [1, 2, 3], 
                 },
@@ -126,7 +152,7 @@ const MSResource = {
                     Permission: [1, 3], 
                 },
                 {
-                    Text: "Quản lí tài khoản",
+                    Text: "Quản lý tài khoản",
                     Link: "/management-user",
                     Permission: [1, 2, 3], 
                 }
@@ -218,6 +244,12 @@ const MSResource = {
             Status: "Trạng thái hoạt động",
             Active: "Hoạt động",
             InActive: "Ngưng sử dụng",
+            ClassRegistration: "Lớp học phần",
+            PlaceholderClassRegistration: "-- Chọn lớp học phần --",
+            FacultyCode: "Mã khoa",
+            FacultyName: "Tên khoa",
+            AddFaculty: "Thêm khoa mới",
+            UpdateFaculty: "Sửa thông tin khoa",
         },
         DIALOG:{
             TITLE:{
@@ -228,7 +260,7 @@ const MSResource = {
             },
             CONTENT:{
                 CONFIRM_DELETE_PRE: "Bạn có thực sự muốn xóa nhân viên <",
-                CONFIRM_DELETE_MULTIPLE: "Bạn có thực sự muốn xóa những nhân viên đã chọn không?",
+                CONFIRM_DELETE_MULTIPLE: "Bạn có thực sự muốn xóa những bản ghi đã chọn không?",
                 DATA_CHANGE: "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
                 EXIST_PRE: "Mã nhân viên",
                 EXIST_END: "đã tồn tại trong hệ thống, vui lòng kiểm tra lại.",

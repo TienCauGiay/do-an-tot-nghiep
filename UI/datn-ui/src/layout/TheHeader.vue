@@ -46,7 +46,7 @@ export default {
 
   methods: {
     /**
-     * Mô tả: Xử lí đăng xuất
+     * Mô tả: Xử lý đăng xuất
      * created by : BNTIEN
      * created date: 18-04-2024 16:42:24
      */

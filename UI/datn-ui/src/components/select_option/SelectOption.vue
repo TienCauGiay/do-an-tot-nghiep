@@ -109,7 +109,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí keydowm lên xuống, enter
+     * Mô tả: Xử lý keydowm lên xuống, enter
      * created by : BNTIEN
      * created date: 11-08-2023 10:21:26
      */
@@ -173,7 +173,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí click outside
+     * Mô tả: xử lý click outside
      * created by : BNTIEN
      * created date: 16-08-2023 09:48:35
      */

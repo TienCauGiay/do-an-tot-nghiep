@@ -54,66 +54,92 @@
           </div>
         </div>
         <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAttendance }}</label>
-          <div class="container-input">
-            <ms-input
-              ref="score_attendance"
-              v-model="score.score_attendance"
-              :class="{ 'border-red': isBorderRed.score_attendance }"
-              @input="setIsBorderRed('score_attendance')"
-              @mouseenter="isHovering.score_attendance = true"
-              @mouseleave="isHovering.score_attendance = false"
-            ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.score_attendance && isBorderRed.score_attendance">
-              {{ errors["score_attendance"] }}
+          <div class="col-md-l" style="position: relative" ref="MenuItemClassRegistration">
+            <label>
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.ClassRegistration }}
+              <span class="s-require">*</span>
+            </label>
+            <ms-combobox
+              ref="ComboClassRegistration"
+              :isBorderRedCBB="isBorderRed"
+              :entityCBB="score"
+              :errorsCBB="errors"
+              :listEntitySearchCBB="listClassRegistrationSearch"
+              :propName="'class_registration_name'"
+              :propId="'class_registration_id'"
+              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderClassRegistration"
+            ></ms-combobox>
+          </div>
+        </div>
+        <div class="half-content">
+          <div class="col-md-l">
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAttendance }}</label>
+            <div class="container-input">
+              <ms-input
+                ref="score_attendance"
+                v-model="score.score_attendance"
+                :class="{ 'border-red': isBorderRed.score_attendance }"
+                @input="setIsBorderRed('score_attendance')"
+                @mouseenter="isHovering.score_attendance = true"
+                @mouseleave="isHovering.score_attendance = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.score_attendance && isBorderRed.score_attendance">
+                {{ errors["score_attendance"] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreTest }}</label>
-          <div class="container-input">
-            <ms-input
-              ref="score_test"
-              v-model="score.score_test"
-              :class="{ 'border-red': isBorderRed.score_test }"
-              @input="setIsBorderRed('score_test')"
-              @mouseenter="isHovering.score_test = true"
-              @mouseleave="isHovering.score_test = false"
-            ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.score_test && isBorderRed.score_test">
-              {{ errors["score_test"] }}
+        <div class="half-content">
+          <div class="col-md-l">
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreTest }}</label>
+            <div class="container-input">
+              <ms-input
+                ref="score_test"
+                v-model="score.score_test"
+                :class="{ 'border-red': isBorderRed.score_test }"
+                @input="setIsBorderRed('score_test')"
+                @mouseenter="isHovering.score_test = true"
+                @mouseleave="isHovering.score_test = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.score_test && isBorderRed.score_test">
+                {{ errors["score_test"] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreExam }}</label>
-          <div class="container-input">
-            <ms-input
-              ref="score_exam"
-              v-model="score.score_exam"
-              :class="{ 'border-red': isBorderRed.score_exam }"
-              @input="setIsBorderRed('score_exam')"
-              @mouseenter="isHovering.score_exam = true"
-              @mouseleave="isHovering.score_exam = false"
-            ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.score_exam && isBorderRed.score_exam">
-              {{ errors["score_exam"] }}
+        <div class="half-content">
+          <div class="col-md-l">
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreExam }}</label>
+            <div class="container-input">
+              <ms-input
+                ref="score_exam"
+                v-model="score.score_exam"
+                :class="{ 'border-red': isBorderRed.score_exam }"
+                @input="setIsBorderRed('score_exam')"
+                @mouseenter="isHovering.score_exam = true"
+                @mouseleave="isHovering.score_exam = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.score_exam && isBorderRed.score_exam">
+                {{ errors["score_exam"] }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAverage }}</label>
-          <div class="container-input">
-            <ms-input
-              ref="score_average"
-              v-model="score.score_average"
-              :class="{ 'border-red': isBorderRed.score_average }"
-              @input="setIsBorderRed('score_average')"
-              @mouseenter="isHovering.score_average = true"
-              @mouseleave="isHovering.score_average = false"
-            ></ms-input>
-            <div class="ms-tooltip" v-if="isHovering.score_average && isBorderRed.score_average">
-              {{ errors["score_average"] }}
+        <div class="half-content">
+          <div class="col-md-l">
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAverage }}</label>
+            <div class="container-input">
+              <ms-input
+                ref="score_average"
+                v-model="score.score_average"
+                :class="{ 'border-red': isBorderRed.score_average }"
+                @input="setIsBorderRed('score_average')"
+                @mouseenter="isHovering.score_average = true"
+                @mouseleave="isHovering.score_average = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.score_average && isBorderRed.score_average">
+                {{ errors["score_average"] }}
+              </div>
             </div>
           </div>
         </div>
@@ -153,6 +179,7 @@
 <script>
 import teacherService from "@/services/teacher.js";
 import studentService from "@/services/student.js";
+import classRegistrationService from "@/services/class_registration.js";
 import scoreService from "@/services/score.js";
 import helperCommon from "@/helpers/helper.js";
 
@@ -182,6 +209,8 @@ export default {
         this.onSelectedStudent(data);
       } else if (propName == "teacher_name") {
         this.onSelectedTeacher(data);
+      } else if (propName == "class_registration_name") {
+        this.onSelectedClassRegistration(data);
       }
     });
     this.$_MSEmitter.on("onSearchChangeCBB", (newValue, propName) => {
@@ -189,6 +218,8 @@ export default {
         this.onSearchChangeStudent(newValue);
       } else if (propName == "teacher_name") {
         this.onSearchChangeTeacher(newValue);
+      } else if (propName == "class_registration_name") {
+        this.onSearchChangeClassRegistration(newValue);
       }
     });
     this.$_MSEmitter.on("onKeyDownEntityCBB", (index, propName) => {
@@ -200,6 +231,10 @@ export default {
         this.teacher.teacher_name = this.listTeacherSearch[index].teacher_name;
         this.teacher.teacher_id = this.listTeacherSearch[index].teacher_id;
         this.isBorderRed.teacher_name = false;
+      } else if (propName == "class_registration_name") {
+        this.teacher.class_registration_name = this.listClassRegistrationSearch[index].class_registration_name;
+        this.teacher.class_registration_id = this.listClassRegistrationSearch[index].class_registration_id;
+        this.isBorderRed.class_registration_name = false;
       }
     });
   },
@@ -219,6 +254,8 @@ export default {
         "student_name",
         "teacher_id",
         "teacher_name",
+        "class_registration_id",
+        "class_registration_name",
         "score_attendance",
         "score_test",
         "score_exam",
@@ -226,10 +263,12 @@ export default {
       ],
       // Khai báo đối tượng teacher
       score: {},
-      // Khai báo danh sách đơn vị tìm kiếm
+      // Khai báo danh sách sinh viên tìm kiếm
       listStudentSearch: [],
-      // Khai báo danh sách đơn vị tìm kiếm
+      // Khai báo danh sách giảng viên tìm kiếm
       listTeacherSearch: [],
+      // Khai báo danh sách lớp học phần tìm kiếm
+      listClassRegistrationSearch: [],
       // Khai báo trạng thái hiển thị của dialog cảnh báo dữ liệu k được để trống
       isShowDialogDataNotNull: false,
       // Khai báo biến xác định nội dung trường nào k được để trống
@@ -279,6 +318,19 @@ export default {
       }
     },
     /**
+     * Mô tả: Hàm lấy danh sách subject từ api
+     * created by : BNTIEN
+     * created date: 29-05-2023 07:56:10
+     */
+    async getListClassRegistration() {
+      try {
+        const res = await classRegistrationService.search("");
+        this.listClassRegistrationSearch = res.data.Data;
+      } catch {
+        return;
+      }
+    },
+    /**
      * Mô tả: gọi api lấy dữ liệu
      * created by : BNTIEN
      * created date: 30-05-2023 14:57:33
@@ -287,6 +339,7 @@ export default {
       try {
         await this.getListStudent();
         await this.getListTeacher();
+        await this.getListClassRegistration();
         // Nếu form ở trạng thái thêm mới
         // Chuyển đối tượng sang chuỗi json
         let res = JSON.stringify(this.scoreSelected);
@@ -364,6 +417,30 @@ export default {
         return;
       }
     },
+    /**
+     * Mô tả: Lắng nghe sự thay đổi text trong input search subject và tìm kiếm trong combobox
+     * created by : BNTIEN
+     * created date: 06-06-2023 22:31:16
+     */
+    async onSearchChangeClassRegistration(newValue) {
+      this.isBorderRed.class_registration_name = false;
+      this.isBorderRed.class_registration_id = false;
+      try {
+        // Xóa bỏ timeout trước đó nếu có
+        clearTimeout(this.searchTimeout);
+        this.score.class_registration_name = newValue;
+        delete this.score.class_registration_id;
+        if (!newValue.trim()) {
+          newValue = "";
+        }
+        this.searchTimeout = setTimeout(async () => {
+          const newListTeacher = await classRegistrationService.search(newValue);
+          this.listClassRegistrationSearch = newListTeacher.data.Data;
+        }, 500);
+      } catch {
+        return;
+      }
+    },
 
     /**
      * Mô tả: Hàm kiểm tra xem teacher có thay đổi sau khi mở form detail không
@@ -374,7 +451,7 @@ export default {
       return JSON.stringify(this.scoreSelected) !== JSON.stringify(this.score);
     },
     /**
-     * Mô tả: Hàm sử lí sự kiện khi click vào icon close
+     * Mô tả: Hàm sử lý sự kiện khi click vào icon close
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:28
      */
@@ -388,7 +465,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng chọn đơn vị
+     * Mô tả: Hàm xử lý sự kiện khi người dùng chọn đơn vị
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
@@ -398,7 +475,7 @@ export default {
       this.isBorderRed.student_name = false;
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng chọn đơn vị
+     * Mô tả: Hàm xử lý sự kiện khi người dùng chọn đơn vị
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
@@ -406,6 +483,16 @@ export default {
       this.score.teacher_name = teacher.teacher_name;
       this.score.teacher_id = teacher.teacher_id;
       this.isBorderRed.teacher_name = false;
+    },
+    /**
+     * Mô tả: Hàm xử lý sự kiện khi người dùng chọn đơn vị
+     * created by : BNTIEN
+     * created date: 29-05-2023 07:54:52`
+     */
+    onSelectedClassRegistration(classRegistration) {
+      this.score.class_registration_name = classRegistration.class_registration_name;
+      this.score.class_registration_id = classRegistration.class_registration_id;
+      this.isBorderRed.class_registration_name = false;
     },
     /**
      * Mô tả: Hàm set các lỗi nhập liệu phía fontend
@@ -455,9 +542,11 @@ export default {
           switch (refInput) {
             case "student_id":
             case "teacher_id":
+            case "class_registration_id":
               break;
             case "student_name":
             case "teacher_name":
+            case "class_registration_name":
               if (helperCommon.isEmptyInput(this.score[refInput])) {
                 this.setError(refInput);
               }
@@ -488,7 +577,7 @@ export default {
       }
     },
     /**
-     * Mô tả: Hàm xử lí lỗi nhập liệu người dùng khi backend trả về lỗi
+     * Mô tả: Hàm xử lý lỗi nhập liệu người dùng khi backend trả về lỗi
      * created by : BNTIEN
      * created date: 29-06-2023 07:07:16
      */
@@ -512,7 +601,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng bấm vào nút cất trên form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi người dùng bấm vào nút cất trên form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:55:05
      */
@@ -577,7 +666,7 @@ export default {
       // }
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng bấm vào nut cất và thêm trên form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi người dùng bấm vào nut cất và thêm trên form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:55:23
      */
@@ -662,12 +751,15 @@ export default {
           listPropError.push(key);
         }
       }
-      // thêm thuộc tính subject_name vào listPropError để xử lí focus nếu chưa có
+      // thêm thuộc tính subject_name vào listPropError để xử lý focus nếu chưa có
       if (listPropError.includes("student_id") && !listPropError.includes("student_name")) {
         listPropError.push("student_name");
       }
       if (listPropError.includes("teacher_id") && !listPropError.includes("teacher_name")) {
         listPropError.push("teacher_name");
+      }
+      if (listPropError.includes("class_registration_id") && !listPropError.includes("class_registration_name")) {
+        listPropError.push("class_registration_name");
       }
       for (const prop of this.scoreProperty) {
         if (listPropError.includes(prop)) {
@@ -680,6 +772,12 @@ export default {
             this.$nextTick(() => {
               if (this.$refs.ComboTeacher) {
                 this.$refs.ComboTeacher.focusCombobox();
+              }
+            });
+          } else if (prop === "class_registration_id" || prop === "class_registration_name") {
+            this.$nextTick(() => {
+              if (this.$refs.ComboClassRegistration) {
+                this.$refs.ComboClassRegistration.focusCombobox();
               }
             });
           } else {
@@ -704,7 +802,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi click vào nút hủy trong form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi click vào nút hủy trong form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:56:20
      */
@@ -713,7 +811,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào button hủy trong dialog dữ liệu đã bị thay đổi
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào button hủy trong dialog dữ liệu đã bị thay đổi
      * created by : BNTIEN
      * created date: 30-05-2023 23:40:13
      */
@@ -723,7 +821,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào button không trong dialog dữ liệu đã bị thay đổi
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào button không trong dialog dữ liệu đã bị thay đổi
      * created by : BNTIEN
      * created date: 30-05-2023 23:42:10
      */
@@ -732,7 +830,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào button có trong dialog dữ liệu đã bị thay đổi
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào button có trong dialog dữ liệu đã bị thay đổi
      * created by : BNTIEN
      * created date: 30-05-2023 23:43:38
      */
@@ -751,7 +849,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí sự kiện khi bấm esc khi đang ở form detail
+     * Mô tả: xử lý sự kiện khi bấm esc khi đang ở form detail
      * created by : BNTIEN
      * created date: 01-07-2023 01:05:25
      */

@@ -116,7 +116,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí select item
+     * Mô tả: Xử lý select item
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
@@ -186,7 +186,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện bấm lên xuống enter để chọn đơn vị
+     * Mô tả: Hàm xử lý sự kiện bấm lên xuống enter để chọn đơn vị
      * created by : BNTIEN
      * created date: 06-06-2023 22:02:18
      */
@@ -238,7 +238,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí click outside
+     * Mô tả: xử lý click outside
      * created by : BNTIEN
      * created date: 16-08-2023 09:48:35
      */

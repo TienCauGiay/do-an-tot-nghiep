@@ -422,6 +422,12 @@ tr td:last-child{
     max-width: 160px;
 }
 
+.w-300{
+    width: 300px;
+    max-width: 300px;
+}
+
+
 .e-bank-branch{
     max-width: 250px;
 }

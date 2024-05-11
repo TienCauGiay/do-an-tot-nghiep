@@ -358,7 +358,7 @@ export default {
       isShowToastMessage: false,
       // Khai báo dữ liệu duyệt trên 1 trang table
       dataTable: [],
-      // Khai báo 1 sinh viên được chọn để xử lí hàm sửa
+      // Khai báo 1 sinh viên được chọn để xử lý hàm sửa
       studentUpdate: {},
       // Khai báo số bản ghi mặc định được hiển thi trên table
       selectedRecord: this.$_MSEnum.RECORD.RECORD_DEFAULT,
@@ -531,7 +531,7 @@ export default {
       }
     },
     /**
-     * Mô tả: Hàm xử lí sự kiên load lại toàn bộ dữ liệu khi click vào icon refresh
+     * Mô tả: Hàm xử lý sự kiên load lại toàn bộ dữ liệu khi click vào icon refresh
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:31
      */
@@ -543,7 +543,7 @@ export default {
       await this.deleteFilterCondition();
     },
     /**
-     * Mô tả: Hàm xử lí sự kiên mở form chi tiết khi click vào button thêm mới sinh viên
+     * Mô tả: Hàm xử lý sự kiên mở form chi tiết khi click vào button thêm mới sinh viên
      * created by : BNTIEN
      * created date: 29-05-2023 07:48:01
      */
@@ -553,7 +553,7 @@ export default {
       this.studentUpdate.student_code = "";
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi click vào nút close trong form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi click vào nút close trong form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:48:35
      */
@@ -564,7 +564,7 @@ export default {
       this.studentUpdate = {};
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện đóng mở các menu feature ở cột cuối của table khi click vào icon drop
+     * Mô tả: Hàm xử lý sự kiện đóng mở các menu feature ở cột cuối của table khi click vào icon drop
      * created by : BNTIEN
      * created date: 29-05-2023 07:48:54
      */
@@ -588,7 +588,7 @@ export default {
       }
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện đóng mở lựa chọn số phần tử hiển thị trên 1 trang trong table
+     * Mô tả: Hàm xử lý sự kiện đóng mở lựa chọn số phần tử hiển thị trên 1 trang trong table
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:05
      */
@@ -596,7 +596,7 @@ export default {
       this.isShowPaging = !this.isShowPaging;
     },
     /**
-     * Mô tả: Hàm xử lí cập nhật thông tin sinh viên
+     * Mô tả: Hàm xử lý cập nhật thông tin sinh viên
      * created by : BNTIEN
      * created date: 29-05-2023 07:49:56
      */
@@ -615,7 +615,7 @@ export default {
       this.isStatusFormMode = this.$_MSEnum.FORM_MODE.Add;
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện click vào các item lựa chọn số bản ghi hiển thị trên table
+     * Mô tả: Hàm xử lý sự kiện click vào các item lựa chọn số bản ghi hiển thị trên table
      * created by : BNTIEN
      * created date: 29-05-2023 07:50:06
      */
@@ -626,7 +626,7 @@ export default {
       this.updateDataTable();
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào item xóa sinh viên thì hiển thị dialog xác nhận xóa
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào item xóa sinh viên thì hiển thị dialog xác nhận xóa
      * created by : BNTIEN
      * created date: 29-05-2023 07:50:15
      */
@@ -638,7 +638,7 @@ export default {
       this.studentCodeDeleteSelected = this.selectedStudent.student_code;
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng xác nhận xóa 1 sinh viên
+     * Mô tả: Hàm xử lý sự kiện khi người dùng xác nhận xóa 1 sinh viên
      * created by : BNTIEN
      * created date: 28-05-2023 21:09:01
      */
@@ -660,7 +660,7 @@ export default {
       }
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi click vào button không trong dialog xác nhận xóa
+     * Mô tả: Hàm xử lý sự kiện khi click vào button không trong dialog xác nhận xóa
      * created by : BNTIEN
      * created date: 29-05-2023 07:51:41
      */
@@ -671,7 +671,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện mở toast mesage
+     * Mô tả: Hàm xử lý sự kiện mở toast mesage
      * created by : BNTIEN
      * created date: 31-05-2023 00:42:10
      */
@@ -683,7 +683,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện đóng toast mesage
+     * Mô tả: Hàm xử lý sự kiện đóng toast mesage
      * created by : BNTIEN
      * created date: 31-05-2023 00:42:10
      */
@@ -802,7 +802,7 @@ export default {
       }
     },
     /**
-     * Mô tả: xử lí sự kiện khi người dùng click ra ngoài select paging
+     * Mô tả: xử lý sự kiện khi người dùng click ra ngoài select paging
      * created by : BNTIEN
      * created date: 08-06-2023 04:50:25
      */
@@ -813,7 +813,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí sự kiện click ra ngoài menu thực hiện hàng loạt
+     * Mô tả: xử lý sự kiện click ra ngoài menu thực hiện hàng loạt
      * created by : BNTIEN
      * created date: 30-06-2023 21:53:38
      */
@@ -824,7 +824,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí sự kiện click ngoài menu feature
+     * Mô tả: xử lý sự kiện click ngoài menu feature
      * created by : BNTIEN
      * created date: 03-07-2023 00:03:06
      */
@@ -861,7 +861,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí hàm chọn tất cả ở ô checkbox thead
+     * Mô tả: Xử lý hàm chọn tất cả ở ô checkbox thead
      * created by : BNTIEN
      * created date: 28-06-2023 09:31:07
      */
@@ -920,7 +920,7 @@ export default {
       }
     },
     /**
-     * Mô tả: Xử lí xuất dữ liệu ra excel
+     * Mô tả: Xử lý xuất dữ liệu ra excel
      * created by : BNTIEN
      * created date: 01-07-2023 22:35:32
      */
@@ -942,7 +942,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí chọn điều kiện lọc
+     * Mô tả: Xử lý chọn điều kiện lọc
      * created by : BNTIEN
      * created date: 18-04-2024 20:53:30
      */
@@ -953,7 +953,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí lọc dữ liệu theo điều kiện đã chọn
+     * Mô tả: Xử lý lọc dữ liệu theo điều kiện đã chọn
      * created by : BNTIEN
      * created date: 18-04-2024 21:19:13
      */
@@ -1003,7 +1003,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí nhập điểm từ file excel
+     * Mô tả: Xử lý nhập điểm từ file excel
      * created by : BNTIEN
      * created date: 27-02-2024 21:11:46
      */

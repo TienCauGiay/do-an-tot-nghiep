@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import ManagementFaculty from '@/views/management_faculty/ManagementFaculty.vue';
 import ManagementStudent from '@/views/management_student/ManagementStudent.vue';
 import ManagementTeacher from '@/views/management_teacher/ManagementTeacher.vue';
 import ManagementScore from '@/views/management_score/ManagementScore.vue';
@@ -16,6 +17,7 @@ import enumaration from '@/scripts/enum.js';
 const routes = [
     { path: "/login", component: LoginPage, name: "LoginPage" },
     { path: "/not-permission", component: NotPermission, name: "NotPermission" },
+    { path: "/management-faculty", component: ManagementFaculty, name: "ManagementFaculty", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-student", component: ManagementStudent, name: "ManagementStudent", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-teacher", component: ManagementTeacher, name: "ManagementTeacher", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-score", component: ManagementScore, name: "ManagementScore", meta: { requiresAuth: true } },

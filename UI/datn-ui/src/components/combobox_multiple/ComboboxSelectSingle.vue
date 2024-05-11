@@ -281,7 +281,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí focus vào ô input trong combobox
+     * Mô tả: Xử lý focus vào ô input trong combobox
      * created by : BNTIEN
      * created date: 12-08-2023 00:21:00
      */
@@ -290,7 +290,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí click outside
+     * Mô tả: xử lý click outside
      * created by : BNTIEN
      * created date: 16-08-2023 09:48:35
      */

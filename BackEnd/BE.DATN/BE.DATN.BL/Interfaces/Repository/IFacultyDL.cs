@@ -9,5 +9,6 @@ namespace BE.DATN.BL.Interfaces.Repository
 {
     public interface IFacultyDL : IBaseDL<faculty>
     {
+        Task<(List<faculty_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch);
     }
 }

@@ -55,7 +55,7 @@ export default {
       this.$refs.SaveRecord.$el.focus();
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện đồng ý thay đổi dữ liệu
+     * Mô tả: Hàm xử lý sự kiện đồng ý thay đổi dữ liệu
      * created by : BNTIEN
      * created date: 31-05-2023 13:56:30
      */
@@ -64,7 +64,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện không đồng ý thay đổi dữ liệu
+     * Mô tả: Hàm xử lý sự kiện không đồng ý thay đổi dữ liệu
      * created by : BNTIEN
      * created date: 31-05-2023 13:57:26
      */
@@ -73,7 +73,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện hủy thay đổi dữ liệu
+     * Mô tả: Hàm xử lý sự kiện hủy thay đổi dữ liệu
      * created by : BNTIEN
      * created date: 31-05-2023 13:57:52
      */

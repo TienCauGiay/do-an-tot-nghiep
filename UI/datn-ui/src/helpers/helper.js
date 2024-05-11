@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const helperCommon = {
   /**
-   * Mô tả: Hàm xử lí chuỗi thành định dạng ngày tháng năm (dd/MM/yyyy)
+   * Mô tả: Hàm xử lý chuỗi thành định dạng ngày tháng năm (dd/MM/yyyy)
    * created by : BNTIEN
    * created date: 04-06-2023 19:13:03
    */
@@ -70,7 +70,7 @@ const helperCommon = {
       }
     },
     /**
-     * Mô tả: Hàm xử lí lỗi nhập liệu của thực thể khi input, update
+     * Mô tả: Hàm xử lý lỗi nhập liệu của thực thể khi input, update
      * created by : BNTIEN
      * created date: 04-07-2023 14:43:43
      */

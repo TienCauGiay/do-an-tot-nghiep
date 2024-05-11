@@ -233,7 +233,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí click outside
+     * Mô tả: xử lý click outside
      * created by : BNTIEN
      * created date: 16-08-2023 09:48:35
      */
