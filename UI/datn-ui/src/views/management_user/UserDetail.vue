@@ -299,7 +299,7 @@ export default {
       return JSON.stringify(this.userSelected) !== JSON.stringify(this.user);
     },
     /**
-     * Mô tả: Hàm sử lí sự kiện khi click vào icon close
+     * Mô tả: Hàm sử lý sự kiện khi click vào icon close
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:28
      */
@@ -313,7 +313,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng chọn đơn vị
+     * Mô tả: Hàm xử lý sự kiện khi người dùng chọn đơn vị
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
@@ -392,7 +392,7 @@ export default {
       }
     },
     /**
-     * Mô tả: Hàm xử lí lỗi nhập liệu người dùng khi backend trả về lỗi
+     * Mô tả: Hàm xử lý lỗi nhập liệu người dùng khi backend trả về lỗi
      * created by : BNTIEN
      * created date: 29-06-2023 07:07:16
      */
@@ -407,7 +407,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng bấm vào nút cất trên form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi người dùng bấm vào nút cất trên form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:55:05
      */
@@ -472,7 +472,7 @@ export default {
       // }
     },
     /**
-     * Mô tả: Hàm xử lí sự kiện khi người dùng bấm vào nut cất và thêm trên form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi người dùng bấm vào nut cất và thêm trên form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:55:23
      */
@@ -555,7 +555,7 @@ export default {
           listPropError.push(key);
         }
       }
-      // thêm thuộc tính subject_name vào listPropError để xử lí focus nếu chưa có
+      // thêm thuộc tính subject_name vào listPropError để xử lý focus nếu chưa có
       if (listPropError.includes("role_id") && !listPropError.includes("role_name")) {
         listPropError.push("role_name");
       }
@@ -588,7 +588,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi click vào nút hủy trong form chi tiết
+     * Mô tả: Hàm xử lý sự kiện khi click vào nút hủy trong form chi tiết
      * created by : BNTIEN
      * created date: 29-05-2023 07:56:20
      */
@@ -597,7 +597,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào button hủy trong dialog dữ liệu đã bị thay đổi
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào button hủy trong dialog dữ liệu đã bị thay đổi
      * created by : BNTIEN
      * created date: 30-05-2023 23:40:13
      */
@@ -607,7 +607,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào button không trong dialog dữ liệu đã bị thay đổi
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào button không trong dialog dữ liệu đã bị thay đổi
      * created by : BNTIEN
      * created date: 30-05-2023 23:42:10
      */
@@ -616,7 +616,7 @@ export default {
     },
 
     /**
-     * Mô tả: Hàm xử lí sự kiện khi bấm vào button có trong dialog dữ liệu đã bị thay đổi
+     * Mô tả: Hàm xử lý sự kiện khi bấm vào button có trong dialog dữ liệu đã bị thay đổi
      * created by : BNTIEN
      * created date: 30-05-2023 23:43:38
      */
@@ -635,7 +635,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí sự kiện khi bấm esc khi đang ở form detail
+     * Mô tả: xử lý sự kiện khi bấm esc khi đang ở form detail
      * created by : BNTIEN
      * created date: 01-07-2023 01:05:25
      */

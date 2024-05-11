@@ -50,7 +50,7 @@ export default {
       this.$refs.NoConfirmDelete.$el.focus();
     },
     /**
-     * Mô tả: xử lí chọn hàm xóa nhiều hay xóa ít
+     * Mô tả: xử lý chọn hàm xóa nhiều hay xóa ít
      * created by : BNTIEN
      * created date: 28-06-2023 11:22:21
      */

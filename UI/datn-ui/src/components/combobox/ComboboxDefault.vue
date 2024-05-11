@@ -148,7 +148,7 @@ export default {
     },
 
     /**
-     * Mô tả: Xử lí keydown lên, xuống, enter trong combobox
+     * Mô tả: Xử lý keydown lên, xuống, enter trong combobox
      * created by : BNTIEN
      * created date: 06-06-2023 22:02:18
      */
@@ -200,7 +200,7 @@ export default {
     },
 
     /**
-     * Mô tả: xử lí click outside
+     * Mô tả: xử lý click outside
      * created by : BNTIEN
      * created date: 16-08-2023 09:48:35
      */

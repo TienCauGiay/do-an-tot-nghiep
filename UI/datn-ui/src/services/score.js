@@ -31,7 +31,7 @@ class ScoreService extends BaseServices {
 
     
     /**
-     * Mô tả: Xử lí xuất khẩu điểm ra file excel
+     * Mô tả: Xử lý xuất khẩu điểm ra file excel
      * created by : BNTIEN
      * created date: 04-07-2023 00:34:50
      */

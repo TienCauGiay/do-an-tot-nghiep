@@ -21,7 +21,7 @@ export default {
   },
 
   methods: {
-    // Xử lí xuất excel
+    // Xử lý xuất excel
     importEx($event) {
       this.$emit("importExcel", $event);
     },
