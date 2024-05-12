@@ -1,4 +1,5 @@
-﻿using BE.DATN.BL.Models.Subject;
+﻿using BE.DATN.BL.Models.Response;
+using BE.DATN.BL.Models.Subject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace BE.DATN.BL.Interfaces.Services
 {
     public interface ISubjectBL : IBaseBL<subject>
     {
-
+        Task<ResponseServiceSubject> GetFilterPagingAsync(int limit, int offset, string? textSearch);
     }
 }

@@ -3,6 +3,7 @@ import ManagementStudent from '@/views/management_student/ManagementStudent.vue'
 import ManagementTeacher from '@/views/management_teacher/ManagementTeacher.vue';
 import ManagementFaculty from '@/views/management_faculty/ManagementFaculty.vue';
 import ManagementClass from '@/views/management_class/ManagementClass.vue';
+import ManagementSubject from '@/views/management_subject/ManagementSubject.vue';
 import ManagementScore from '@/views/management_score/ManagementScore.vue';
 import StatisticPage from '@/views/statistic_page/StatisticPage.vue';
 import ManagementUser from '@/views/management_user/ManagementUser.vue';
@@ -22,6 +23,7 @@ const routes = [
     { path: "/management-teacher", component: ManagementTeacher, name: "ManagementTeacher", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-faculty", component: ManagementFaculty, name: "ManagementFaculty", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-class", component: ManagementClass, name: "ManagementClass", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
+    { path: "/management-subject", component: ManagementSubject, name: "ManagementSubject", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin] } },
     { path: "/management-score", component: ManagementScore, name: "ManagementScore", meta: { requiresAuth: true } },
     { path: "/statistic", component: StatisticPage, name: "StatisticPage", meta: { requiresAuth: true, requiredPermission: [enumaration.PERMISSION.Admin, enumaration.PERMISSION.Teacher] } },
     { path: "/management-user", component: ManagementUser, name: "ManagementUser", meta: { requiresAuth: true}},

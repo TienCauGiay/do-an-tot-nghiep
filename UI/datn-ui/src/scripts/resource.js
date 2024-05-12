@@ -8,13 +8,15 @@ const MSResource = {
             "teacher_code": "Mã giảng viên không được để trống",
             "teacher_name": "Tên giảng viên không được để trống",
             "class_registration_name": "Lớp học phần không được để trống",
-            "subject_name": "Môn học không được để trống",
             "user_name": "Tài khoản không được để trống",
             "pass_word": "Mật khẩu không được để trống",
             "faculty_code": "Mã khoa không được để trống",
             "faculty_name": "Tên khoa không được để trống",
             "classes_code": "Mã lớp không được để trống",
             "classes_name": "Lớp học không được để trống",
+            "subject_code": "Mã môn học không được để trống",
+            "subject_name": "Môn học không được để trống",
+            "semester_name": "Học kỳ không được để trống",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -32,6 +34,8 @@ const MSResource = {
             "faculty_name": {Limit: 100, Warning : "Tên khoa tối đa 100 kí tự"}, 
             "classes_code": {Limit: 20, Warning : "Mã lớp tối đa 20 kí tự"},
             "classes_name": {Limit: 100, Warning : "Tên lớp tối đa 100 kí tự"}, 
+            "subject_code": {Limit: 20, Warning : "Mã môn học tối đa 20 kí tự"},
+            "subject_name": {Limit: 100, Warning : "Tên môn học tối đa 100 kí tự"}, 
         },
         NOT_NUMBER: {
             score_attendance: "Điểm chuyên cần không hợp lệ",
@@ -111,11 +115,17 @@ const MSResource = {
             ClassName: "TÊN LỚP",
             Feature: "CHỨC NĂNG",
         },
+        Subject_Column: {
+            SubjectCode: "MÃ MÔN HỌC",
+            SubjectName: "TÊN MÔN HỌC",
+            Feature: "CHỨC NĂNG",
+        },
         TEXT_CONTENT:{
             ManagementStudent: "Quản lý sinh viên",
             ManagementTeacher: "Quản lý giảng viên",
             ManagementFaculty: "Quản lý khoa",
-            ManagementClass: "Quản lý lớp",
+            ManagementClass: "Quản lý lớp học",
+            ManagementSubject: "Quản lý môn học",
             ManagementScore: "Quản lý điểm",
             ManagementUser: "Danh sách tài khoản",
             FILE_NAME: "Danh_sach_nhan_vien",
@@ -141,7 +151,7 @@ const MSResource = {
                     Permission: [1], 
                 },
                 {
-                    Text: "Quản lý lớp",
+                    Text: "Quản lý lớp học",
                     Link: "/management-class",
                     Permission: [1], 
                 },
@@ -263,6 +273,12 @@ const MSResource = {
             ClassName: "Tên lớp",
             AddClass: "Thêm lớp học",
             UpdateClass: "Sửa thông tin lớp",
+            SubjectCode: "Mã môn học",
+            SubjectName: "Tên môn học",
+            AddSubject: "Thêm môn học",
+            UpdateSubject: "Sửa môn học",
+            Semester: "Học kỳ",
+            PlaceholderSemeter: "-- Chọn học kỳ --"
         },
         DIALOG:{
             TITLE:{
