@@ -18,7 +18,7 @@
       </div>
       <div v-if="sessionPermission == $_MSEnum.PERMISSION.Admin" class="form-detail-content">
         <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.FacultyCode }}</label>
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.FacultyCode }} <span class="s-require">*</span></label>
           <div class="container-input">
             <ms-input
               ref="faculty_code"
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.FacultyName }}</label>
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.FacultyName }} <span class="s-require">*</span></label>
           <div class="container-input">
             <ms-input
               ref="faculty_name"

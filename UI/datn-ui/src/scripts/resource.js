@@ -3,7 +3,6 @@ const MSResource = {
         VALIDATE:{
             "student_code": "Mã sinh viên không được để trống",
             "student_name": "Họ tên sinh viên không được để trống",
-            "classes_name": "Lớp học không được để trống",
             "birthday": "Ngày sinh lớn hơn ngày hiện tại",
             "email": "Email không đúng định dạng", 
             "teacher_code": "Mã giảng viên không được để trống",
@@ -14,6 +13,8 @@ const MSResource = {
             "pass_word": "Mật khẩu không được để trống",
             "faculty_code": "Mã khoa không được để trống",
             "faculty_name": "Tên khoa không được để trống",
+            "classes_code": "Mã lớp không được để trống",
+            "classes_name": "Lớp học không được để trống",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -29,6 +30,8 @@ const MSResource = {
             "score_average":  {Limit: 10, Warning : "Điểm số tối đa 10 kí tự"},
             "faculty_code": {Limit: 20, Warning : "Mã khoa tối đa 20 kí tự"},
             "faculty_name": {Limit: 100, Warning : "Tên khoa tối đa 100 kí tự"}, 
+            "classes_code": {Limit: 20, Warning : "Mã lớp tối đa 20 kí tự"},
+            "classes_name": {Limit: 100, Warning : "Tên lớp tối đa 100 kí tự"}, 
         },
         NOT_NUMBER: {
             score_attendance: "Điểm chuyên cần không hợp lệ",
@@ -103,10 +106,16 @@ const MSResource = {
             FacultyName: "TÊN KHOA",
             Feature: "CHỨC NĂNG",
         },
+        Class_Column: {
+            ClassCode: "MÃ LỚP",
+            ClassName: "TÊN LỚP",
+            Feature: "CHỨC NĂNG",
+        },
         TEXT_CONTENT:{
-            ManagementFaculty: "Quản lý khoa",
             ManagementStudent: "Quản lý sinh viên",
             ManagementTeacher: "Quản lý giảng viên",
+            ManagementFaculty: "Quản lý khoa",
+            ManagementClass: "Quản lý lớp",
             ManagementScore: "Quản lý điểm",
             ManagementUser: "Danh sách tài khoản",
             FILE_NAME: "Danh_sach_nhan_vien",
@@ -250,6 +259,10 @@ const MSResource = {
             FacultyName: "Tên khoa",
             AddFaculty: "Thêm khoa mới",
             UpdateFaculty: "Sửa thông tin khoa",
+            ClassCode: "Mã lớp",
+            ClassName: "Tên lớp",
+            AddClass: "Thêm lớp học",
+            UpdateClass: "Sửa thông tin lớp",
         },
         DIALOG:{
             TITLE:{
