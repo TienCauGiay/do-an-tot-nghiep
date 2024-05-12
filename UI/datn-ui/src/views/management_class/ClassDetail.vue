@@ -140,8 +140,8 @@ export default {
       this.onSearchChange(newValue);
     });
     this.$_MSEmitter.on("onKeyDownEntityCBB", (index) => {
-      this.teacher.faculty_name = this.listFacultySearch[index].faculty_name;
-      this.teacher.faculty_id = this.listFacultySearch[index].faculty_id;
+      this.classes.faculty_name = this.listFacultySearch[index].faculty_name;
+      this.classes.faculty_id = this.listFacultySearch[index].faculty_id;
       this.isBorderRed.faculty_name = false;
     });
   },

@@ -55,6 +55,8 @@ builder.Services.AddScoped<IUserBL, UserBL>();
 builder.Services.AddScoped<IUserDL, UserDL>();
 builder.Services.AddScoped<IRoleBL, RoleBL>();
 builder.Services.AddScoped<IRoleDL, RoleDL>();
+builder.Services.AddScoped<ISemesterBL, SemesterBL>();
+builder.Services.AddScoped<ISemesterDL, SemesterDL>();
 builder.Services.AddScoped<IAuthBL, AuthBL>();
 
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
