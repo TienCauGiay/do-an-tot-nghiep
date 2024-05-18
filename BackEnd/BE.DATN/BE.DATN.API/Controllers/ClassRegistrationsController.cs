@@ -15,5 +15,19 @@ namespace BE.DATN.API.Controllers
         {
             _classRegistrationBL = classRegistrationBL;
         }
+
+        [HttpGet("paging_filter")]
+        public async Task<IActionResult> GetFilterPaging(int limit, int offset, string? textSearch)
+        {
+            var res = await _classRegistrationBL.GetFilterPagingAsync(limit, offset, textSearch);
+            return Ok(res);
+        }
+
+        [HttpGet("get_multiple_by_code")]
+        public async Task<IActionResult> GetMultipleByCode(string code)
+        {
+            var res = await _classRegistrationBL.GetMultipleByCodeAsync(code);
+            return Ok(res);
+        }
     }
 }

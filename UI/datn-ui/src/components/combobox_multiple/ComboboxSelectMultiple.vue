@@ -11,6 +11,7 @@
       </template>
       <div class="textfiled-cbb-select-multiple">
         <input
+          ref="InputComboboxMulti"
           class="input-cbb-select-multiple"
           type="text"
           v-model="textSearch"
@@ -31,15 +32,15 @@
   <div class="select-item-cbb-multiple" style="position: relative" v-if="isShowSelectMenu" ref="MenuCBB">
     <div class="form-cbb-menu" id="form-cbb-menu-select-multiple">
       <div class="form-cbb-menu-title">
-        <div class="col-1-cbb-menu-item">Mã nhóm KH</div>
-        <div class="col-2-cbb-menu-item">Tên nhóm KH, NCC</div>
+        <div class="col-1-cbb-menu-item">Mã sinh viên</div>
+        <div class="col-2-cbb-menu-item">Họ tên sinh viên</div>
       </div>
       <div class="form-cbb-main" ref="cbbSelectMultiple" @scroll="handleScroll">
-        <template v-for="(item, index) in listEntitySearchCBB.Data" :key="item[propId]">
+        <template v-for="(item, index) in listEntitySearchCBB" :key="item[propId]">
           <div
             class="form-cbb-menu-item"
             @click="toggleSelectEntity(item)"
-            v-if="listEntitySearchCBB.Data.length > 0"
+            v-if="listEntitySearchCBB.length > 0"
             ref="EntitySelectedItem"
             :class="{ 'cbb-selected': index == indexEntitySelected }"
           >
@@ -91,6 +92,12 @@ export default {
   },
 
   methods: {
+    focusComboboxMulti() {
+      let me = this;
+      if (me.$refs.InputComboboxMulti) {
+        me.$refs.InputComboboxMulti.focus();
+      }
+    },
     /**
      * Mô tả: Toggle menu
      * created by : BNTIEN
@@ -181,7 +188,7 @@ export default {
      */
     onKeyDownEntity(event) {
       try {
-        const maxLength = this.listEntitySearchCBB.Data.length;
+        const maxLength = this.listEntitySearchCBB.length;
         if (maxLength == 0) {
           return;
         } else {
@@ -216,7 +223,7 @@ export default {
           } else if (event.keyCode == this.$_MSEnum.KEY_CODE.ENTER) {
             // Bấm enter
             if (this.isShowSelectMenu) {
-              this.toggleSelectEntity(this.listEntitySearchCBB.Data[this.indexEntitySelected]);
+              this.toggleSelectEntity(this.listEntitySearchCBB[this.indexEntitySelected]);
             } else {
               this.isShowSelectMenu = true;
               this.indexEntitySelected = 0;

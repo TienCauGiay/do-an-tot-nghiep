@@ -17,6 +17,8 @@ const MSResource = {
             "subject_code": "Mã môn học không được để trống",
             "subject_name": "Môn học không được để trống",
             "semester_name": "Học kỳ không được để trống",
+            "class_registration_code": "Mã lớp học phần không được để trống", 
+            "StudentNotEmpty": "Bạn phải chọn ít nhất một sinh viên",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -36,6 +38,8 @@ const MSResource = {
             "classes_name": {Limit: 100, Warning : "Tên lớp tối đa 100 kí tự"}, 
             "subject_code": {Limit: 20, Warning : "Mã môn học tối đa 20 kí tự"},
             "subject_name": {Limit: 100, Warning : "Tên môn học tối đa 100 kí tự"}, 
+            "class_registration_code": {Limit: 20, Warning : "Mã lớp học phần tối đa 20 kí tự"},
+            "class_registration_name": {Limit: 100, Warning : "Tên lớp học phần tối đa 100 kí tự"}, 
         },
         NOT_NUMBER: {
             score_attendance: "Điểm chuyên cần không hợp lệ",
@@ -110,6 +114,11 @@ const MSResource = {
             FacultyName: "TÊN KHOA",
             Feature: "CHỨC NĂNG",
         },
+        ClassRegistration_Column: {
+            ClassRegistrationCode: "MÃ HỌC PHẦN",
+            ClassRegistrationName: "TÊN HỌC PHẦN",
+            Feature: "CHỨC NĂNG",
+        },
         Class_Column: {
             ClassCode: "MÃ LỚP",
             ClassName: "TÊN LỚP",
@@ -121,12 +130,13 @@ const MSResource = {
             Feature: "CHỨC NĂNG",
         },
         TEXT_CONTENT:{
-            ManagementStudent: "Quản lý sinh viên",
-            ManagementTeacher: "Quản lý giảng viên",
-            ManagementFaculty: "Quản lý khoa",
-            ManagementClass: "Quản lý lớp học",
-            ManagementSubject: "Quản lý môn học",
-            ManagementScore: "Quản lý điểm",
+            ManagementStudent: "Danh sách sinh viên",
+            ManagementTeacher: "Danh sách giảng viên",
+            ManagementFaculty: "Danh sách khoa",
+            ManagementRegistration: "Danh sách lớp học phần",
+            ManagementClass: "Danh sách lớp học",
+            ManagementSubject: "Danh sách môn học",
+            ManagementScore: "Danh sách điểm",
             ManagementUser: "Danh sách tài khoản",
             FILE_NAME: "Danh_sach_nhan_vien",
             NAME_COMPANY_SELECTED: "TRƯỜNG ĐẠI HỌC KEVIN",
@@ -158,6 +168,11 @@ const MSResource = {
                 {
                     Text: "Quản lý môn học",
                     Link: "/management-subject",
+                    Permission: [1], 
+                },
+                {
+                    Text: "Quản lý lớp học phần",
+                    Link: "/management-registration",
                     Permission: [1], 
                 },
                 {
@@ -269,6 +284,8 @@ const MSResource = {
             FacultyName: "Tên khoa",
             AddFaculty: "Thêm khoa mới",
             UpdateFaculty: "Sửa thông tin khoa",
+            AddRegistration: "Thêm lớp học phần",
+            UpdateRegistration: "Sửa lớp học phần",
             ClassCode: "Mã lớp",
             ClassName: "Tên lớp",
             AddClass: "Thêm lớp học",
@@ -278,7 +295,10 @@ const MSResource = {
             AddSubject: "Thêm môn học",
             UpdateSubject: "Sửa môn học",
             Semester: "Học kỳ",
-            PlaceholderSemeter: "-- Chọn học kỳ --"
+            PlaceholderSemeter: "-- Chọn học kỳ --",
+            RegistrationCode: "Mã lớp học phần",
+            RegistrationName: "Tên lớp học phần",
+            SubjectRegistration: "Môn học",
         },
         DIALOG:{
             TITLE:{

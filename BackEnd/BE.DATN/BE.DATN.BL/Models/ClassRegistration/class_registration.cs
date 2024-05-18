@@ -11,6 +11,8 @@ namespace BE.DATN.BL.Models.ClassRegistration
     {
         public Guid class_registration_id { get; set; }
         public Guid subject_id { get; set; }
+        public Guid student_id { get; set; }
+        public Guid teacher_id { get; set; }
         public string class_registration_code { get; set; }
         public string class_registration_name { get; set; } 
     }
