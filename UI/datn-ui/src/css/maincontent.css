@@ -445,6 +445,18 @@ tr td:last-child{
     text-align: center;
 } 
 
+.entity-border-left-custom {
+    position: sticky;
+    left: 0px;
+    background-color: white;
+    width: 0px;
+    box-sizing: border-box;
+    border-left: none;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+} 
+
 input.checkbox-select-row{
     margin: 0px;
 }

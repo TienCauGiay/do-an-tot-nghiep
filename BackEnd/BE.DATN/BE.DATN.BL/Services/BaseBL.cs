@@ -160,7 +160,7 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ResponseService> UpdateMultipleAsync(List<TEntity> entities)
+        public virtual async Task<ResponseService> UpdateMultipleAsync(List<TEntity> entities)
         {
             try
             {

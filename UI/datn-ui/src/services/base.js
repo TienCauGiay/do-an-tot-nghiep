@@ -54,12 +54,32 @@ class BaseServices {
     }
 
     /**
+     * Mô tả: thêm mới 1 bản ghi vào database
+     * created by : BNTIEN
+     * created date: 02-06-2023 22:10:13
+     */
+    async createMultiple(payload){
+        const response = await this.entity.post(`${this.getBaseUrl()}/insert_multiple`, payload);
+        return response;
+    }
+
+    /**
      * Mô tả: cập nhật thông tin 1 bản ghi có id là tham số truyền vào
      * created by : BNTIEN
      * created date: 02-06-2023 22:10:45
      */
     async update(obj){
         const response = await this.entity.put(`${this.getBaseUrl()}/update`, obj);
+        return response;
+    }
+
+    /**
+     * Mô tả: cập nhật thông tin 1 bản ghi có id là tham số truyền vào
+     * created by : BNTIEN
+     * created date: 02-06-2023 22:10:45
+     */
+    async updateMultiple(payload){
+        const response = await this.entity.put(`${this.getBaseUrl()}/update_multiple`, payload);
         return response;
     }
     

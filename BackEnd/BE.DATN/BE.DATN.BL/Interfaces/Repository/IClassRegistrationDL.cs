@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace BE.DATN.BL.Interfaces.Repository
 {
     public interface IClassRegistrationDL : IBaseDL<class_registration>
-    { 
-
+    {
+        Task<(List<class_registration_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch);
+        Task<List<class_registration_view>?> GetMultipleByCodeAsync(string code);
     }
 }

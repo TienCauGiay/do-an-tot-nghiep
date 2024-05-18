@@ -18,6 +18,24 @@
       </div>
       <div class="form-detail-content">
         <div class="full-content">
+          <div class="col-md-l" style="position: relative" ref="MenuItemClassRegistration">
+            <label>
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.ClassRegistration }}
+              <span class="s-require">*</span>
+            </label>
+            <ms-combobox
+              ref="ComboClassRegistration"
+              :isBorderRedCBB="isBorderRed"
+              :entityCBB="score"
+              :errorsCBB="errors"
+              :listEntitySearchCBB="listClassRegistrationSearch"
+              :propName="'class_registration_name'"
+              :propId="'class_registration_id'"
+              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderClassRegistration"
+            ></ms-combobox>
+          </div>
+        </div>
+        <div class="full-content">
           <div class="col-md-l" style="position: relative" ref="MenuItemStudent">
             <label>
               {{ this.$_MSResource[this.$_LANG_CODE].FORM.Student }}
@@ -50,24 +68,6 @@
               :propName="'teacher_name'"
               :propId="'teacher_id'"
               :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderTeacher"
-            ></ms-combobox>
-          </div>
-        </div>
-        <div class="full-content">
-          <div class="col-md-l" style="position: relative" ref="MenuItemClassRegistration">
-            <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.ClassRegistration }}
-              <span class="s-require">*</span>
-            </label>
-            <ms-combobox
-              ref="ComboClassRegistration"
-              :isBorderRedCBB="isBorderRed"
-              :entityCBB="score"
-              :errorsCBB="errors"
-              :listEntitySearchCBB="listClassRegistrationSearch"
-              :propName="'class_registration_name'"
-              :propId="'class_registration_id'"
-              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderClassRegistration"
             ></ms-combobox>
           </div>
         </div>
@@ -363,8 +363,8 @@ export default {
      */
     focusCode() {
       let me = this;
-      if (me.$refs.ComboStudent) {
-        me.$refs.ComboStudent.focusCombobox();
+      if (me.$refs.ComboClassRegistration) {
+        me.$refs.ComboClassRegistration.focusCombobox();
       }
     },
 

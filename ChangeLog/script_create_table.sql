@@ -159,8 +159,8 @@ create table score(
 	created_date date,
 	modified_by text,
 	modified_date date,
-	CONSTRAINT fk_score_student FOREIGN KEY(student_id) REFERENCES student(student_id),
-	CONSTRAINT fk_score_teacher FOREIGN KEY(teacher_id) REFERENCES teacher(teacher_id),
+	-- CONSTRAINT fk_score_student FOREIGN KEY(student_id) REFERENCES student(student_id),
+	-- CONSTRAINT fk_score_teacher FOREIGN KEY(teacher_id) REFERENCES teacher(teacher_id),
 	CONSTRAINT fk_score_class_registration FOREIGN KEY(class_registration_id) REFERENCES class_registration(class_registration_id)
 ); 
 
