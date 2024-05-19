@@ -10,8 +10,10 @@ namespace BE.DATN.BL.Interfaces.Services
 {
     public interface IClassRegistrationBL : IBaseBL<class_registration>
     {
-        Task<ResponseServiceClassRegistration> GetFilterPagingAsync(int limit, int offset, string? textSearch);
-
+        Task<ResponseServiceClassRegistration> GetFilterPagingAsync(int limit, int offset, string? textSearch); 
         Task<List<class_registration_view>?> GetMultipleByCodeAsync(string code);
+        Task<ResponseService> InsertMasterDetailAsync(class_registration_entity model);
+        Task<ResponseService> UpdateMasterDetailAsync(class_registration_entity model);
+        Task<List<class_registration_detail>?> GetListDetailAsync(Guid id);
     }
 }

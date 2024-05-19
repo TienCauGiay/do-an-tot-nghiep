@@ -49,6 +49,7 @@ builder.Services.AddScoped<ISubjectBL, SubjectBL>();
 builder.Services.AddScoped<ISubjectDL, SubjectDL>();
 builder.Services.AddScoped<IClassRegistrationBL, ClassRegistrationBL>();
 builder.Services.AddScoped<IClassRegistrationDL, ClassRegistrationDL>();
+builder.Services.AddScoped<IClassRegistrationDetailDL, ClassRegistrationDetailDL>();
 builder.Services.AddScoped<IFacultyBL, FacultyBL>();
 builder.Services.AddScoped<IFacultyDL, FacultyDL>();
 builder.Services.AddScoped<IUserBL, UserBL>();

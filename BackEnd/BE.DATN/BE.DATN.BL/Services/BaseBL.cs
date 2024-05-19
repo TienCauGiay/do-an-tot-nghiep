@@ -192,7 +192,7 @@ namespace BE.DATN.BL.Services
         /// <param name="ids"></param>
         protected abstract void ValidateBeforeDeleteMultiple(List<Guid> ids); 
 
-        public async Task<ResponseService> DeleteAsync(Guid id)
+        public virtual async Task<ResponseService> DeleteAsync(Guid id)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        public async Task<ResponseService> DeleteMultipleAsync(List<Guid> ids)
+        public virtual async Task<ResponseService> DeleteMultipleAsync(List<Guid> ids)
         {
             try
             {

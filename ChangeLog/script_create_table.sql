@@ -143,6 +143,15 @@ create table class_registration(
 	CONSTRAINT fk_class_registration_subject FOREIGN KEY(subject_id) REFERENCES subject(subject_id)
 );
 
+create table class_registration_detail(
+	class_registration_detail_id uuid primary key,
+	class_registration_id uuid,
+	student_id uuid,
+	student_code text,
+	student_name text,
+	CONSTRAINT fk_class_registration_detail_class_registration FOREIGN KEY(class_registration_id) REFERENCES class_registration(class_registration_id)
+);
+
 /**
  * Table Thông tin điểm số
  */

@@ -430,22 +430,28 @@ export default {
      */
     async loadData() {
       try {
+        // Nếu form ở trạng thái thêm mới
+        // Chuyển đối tượng sang chuỗi json
+        let res = JSON.stringify(this.registrationSelected);
+        // Chuyển đổi chuỗi json thành đối tượng teacher
+        this.registration = JSON.parse(res);
         if (this.statusFormMode !== this.$_MSEnum.FORM_MODE.Edit) {
           // Gán title cho form mode thêm mới
           this.titleFormMode = this.$_MSResource[this.$_LANG_CODE].FORM.AddRegistration;
         } else {
           // Gán title cho form mode thêm sửa
           this.titleFormMode = this.$_MSResource[this.$_LANG_CODE].FORM.UpdateRegistration;
-          this.listRegistrationUpdate = await this.getRegistrationUpdate();
-          this.registration = this.listRegistrationUpdate[0];
-          this.listStudentSelected = this.listRegistrationUpdate.map((x) => {
-            let item = {
-              student_id: x.student_id,
-              student_code: x.student_code,
-              student_name: x.student_name,
-            };
-            return item;
-          });
+          let listDetailUpdate = await classRegistrationService.getListDetail(this.registration.class_registration_id);
+          if (listDetailUpdate && listDetailUpdate.data && listDetailUpdate.data.length > 0) {
+            this.listStudentSelected = listDetailUpdate.data.map((x) => {
+              let item = {
+                student_id: x.student_id,
+                student_code: x.student_code,
+                student_name: x.student_name,
+              };
+              return item;
+            });
+          }
         }
         await this.getListTeacher();
         await this.getListSubject();
@@ -596,20 +602,9 @@ export default {
     },
 
     buildDataSave() {
-      let listDataSave = [];
-      if (this.statusFormMode === this.$_MSEnum.FORM_MODE.Add) {
-        if (this.listStudentSelected.length > 0) {
-          for (let i = 0; i < this.listStudentSelected.length; i++) {
-            let itemSave = JSON.parse(JSON.stringify(this.registration));
-            itemSave.student_id = this.listStudentSelected[i].student_id;
-            listDataSave.push(itemSave);
-          }
-        }
-      } else {
-        let ids = this.listStudentSelected.map((x) => x.student_id);
-        listDataSave = this.listRegistrationUpdate.filter((x) => ids.includes(x.student_id));
-      }
-      return listDataSave;
+      let itemSave = JSON.parse(JSON.stringify(this.registration));
+      itemSave.ListDetail = this.listStudentSelected;
+      return itemSave;
     },
 
     /**
@@ -626,7 +621,7 @@ export default {
           this.validateCustomSave();
           try {
             let dataSave = this.buildDataSave();
-            const res = await classRegistrationService.createMultiple(dataSave);
+            const res = await classRegistrationService.createMasterDetail(dataSave);
             if (
               res &&
               res.data &&
@@ -654,7 +649,7 @@ export default {
           this.validateCustomSave();
           try {
             let dataSave = this.buildDataSave();
-            const res = await classRegistrationService.updateMultiple(dataSave);
+            const res = await classRegistrationService.updateMasterDetail(dataSave);
             if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
               this.$_MSEmitter.emit(
                 "onShowToastMessageUpdate",

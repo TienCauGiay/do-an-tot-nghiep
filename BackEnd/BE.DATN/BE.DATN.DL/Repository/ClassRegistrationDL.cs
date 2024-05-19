@@ -30,7 +30,7 @@ namespace BE.DATN.DL.Repository
 
             using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
                 "select * from func_get_filter_paging_class_registration(:p_limit, :p_offset, :p_text_search); " +
-                "select count(u.class_registration_id) from public.class_registration u where u.class_registration_code ilike '%' || :p_text_search || '%' or u.class_registration_name ilike '%' || :p_text_search || '%';",
+                "select count(u.class_registration_id) from public.class_registration u inner join subject s on u.subject_id = s.subject_id inner join teacher t on u.teacher_id = t.teacher_id where u.class_registration_code ilike '%' || :p_text_search || '%' or u.class_registration_name ilike '%' || :p_text_search || '%' or s.subject_name ilike '%' || :p_text_search || '%' or t.teacher_name ilike '%' || :p_text_search || '%';",
                 parameters,
                 commandType: CommandType.Text,
                 transaction: _unitOfWork.Transaction))
