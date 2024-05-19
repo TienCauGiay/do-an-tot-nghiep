@@ -29,5 +29,26 @@ namespace BE.DATN.API.Controllers
             var res = await _classRegistrationBL.GetMultipleByCodeAsync(code);
             return Ok(res);
         }
+
+        [HttpPost("insert_master_detail")]
+        public async Task<IActionResult> InsertMasterDetail(class_registration_entity model)
+        {
+            var res = await _classRegistrationBL.InsertMasterDetailAsync(model);
+            return Ok(res);
+        }
+
+        [HttpPut("update_master_detail")]
+        public async Task<IActionResult> UpdateMasterDetail(class_registration_entity model)
+        {
+            var res = await _classRegistrationBL.UpdateMasterDetailAsync(model);
+            return Ok(res);
+        }
+
+        [HttpGet("get_list_detail")]
+        public async Task<IActionResult> GetListDetail(Guid id)
+        {
+            var res = await _classRegistrationBL.GetListDetailAsync(id);
+            return Ok(res);
+        }
     }
 }

@@ -117,6 +117,8 @@ const MSResource = {
         ClassRegistration_Column: {
             ClassRegistrationCode: "MÃ HỌC PHẦN",
             ClassRegistrationName: "TÊN HỌC PHẦN",
+            SubjectName: "MÔN HỌC",
+            TeacherName: "GIẢNG VIÊN",
             Feature: "CHỨC NĂNG",
         },
         Class_Column: {
@@ -308,7 +310,7 @@ const MSResource = {
                 LOGIN_FAILED: "Đăng nhập không thành công",
             },
             CONTENT:{
-                CONFIRM_DELETE_PRE: "Bạn có thực sự muốn xóa nhân viên <",
+                CONFIRM_DELETE_PRE: "Bạn có thực sự muốn xóa bản ghi này không?",
                 CONFIRM_DELETE_MULTIPLE: "Bạn có thực sự muốn xóa những bản ghi đã chọn không?",
                 DATA_CHANGE: "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
                 EXIST_PRE: "Mã nhân viên",

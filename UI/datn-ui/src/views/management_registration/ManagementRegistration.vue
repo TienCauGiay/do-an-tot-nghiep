@@ -5,7 +5,7 @@
   <div class="content-main-body">
     <div class="content-action">
       <div class="content-action-left">
-        <!-- <button
+        <button
           :disabled="isDisableExcuteBatch"
           class="delete-multiple"
           @click="onShowExcuteBatch"
@@ -23,7 +23,7 @@
               {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
             </div>
           </div>
-        </button> -->
+        </button>
       </div>
       <div class="search-entity">
         <input
@@ -52,16 +52,22 @@
         <table id="tbUserList">
           <thead>
             <tr>
-              <th type="checkbox" class="entity-border-left-custom">
-                <!-- <div class="th-checkbox">
+              <th type="checkbox" class="entity-border-left">
+                <div class="th-checkbox">
                   <input class="checkbox-select-row" type="checkbox" @click="checkAllSelect" :checked="isCheckAll" />
-                </div> -->
+                </div>
               </th>
-              <th class="w-300">
+              <th class="w-200">
                 {{ this.$_MSResource[this.$_LANG_CODE].ClassRegistration_Column.ClassRegistrationCode }}
               </th>
-              <th>
+              <th class="w-250">
                 {{ this.$_MSResource[this.$_LANG_CODE].ClassRegistration_Column.ClassRegistrationName }}
+              </th>
+              <th class="w-250">
+                {{ this.$_MSResource[this.$_LANG_CODE].ClassRegistration_Column.SubjectName }}
+              </th>
+              <th>
+                {{ this.$_MSResource[this.$_LANG_CODE].ClassRegistration_Column.TeacherName }}
               </th>
               <th type="feat" class="text-center entity-border-right e-birthday">
                 {{ this.$_MSResource[this.$_LANG_CODE].ClassRegistration_Column.Feature }}
@@ -72,36 +78,43 @@
             <tr
               v-show="dataTable.TotalRecord"
               v-for="item in dataTable.Data"
-              :key="item.class_registration_code"
+              :key="item.class_registration_id"
               @dblclick="onUpdateFormDetail(item)"
+              :class="{ checkedRow: checkRow().includes(item.class_registration_id) }"
             >
-              <td class="entity-border-left-custom" @dblclick.stop>
-                <!-- <div class="th-checkbox">
+              <td class="entity-border-left" @dblclick.stop>
+                <div class="th-checkbox">
                   <input
                     class="checkbox-select-row"
                     type="checkbox"
                     @click="checkRow(item.class_registration_id)"
                     :checked="checkRow().includes(item.class_registration_id)"
                   />
-                </div> -->
+                </div>
               </td>
-              <td class="w-300" :title="item.class_registration_code">
+              <td class="w-200" :title="item.class_registration_code">
                 {{ item.class_registration_code }}
               </td>
-              <td :title="item.class_registration_name">
+              <td class="w-250" :title="item.class_registration_name">
                 {{ item.class_registration_name }}
+              </td>
+              <td class="w-250" :title="item.subject_name">
+                {{ item.subject_name }}
+              </td>
+              <td :title="item.teacher_name">
+                {{ item.teacher_name }}
               </td>
               <td class="text-center entity-border-right e-birthday function-table" @dblclick.stop>
                 <span @click="onUpdateFormDetail(item)">
                   {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.UPDATE }}
                 </span>
-                <!-- <div
+                <div
                   v-if="sessionPermission == $_MSEnum.PERMISSION.Admin"
                   class="function-table-content"
                   @click="onOpenFeatureMenu($event, item)"
                 >
                   <div class="function-icon-table function-icon-select"></div>
-                </div> -->
+                </div>
               </td>
             </tr>
           </tbody>
@@ -199,9 +212,7 @@
     <ms-dialog-confirm-delete
       :isDeleteMultiple="isDeleteMultipleDialog"
       :contentDeleteMultiple="this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_MULTIPLE"
-      :contentDelete="`${
-        this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_PRE
-      }${registrationNameDeleteSelected}${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.END}`"
+      :contentDelete="`${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_PRE}`"
       v-if="isShowDialogConfirmDelete"
     ></ms-dialog-confirm-delete>
     <!-- toast message -->
@@ -253,7 +264,7 @@ export default {
   mounted() {
     // Lắng nghe sự kiện click trên toàn bộ màn hình
     window.addEventListener("click", this.handleClickOutsidePaging);
-    // window.addEventListener("click", this.handleClickOutsideDeleteMulti);
+    window.addEventListener("click", this.handleClickOutsideDeleteMulti);
     window.addEventListener("click", this.handleClickOutsideFeature);
   },
 
@@ -374,6 +385,21 @@ export default {
      */
     isDisableExcuteBatch() {
       return this.ids.length < 2;
+    },
+    /**
+     * Mô tả: Kiểm tra list ids chứa tất cả id trong dataTable hay không
+     * created by : BNTIEN
+     * created date: 28-06-2023 08:41:29
+     */
+    isCheckAll() {
+      if (!this.dataTable.Data) return false;
+      if (this.dataTable.Data.length == 0) return false;
+      for (let i = 0; i < this.dataTable.Data.length; i++) {
+        if (!this.ids.includes(this.dataTable.Data[i].class_registration_id)) {
+          return false;
+        }
+      }
+      return true;
     },
   },
 
@@ -510,7 +536,7 @@ export default {
         this.isShowLoading = false;
         this.isShowDialogConfirmDelete = false;
         this.isOverlay = false;
-        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
+        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code)) {
           this.isDeleteMultipleDialog = false;
           this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
           this.onShowToastMessage();
@@ -654,11 +680,11 @@ export default {
      * created by : BNTIEN
      * created date: 30-06-2023 21:53:38
      */
-    // handleClickOutsideDeleteMulti(event) {
-    //   if (!this.$refs.DeleteMulti.contains(event.target)) {
-    //     this.isShowMenuExcuteBatch = false;
-    //   }
-    // },
+    handleClickOutsideDeleteMulti(event) {
+      if (!this.$refs.DeleteMulti.contains(event.target)) {
+        this.isShowMenuExcuteBatch = false;
+      }
+    },
 
     /**
      * Mô tả: xử lý sự kiện click ngoài menu feature
@@ -769,7 +795,7 @@ export default {
     this.$_MSEmitter.off("confirmDeleteMultiple");
     this.$_MSEmitter.off("closeToastMessage");
     window.removeEventListener("click", this.handleClickOutsidePaging);
-    // window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
+    window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);
   },
 };

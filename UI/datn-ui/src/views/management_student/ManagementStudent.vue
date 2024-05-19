@@ -269,9 +269,7 @@
     <ms-dialog-confirm-delete
       :isDeleteMultiple="isDeleteMultipleDialog"
       :contentDeleteMultiple="this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_MULTIPLE"
-      :contentDelete="`${
-        this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_PRE
-      }${studentCodeDeleteSelected}${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.END}`"
+      :contentDelete="`${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.CONFIRM_DELETE_PRE}`"
       v-if="isShowDialogConfirmDelete"
     ></ms-dialog-confirm-delete>
     <!-- toast message -->

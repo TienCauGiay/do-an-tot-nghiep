@@ -12,7 +12,5 @@ namespace BE.DATN.BL.Models.ClassRegistration
         public string? subject_name { get; set; }
         public string? teacher_code { get; set; }
         public string? teacher_name { get; set; }
-        public string? student_code { get; set; }
-        public string? student_name { get; set; }
     }
 }
