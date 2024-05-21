@@ -290,5 +290,62 @@ namespace BE.DATN.BL.Services
                 return new MemoryStream();
             }
         }
+
+        public override async Task<ResponseService> DeleteAsync(Guid id)
+        {
+            try
+            {
+                // Lấy bản ghi cần xóa theo id
+                var teacherDelete = await _teacherDL.GetByIdAsync(id);
+
+                if (teacherDelete != null)
+                {
+                    // Xóa tài khoản đăng nhập
+                    await _userDL.DeleteByUserName(teacherDelete.teacher_code);
+                }
+
+                var res = await base.DeleteAsync(id);
+
+                return new ResponseService(StatusCodes.Status200OK, "Xóa dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
+        }
+
+        public override async Task<ResponseService> DeleteMultipleAsync(List<Guid> ids)
+        {
+            try
+            {
+                // Lấy các bản ghi cần xóa theo id
+                var listTeacherDelete = await _teacherDL.GetByListIdAsync(ids);
+
+                if (listTeacherDelete != null && listTeacherDelete.Count > 0)
+                {
+                    var listUserNameDelete = listTeacherDelete.Select(x => x.teacher_code).ToList();
+
+                    // Xóa tài khoản đăng nhập
+                    await _userDL.DeleteByListUserName(listUserNameDelete);
+                }
+
+                var res = await base.DeleteMultipleAsync(ids);
+                return new ResponseService(StatusCodes.Status200OK, "Xóa dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
+        }
     }
 }

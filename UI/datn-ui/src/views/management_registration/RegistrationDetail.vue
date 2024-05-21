@@ -129,6 +129,12 @@
       :valueNotNull="dataNotNull"
       :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.DATA_INVALID"
     ></ms-dialog-data-not-null>
+    <!-- dialog student id Exist -->
+    <ms-dialog-data-exist
+      v-if="isShowDialogCodeExist"
+      :textProp="this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_PRE"
+      :textEntityCodeExist="contentCodeExist"
+    ></ms-dialog-data-exist>
     <!-- dialog teacher save and close -->
     <ms-dialog-data-change v-if="isShowDialogDataChange"></ms-dialog-data-change>
   </div>
@@ -203,6 +209,10 @@ export default {
     this.$_MSEmitter.on("onSearchChangeCBBSelectMultiple", async (textSearch) => {
       await this.onSearchChangeStudent(textSearch);
     });
+
+    this.$_MSEmitter.on("closeDialogCodeExist", () => {
+      this.btnCloseDialogCodeExist();
+    });
   },
 
   mounted() {
@@ -248,12 +258,29 @@ export default {
       currentPageStudent: 1,
       isValidateCustom: false,
       listRegistrationUpdate: [],
+      // Khai báo trạng thái hiển thị của dialog cảnh báo mã nhân viên đã tồn tại
+      isShowDialogCodeExist: false,
+      // Khai báo biến xác định thông tin của mã nhân viên đã tồn tại
+      contentCodeExist: "",
     };
   },
 
   computed: {},
 
   methods: {
+    /**
+     * Mô tả: Hàm kiểm tra xem mã nhân viên đã tồn tại trong database hay chưa
+     * created by : BNTIEN
+     * created date: 29-06-2023 23:46:11
+     */
+    async checkExists() {
+      try {
+        const res = await classRegistrationService.getByCode(this.registration.class_registration_code);
+        return res.data;
+      } catch {
+        return null;
+      }
+    },
     /**
      * Mô tả: Xử lí toggle select group
      * created by : BNTIEN
@@ -618,22 +645,28 @@ export default {
         if (this.dataNotNull.length > 0) {
           this.isShowDialogDataNotNull = true;
         } else {
-          this.validateCustomSave();
           try {
-            let dataSave = this.buildDataSave();
-            const res = await classRegistrationService.createMasterDetail(dataSave);
-            if (
-              res &&
-              res.data &&
-              this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
-              res.data.Data > 0
-            ) {
-              this.$_MSEmitter.emit(
-                "onShowToastMessage",
-                this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
-              );
-              this.$emit("closeFormDetail");
-              this.$_MSEmitter.emit("refreshDataTable");
+            // Kiểm tra mã tồn tại
+            let codeExist = (await this.checkExists()).Data;
+            if (!codeExist) {
+              this.validateCustomSave();
+              let dataSave = this.buildDataSave();
+              const res = await classRegistrationService.createMasterDetail(dataSave);
+              if (
+                res &&
+                res.data &&
+                this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
+                res.data.Data > 0
+              ) {
+                this.$_MSEmitter.emit(
+                  "onShowToastMessage",
+                  this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
+                );
+                this.$emit("closeFormDetail");
+                this.$_MSEmitter.emit("refreshDataTable");
+              }
+            } else {
+              this.handleExisted(codeExist);
             }
           } catch (error) {
             this.handleErrorInputUser(error, this.registrationProperty);
@@ -646,17 +679,27 @@ export default {
         if (this.dataNotNull.length > 0) {
           this.isShowDialogDataNotNull = true;
         } else {
-          this.validateCustomSave();
           try {
-            let dataSave = this.buildDataSave();
-            const res = await classRegistrationService.updateMasterDetail(dataSave);
-            if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
-              this.$_MSEmitter.emit(
-                "onShowToastMessageUpdate",
-                this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_UPDATE
-              );
-              this.$emit("closeFormDetail");
-              this.$_MSEmitter.emit("refreshDataTable");
+            let codeExist = (await this.checkExists()).Data;
+            if (!codeExist || codeExist.class_registration_code === this.registrationSelected.class_registration_code) {
+              this.validateCustomSave();
+              let dataSave = this.buildDataSave();
+              const res = await classRegistrationService.updateMasterDetail(dataSave);
+              if (
+                res &&
+                res.data &&
+                this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
+                res.data.Data > 0
+              ) {
+                this.$_MSEmitter.emit(
+                  "onShowToastMessageUpdate",
+                  this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_UPDATE
+                );
+                this.$emit("closeFormDetail");
+                this.$_MSEmitter.emit("refreshDataTable");
+              }
+            } else {
+              this.handleExisted(codeExist);
             }
           } catch (error) {
             this.handleErrorInputUser(error, this.registrationProperty);
@@ -664,6 +707,27 @@ export default {
         }
       }
       // }
+    },
+    /**
+     * Mô tả: Hàm xử lý khi mã nhân viên đã tồn tại trong hệ thống
+     * created by : BNTIEN
+     * created date: 30-06-2023 00:30:22
+     */
+    handleExisted(itemExist) {
+      this.isShowDialogCodeExist = true;
+      this.isBorderRed.class_registration_code = true;
+      this.errors["class_registration_code"] = `${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_PRE}
+       ${itemExist.class_registration_code} ${this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.EXIST_DETAIL_END}`;
+      this.contentCodeExist = itemExist.class_registration_code;
+    },
+    /**
+     * Mô tả: Hàm xử lý sự kiện đóng dialog cảnh báo mã nhân viên đã tồn tại
+     * created by : BNTIEN
+     * created date: 29-05-2023 08:28:19
+     */
+    btnCloseDialogCodeExist() {
+      this.isShowDialogCodeExist = false;
+      this.focusCode();
     },
     /**
      * Mô tả: Hàm đóng dialog cảnh báo dữ liệu k được để trống và focus vào các ô trống
@@ -787,6 +851,7 @@ export default {
     this.$_MSEmitter.off("deleteItemCBBSelectMultiple");
     this.$_MSEmitter.off("handleScrollCBBSelectMultiple");
     this.$_MSEmitter.off("onSearchChangeCBBSelectMultiple");
+    this.$_MSEmitter.off("closeDialogCodeExist");
     // Xóa các sự kiện đã đăng kí
     this.$refs.FormDetail.removeEventListener("keydown", this.handleKeyDown);
   },

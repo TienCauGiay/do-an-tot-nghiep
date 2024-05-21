@@ -152,15 +152,10 @@
           ></ms-button-extra>
         </div>
         <div class="action-right">
-          <ms-button-extra
-            :textButtonExtra="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE"
+          <ms-button-default
+            :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE"
             @click="btnSave"
             :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SAVE"
-          ></ms-button-extra>
-          <ms-button-default
-            :textButtonDefault="this.$_MSResource[this.$_LANG_CODE].BUTTON.SAVE_AND_ADD"
-            @click="btnSaveAndAdd"
-            :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SAVE_AND_ADD"
           ></ms-button-default>
         </div>
       </div>

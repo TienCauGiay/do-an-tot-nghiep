@@ -4,6 +4,20 @@ class UserService extends BaseServices {
     controller = "Users";  
 
     /**
+     * Mô tả: Tìm theo username
+     * created by : BNTIEN
+     * created date: 17-06-2023 03:50:28
+     */ 
+    async getByUserName(username){
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_by_user_name`, {
+            params: {
+                username: username,
+            }
+        });
+        return response;
+    } 
+
+    /**
      * Mô tả: Tìm kiếm phân trang
      * created by : BNTIEN
      * created date: 17-06-2023 03:50:28
