@@ -41,6 +41,15 @@ namespace BE.DATN.DL.Repository
             return result;
         }
 
+        public async Task<List<TEntity>?> GetByListIdAsync(List<Guid> ids)
+        {
+            var query = $"SELECT * FROM public.{tableName} WHERE {tableName}_id = ANY(@ids)";
+
+            var students = await _unitOfWork.Connection.QueryAsync<TEntity>(query, new { ids = ids.ToArray() }, transaction: _unitOfWork.Transaction);
+
+            return students.ToList();
+        }
+
         public async Task<TEntity?> GetByCodeAsync(string code)
         {
             var selectQuery = $"SELECT * FROM public.{tableName} WHERE {tableName}_code = @Code";
@@ -217,6 +226,6 @@ namespace BE.DATN.DL.Repository
             var result = await _unitOfWork.Connection.QueryAsync<TEntity>(selectQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
 
             return result.ToList();
-        }
+        } 
     }
 }

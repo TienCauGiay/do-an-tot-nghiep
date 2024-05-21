@@ -1,4 +1,5 @@
-﻿using BE.DATN.BL.Interfaces.Repository;
+﻿using BE.DATN.BL.Enums;
+using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.UnitOfWork; 
 using BE.DATN.BL.Models.User;
 using Dapper;
@@ -94,6 +95,31 @@ namespace BE.DATN.DL.Repository
 
             var result = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<login>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
             return (login?)result;
-        } 
+        }
+
+        public async Task DeleteByUserName(string userName)
+        {
+            var deleteQuery = $"DELETE FROM public.user WHERE user_name = @UserName";
+            var parameters = new { UserName = userName };
+            await _unitOfWork.Connection.ExecuteAsync(deleteQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+        }
+
+        public async Task DeleteByListUserName(List<string> userNameList)
+        {
+            var query = $"DELETE FROM public.user WHERE user_name = ANY(@userNameList)";
+
+            await _unitOfWork.Connection.ExecuteAsync(query, new { userNameList = userNameList.ToArray() }, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+        }
+
+        public async Task<user?> GetByUsernameAsync(string username)
+        {
+            var selectQuery = $"SELECT * FROM public.user WHERE user_name = @Username";
+
+            var parameters = new { Username = username };
+
+            var result = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<user>(selectQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            return result;
+        }
     }
 }

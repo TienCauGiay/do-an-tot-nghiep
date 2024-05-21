@@ -15,6 +15,13 @@ namespace BE.DATN.API.Controllers
             _userBL = userBL;
         }
 
+        [HttpGet("get_by_user_name")]
+        public async Task<IActionResult> GetByUsername(string username)
+        {
+            var res = await _userBL.GetByUsernameAsync(username);
+            return Ok(res);
+        }
+
         [HttpGet("paging_filter")]
         public async Task<IActionResult> GetFilterPaging(int limit, int offset, string? textSearch)
         {

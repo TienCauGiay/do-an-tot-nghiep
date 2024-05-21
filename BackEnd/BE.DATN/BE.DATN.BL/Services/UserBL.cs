@@ -171,5 +171,23 @@ namespace BE.DATN.BL.Services
         {
             
         }
+
+        public async Task<ResponseService> GetByUsernameAsync(string username)
+        {
+            try
+            {
+                var res = await _userDL.GetByUsernameAsync(username);
+                return new ResponseService(StatusCodes.Status200OK, "Tìm kiếm dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
+        }
     }
 }

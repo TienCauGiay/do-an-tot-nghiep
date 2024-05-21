@@ -12,5 +12,6 @@ namespace BE.DATN.BL.Interfaces.Services
     {
         Task<ResponseServiceUser> GetFilterPagingAsync(int limit, int offset, string? textSearch);
         Task<ResponseService> ResetPassWorkAsync(Guid user_id);
+        Task<ResponseService> GetByUsernameAsync(string username);
     }
 }
