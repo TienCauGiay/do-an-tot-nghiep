@@ -278,7 +278,7 @@ const MSResource = {
             PassWord: "Mật khẩu",
             PlaceholderRole: "Phân quyền",
             Status: "Trạng thái hoạt động",
-            Active: "Hoạt động",
+            Active: "Sử dụng",
             InActive: "Ngưng sử dụng",
             ClassRegistration: "Lớp học phần",
             PlaceholderClassRegistration: "-- Chọn lớp học phần --",
