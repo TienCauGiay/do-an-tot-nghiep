@@ -510,7 +510,7 @@ export default {
                   )
                 ) {
                   this.setErrorMaxLength(refInput);
-                } else if (helperCommon.isFormatEmail(this.teacher[refInput])) {
+                } else if (helperCommon.isNotFormatEmail(this.teacher[refInput])) {
                   this.setError(refInput);
                 }
               }

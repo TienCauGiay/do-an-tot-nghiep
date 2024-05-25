@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BE.DATN.BL.Common
@@ -37,6 +39,40 @@ namespace BE.DATN.BL.Common
             string code = currentYear + "_" + initials.ToLower() + "_" + birthDate;
 
             return code;
+        }
+
+        /// <summary>
+        /// Kiểm tra chuỗi có phải tất cả đều là số hay không
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsNotNumber(string? str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
+
+            return !str.All(char.IsDigit);
+        }
+
+        public static bool IsValidEmail(string? email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            try
+            {
+                // Biểu thức chính quy để kiểm tra email hợp lệ
+                string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
         }
     }
 }

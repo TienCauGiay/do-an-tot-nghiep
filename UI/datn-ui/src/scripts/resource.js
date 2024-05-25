@@ -12,6 +12,7 @@ const MSResource = {
             "pass_word": "Mật khẩu không được để trống",
             "faculty_code": "Mã khoa không được để trống",
             "faculty_name": "Tên khoa không được để trống",
+            "classes_id": "Lớp học không tồn tại trong hệ thống",
             "classes_code": "Mã lớp không được để trống",
             "classes_name": "Lớp học không được để trống",
             "subject_code": "Mã môn học không được để trống",
@@ -19,6 +20,7 @@ const MSResource = {
             "semester_name": "Học kỳ không được để trống",
             "class_registration_code": "Mã lớp học phần không được để trống", 
             "StudentNotEmpty": "Bạn phải chọn ít nhất một sinh viên",
+            "phone_number":"Điện thoại phải là số",
         },
         MAXLENGTH:{
             "student_code": {Limit: 20, Warning : "Mã sinh viên tối đa 20 kí tự"},
@@ -318,6 +320,7 @@ const MSResource = {
                 EXIST_DETAIL_END: "đã tồn tại trong hệ thống.",
                 END: "> không?",
                 UserName: "Tên đăng nhập",
+                Arise: "Dữ liệu đã có phát sinh, không thể xóa",
             },
         },
         BUTTON:{
@@ -343,6 +346,11 @@ const MSResource = {
             UserName: "Tài khoản",
             PassWord: "Mật khẩu",
         },
+        IMPORT: {
+            Success: 'Nhập khẩu thành công',
+            Falured: 'Nhập khẩu không thành công',
+            ErrorSystem: 'Lỗi hệ thống, vui lòng liên hệ Bùi Ngọc Tiến',
+        }
     }, 
     REGEX:{
         END_MUST_NUMBER:/\d$/,

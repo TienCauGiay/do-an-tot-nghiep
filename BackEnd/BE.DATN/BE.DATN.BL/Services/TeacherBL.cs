@@ -51,10 +51,6 @@ namespace BE.DATN.BL.Services
             
         }
 
-        protected override void ValidateBusinessMultiple(List<teacher> entities, ModelState statte)
-        {
-            
-        }
         protected override void ValidateBeforeDelete(Guid id)
         {
             

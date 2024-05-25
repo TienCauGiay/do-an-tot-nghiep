@@ -60,12 +60,7 @@ namespace BE.DATN.BL.Services
         protected override void ValidateBusiness(score entity, ModelState state)
         {
 
-        }
-
-        protected override void ValidateBusinessMultiple(List<score> entities, ModelState statte)
-        {
-
-        }
+        } 
 
         protected override void ValidateBeforeDelete(Guid id)
         {

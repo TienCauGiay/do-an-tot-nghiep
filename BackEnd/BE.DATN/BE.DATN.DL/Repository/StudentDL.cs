@@ -152,5 +152,24 @@ namespace BE.DATN.DL.Repository
                 }
             }
         }
+
+        public async Task<bool> CheckAriseAsync(Guid student_id)
+        {
+            var query = @"
+                select 1 
+                from class_registration_detail crd 
+                where crd.student_id = @StudentId 
+                union 
+                select 1 
+                from score s 
+                where s.student_id = @StudentId 
+                limit 1";
+
+            var res = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<int?>(query, new { StudentId = student_id }, transaction: _unitOfWork.Transaction);
+
+            // Kiểm tra xem res có khác null không
+            return res.HasValue;
+        }
+
     }
 }

@@ -274,6 +274,11 @@
     ></ms-dialog-confirm-delete>
     <!-- toast message -->
     <ms-toast-success v-if="isShowToastMessage" :contentToast="contentToastSuccess"></ms-toast-success>
+    <ms-dialog-data-not-null
+      v-if="isShowDialogDataNotNull"
+      :valueNotNull="dataNotNull"
+      :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.DATA_INVALID"
+    ></ms-dialog-data-not-null>
     <a href="" ref="ExportStudent" v-show="false"></a>
   </div>
 </template>
@@ -330,6 +335,9 @@ export default {
       if (propCode == "condition_code") {
         await this.onSearchChangeConditionData(textSearch);
       }
+    });
+    this.$_MSEmitter.on("closeDialogDataError", () => {
+      this.onCloseDialogDataError();
     });
   },
 
@@ -415,6 +423,9 @@ export default {
       conditionFilter: {},
       listConditionFilter: [],
       isDisabledMenuConditionFilter: true,
+      // Khai báo trạng thái hiển thị của dialog cảnh báo dữ liệu k được để trống
+      isShowDialogDataNotNull: false,
+      dataNotNull: [],
     };
   },
 
@@ -496,6 +507,11 @@ export default {
   },
 
   methods: {
+    onCloseDialogDataError() {
+      this.isShowDialogDataNotNull = false;
+      this.isOverlay = false;
+      this.dataNotNull = [];
+    },
     /**
      * Mô tả: Hàm lấy dữ liệu sinh viên từ api
      * created by : BNTIEN
@@ -636,24 +652,50 @@ export default {
       this.studentCodeDeleteSelected = this.selectedStudent.student_code;
     },
     /**
+     * Mô tả: Kiểm tra xem sinh viên đã có dữ liệu phát sinh chưa trước khi xóa
+     * created by : BNTIEN
+     * created date: 26-05-2024 00:38:43
+     */
+    async checkArise() {
+      try {
+        const res = await studentService.checkArise(this.studentIdDeleteSelected);
+        return res?.data?.Data;
+      } catch (error) {
+        console.log(error);
+        return true;
+      }
+    },
+    /**
      * Mô tả: Hàm xử lý sự kiện khi người dùng xác nhận xóa 1 sinh viên
      * created by : BNTIEN
      * created date: 28-05-2023 21:09:01
      */
     async btnConfirmDeleteStudent() {
       try {
-        this.isShowLoading = true;
-        const res = await studentService.delete(this.studentIdDeleteSelected);
-        this.isShowLoading = false;
-        this.isShowDialogConfirmDelete = false;
-        this.isOverlay = false;
-        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
-          this.isDeleteMultipleDialog = false;
-          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
-          this.onShowToastMessage();
-          await this.getDataStudent();
+        if (await this.checkArise()) {
+          this.isShowDialogConfirmDelete = false;
+          this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.Arise);
+          this.isShowDialogDataNotNull = true;
+        } else {
+          this.isShowLoading = true;
+          const res = await studentService.delete(this.studentIdDeleteSelected);
+          this.isShowLoading = false;
+          this.isShowDialogConfirmDelete = false;
+          this.isOverlay = false;
+          if (
+            res &&
+            res.data &&
+            this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
+            res.data.Data?.Data > 0
+          ) {
+            this.isDeleteMultipleDialog = false;
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
+            this.onShowToastMessage();
+            await this.getDataStudent();
+          }
         }
-      } catch {
+      } catch (error) {
+        console.log(error);
         return;
       }
     },
@@ -1011,13 +1053,23 @@ export default {
       formData.append("file", file);
       try {
         const res = await studentService.importExcel(formData);
-        if (res && res.data && res.data.Code == this.$_MSEnum.STATUS.OK) {
-          this.contentToastSuccess = "Nhập khẩu thành công";
-          this.onShowToastMessage();
-          await this.getDataStudent();
+        if (res && res.data) {
+          if (res.data.Code == this.$_MSEnum.STATUS.CREATED) {
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].IMPORT.Success;
+            this.onShowToastMessage();
+            await this.getDataStudent();
+          } else if (res.data.Code == this.$_MSEnum.STATUS.BAD_REQUEST) {
+            this.dataNotNull.push(res.data.Data?.message_error);
+            this.isShowDialogDataNotNull = true;
+            this.isOverlay = true;
+          } else if (res.data.Code == this.$_MSEnum.STATUS.INTERNAL_SERVER_ERROR) {
+            this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].IMPORT.ErrorSystem);
+            this.isShowDialogDataNotNull = true;
+            this.isOverlay = true;
+          }
         }
       } catch (error) {
-        this.contentToastSuccess = "Nhập khẩu không thành thành công";
+        this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].IMPORT.Falured;
         this.onShowToastMessage();
         return;
       }
@@ -1036,6 +1088,7 @@ export default {
     this.$_MSEmitter.off("closeToastMessage");
     this.$_MSEmitter.off("onSelectedSelectOption");
     this.$_MSEmitter.off("onSearchChangeSelectOption");
+    this.$_MSEmitter.off("closeDialogDataError");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);

@@ -77,6 +77,15 @@ class StudentService extends BaseServices {
         });
         return response;
     }
+
+    async checkArise(student_id){
+        const response = await this.entity.get(`${this.getBaseUrl()}/check_arise`, {
+            params: {
+                student_id: student_id
+            }
+        });
+        return response;
+    }
 }
 
 export default new StudentService();

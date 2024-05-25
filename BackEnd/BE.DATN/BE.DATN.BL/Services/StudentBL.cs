@@ -54,9 +54,35 @@ namespace BE.DATN.BL.Services
 
         }
 
-        protected override void ValidateBusinessMultiple(List<student> entities, ModelState statte)
+        protected override Dictionary<string, object>? ValidateBusinessMultiple(List<student> entities, ModelState statte)
         {
-
+            Dictionary<string, object> res = new Dictionary<string, object>();
+            foreach (var s in entities)
+            {
+                if(s.birthday > DateTime.Now)
+                {
+                    res.Add("message_error", $"Ngày sinh của sinh viên {s.student_name} lớn hơn ngày hiện tại");
+                    break;
+                }
+                if (BNTUtil.IsNotNumber(s.phone_number))
+                {
+                    res.Add("message_error", $"Điện thoại của sinh viên {s.student_name} phải là số");
+                    break;
+                }
+                if (!BNTUtil.IsValidEmail(s.email))
+                {
+                    res.Add("message_error", $"Email của sinh viên {s.student_name} không đúng định dạng");
+                    break;
+                }
+            }
+            if(res.Count > 0)
+            {
+                return res;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         protected override void ValidateBeforeDelete(Guid id)
@@ -190,7 +216,10 @@ namespace BE.DATN.BL.Services
                             (
                                 StatusCodes.Status400BadRequest,
                                 "Mã lớp học không tồn tại trong hệ thống",
-                                new Object()
+                                new Dictionary<string, object>
+                                {
+                                    { "message_error", "Mã lớp học không tồn tại trong hệ thống" }
+                                }
                             );
                         } 
 
@@ -215,10 +244,11 @@ namespace BE.DATN.BL.Services
                             };
                             studentSave.Add(studentItemSave);
                         }
-                    }
+                    } 
+
                     // cất dữ liệu
                     var res = await InsertMultipleAsync(studentSave);
-                    return new ResponseService(StatusCodes.Status200OK, "Nhập khẩu sinh viên thành công", res);
+                    return res;
                 }
             }
             catch (Exception ex)
@@ -228,7 +258,10 @@ namespace BE.DATN.BL.Services
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
-                        new Object()
+                        new Dictionary<string, object>
+                        {
+                            { "message_error", ex.Message }
+                        }
                     );
             }
         }
@@ -362,6 +395,24 @@ namespace BE.DATN.BL.Services
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
                         new Object()
+                    );
+            }
+        }
+
+        public async Task<ResponseService> CheckAriseAsync(Guid student_id)
+        {
+            try
+            {
+                var res = await _studentDL.CheckAriseAsync(student_id);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch(Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        ex.Message
                     );
             }
         }

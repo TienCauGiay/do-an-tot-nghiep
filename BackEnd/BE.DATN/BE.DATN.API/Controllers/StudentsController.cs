@@ -65,5 +65,12 @@ namespace BE.DATN.API.Controllers
 
             return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_Sach_Sinh_Vien");
         }
+
+        [HttpGet("check_arise")]
+        public async Task<IActionResult> CheckArise(Guid student_id)
+        {
+            var res = await _studentBL.CheckAriseAsync(student_id);
+            return Ok(res);
+        }
     }
 }

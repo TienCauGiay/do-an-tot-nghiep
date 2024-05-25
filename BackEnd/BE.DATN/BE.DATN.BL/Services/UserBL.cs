@@ -54,12 +54,7 @@ namespace BE.DATN.BL.Services
         protected override void ValidateBusiness(user entity, ModelState state)
         {
             
-        }
-
-        protected override void ValidateBusinessMultiple(List<user> entities, ModelState statte)
-        {
-            
-        }
+        } 
 
         public async Task<ResponseServiceUser> GetFilterPagingAsync(int limit, int offset, string? textSearch)
         {

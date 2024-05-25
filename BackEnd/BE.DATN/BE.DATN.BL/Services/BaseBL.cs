@@ -89,7 +89,10 @@ namespace BE.DATN.BL.Services
         /// các model cụ thể sẽ override lại để custom riêng
         /// </summary>
         /// <param name="entity"></param>
-        protected abstract void ValidateBusinessMultiple(List<TEntity> entities, ModelState statte);
+        protected virtual Dictionary<string, object>? ValidateBusinessMultiple(List<TEntity> entities, ModelState statte)
+        {
+            return null;
+        }
 
         public async Task<ResponseService> InsertAsync(TEntity entity)
         {
@@ -120,7 +123,16 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                ValidateBusinessMultiple(entities, ModelState.Insert);
+                var validateResult = ValidateBusinessMultiple(entities, ModelState.Insert);
+                if(validateResult != null)
+                {
+                    return new ResponseService
+                    (
+                        StatusCodes.Status400BadRequest,
+                        "Lỗi nghiệp vụ",
+                        validateResult
+                    );
+                }
                 var res = await _baseDL.InsertMultipleAsync(entities);
                 await AfterInsertMultipleAsync(entities);
                 return new ResponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
@@ -164,7 +176,16 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                ValidateBusinessMultiple(entities, ModelState.Update);
+                var validateResult = ValidateBusinessMultiple(entities, ModelState.Update);
+                if (validateResult != null)
+                {
+                    return new ResponseService
+                    (
+                        StatusCodes.Status400BadRequest,
+                        "Lỗi nghiệp vụ",
+                        validateResult
+                    );
+                }
                 var res = await _baseDL.UpdateMultipleAsync(entities);
                 return new ResponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
             }
