@@ -191,11 +191,6 @@ namespace BE.DATN.BL.Services
             
         }
 
-        protected override void ValidateBusinessMultiple(List<class_registration> entities, ModelState statte)
-        {
-            
-        }
-
         public override async Task<ResponseService> DeleteAsync(Guid id)
         {
             try

@@ -134,7 +134,7 @@ const helperCommon = {
      * created by : BNTIEN
      * created date: 11-07-2023 16:26:14
      */
-    isFormatEmail: (text) => {
+    isNotFormatEmail: (text) => {
       if(!text) return false;
       const regex = /^\S+@\S+\.\S+$/;
       if(!regex.test(text)){
@@ -148,7 +148,7 @@ const helperCommon = {
      * created by : BNTIEN
      * created date: 16-07-2023 14:45:44
      */
-    isNumber: (text) => {
+    isNotNumber: (text) => {
       if(!text) return false;
       const regex = /^[0-9]+$/;
       if(!regex.test(text)){
@@ -204,7 +204,26 @@ const helperCommon = {
       console.error(error);
       return null;
     }
-  }
+  },
+
+  compareCurrentDate: (dateString) => {
+    // Tách chuỗi ngày tháng thành các phần tử năm, tháng, ngày
+    const [year, month, day] = dateString.split('/').map(Number);
+
+    // Tạo đối tượng Date từ các phần tử đã tách
+    const inputDate = new Date(year, month - 1, day); // Month is zero-indexed
+
+    // Lấy ngày hiện tại
+    const currentDate = new Date();
+
+    // So sánh ngày nhập vào với ngày hiện tại
+    if (inputDate > currentDate) {
+        return false; // Ngày nhập vào lớn hơn ngày hiện tại
+    } else {
+        return true; // Ngày nhập vào không lớn hơn ngày hiện tại
+    }
+  } 
+
 }
 
 export default helperCommon;

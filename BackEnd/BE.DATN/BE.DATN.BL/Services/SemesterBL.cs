@@ -34,10 +34,5 @@ namespace BE.DATN.BL.Services
         {
             
         }
-
-        protected override void ValidateBusinessMultiple(List<semester> entities, ModelState statte)
-        {
-            
-        }
     }
 }

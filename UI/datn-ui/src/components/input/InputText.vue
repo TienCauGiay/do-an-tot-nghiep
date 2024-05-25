@@ -7,6 +7,7 @@
     :title="titleContent"
     ref="inputText"
     :maxlength="maxLength"
+    :disabled="disabled"
   />
 </template>
 
@@ -20,6 +21,10 @@ export default {
     typeValue: {
       type: String,
       default: "text",
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
