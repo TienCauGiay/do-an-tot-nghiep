@@ -18,5 +18,6 @@ namespace BE.DATN.BL.Interfaces.Services
         Task<ResponseService> ImportExcelAsync(IFormFile formFile);
         Task<MemoryStream> ExportExcelAsync(int limit, int offset, string? textSearch, string? customFilter);
         Task<ResponseService> CheckAriseAsync(Guid student_id);
+        Task<ResponseService> GetIdAriseMultipleAsync(List<Guid> ids);
     }
 }

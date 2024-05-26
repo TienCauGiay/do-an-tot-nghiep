@@ -416,5 +416,23 @@ namespace BE.DATN.BL.Services
                     );
             }
         }
+
+        public async Task<ResponseService> GetIdAriseMultipleAsync(List<Guid> ids)
+        {
+            try
+            {
+                var res = await _studentDL.GetIdAriseMultipleAsync(ids);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        ex.Message
+                    );
+            }
+        }
     }
 }

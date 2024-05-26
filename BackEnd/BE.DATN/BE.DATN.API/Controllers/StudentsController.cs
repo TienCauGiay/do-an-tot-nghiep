@@ -72,5 +72,12 @@ namespace BE.DATN.API.Controllers
             var res = await _studentBL.CheckAriseAsync(student_id);
             return Ok(res);
         }
+
+        [HttpPost("get_id_arise")]
+        public async Task<IActionResult> GetIdAriseMultiple([FromBody] List<Guid> ids)
+        {
+            var res = await _studentBL.GetIdAriseMultipleAsync(ids);
+            return Ok(res);
+        }
     }
 }

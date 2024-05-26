@@ -171,5 +171,19 @@ namespace BE.DATN.DL.Repository
             return res.HasValue;
         }
 
+        public async Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> studentIds)
+        {
+            var textStudentId = String.Join(";", studentIds);
+            var parameters = new DynamicParameters();
+            parameters.Add("p_student_ids", textStudentId); 
+
+            var res = await _unitOfWork.Connection.QueryAsync<Guid>
+                (
+                "select * from public.function_get_student_id_arise(:p_student_ids)",
+                parameters,
+                _unitOfWork.Transaction
+                );
+            return res.ToList();
+        }
     }
 }
