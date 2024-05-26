@@ -16,7 +16,6 @@ namespace BE.DATN.BL.Interfaces.Services
         Task<ResponseService> GetOptionFilterAsync(EnumOptionFilter optionFilter, string? textSearch);
         Task<ResponseService> ImportExcelAsync(IFormFile formFile);
         Task<MemoryStream> ExportExcelAsync(int limit, int offset, string? textSearch, string? customFilter);
-        Task<ResponseService> CheckAriseAsync(Guid teacher_id);
-        Task<ResponseService> GetIdAriseMultipleAsync(List<Guid> ids);
+        Task<ResponseService> GetByClassRegistrantionIdAsync(Guid class_registration_id);
     }
 }

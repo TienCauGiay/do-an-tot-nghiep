@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace BE.DATN.DL.Repository
 {
@@ -136,39 +137,37 @@ namespace BE.DATN.DL.Repository
                     return memoryStream;
                 }
             }
-        }
+        } 
 
-        public async Task<bool> CheckAriseAsync(Guid teacher_id)
+        protected override string BuildQueryCheckArise()
         {
             var query = @"
                 select 1 
                 from class_registration cr 
-                where cr.teacher_id = @TeacherId 
+                where cr.teacher_id = @Id 
                 union 
                 select 1 
                 from score s 
-                where s.teacher_id = @TeacherId 
+                where s.teacher_id = @Id 
                 limit 1";
-
-            var res = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<int?>(query, new { TeacherId = teacher_id }, transaction: _unitOfWork.Transaction);
-
-            // Kiểm tra xem res có khác null không
-            return res.HasValue;
+            return query;
         }
 
-        public async Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> teacherIds)
+        protected override string BuildQueryGetIdArise()
         {
-            var textTeacherId = String.Join(";", teacherIds);
-            var parameters = new DynamicParameters();
-            parameters.Add("p_teacher_ids", textTeacherId);
+            var query = "select * from public.function_get_teacher_id_arise(:p_ids)";
+            return query;
+        }
 
-            var res = await _unitOfWork.Connection.QueryAsync<Guid>
-                (
-                "select * from public.function_get_teacher_id_arise(:p_teacher_ids)",
-                parameters,
-                _unitOfWork.Transaction
-                );
-            return res.ToList();
+        public async Task<teacher?> GetByClassRegistrantionIdAsync(Guid class_registration_id)
+        {
+            var selectQuery = $"select t.* from teacher t inner join class_registration cr on t.teacher_id = cr.teacher_id where cr.class_registration_id = @Id";
+
+            var parameters = new { Id = class_registration_id };
+
+            var result = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<teacher>(selectQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            return result;
         }
     }
 }

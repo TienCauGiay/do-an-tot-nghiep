@@ -5,7 +5,7 @@
     ref="FormDetail"
   >
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
@@ -31,6 +31,8 @@
               @input="setIsBorderRed('user_name')"
               @mouseenter="isHovering.user_name = true"
               @mouseleave="isHovering.user_name = false"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.user_name && isBorderRed.user_name">
               {{ errors["user_name"] }}
@@ -78,6 +80,8 @@
               @input="setIsBorderRed('user_name')"
               @mouseenter="isHovering.user_name = true"
               @mouseleave="isHovering.user_name = false"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.user_name && isBorderRed.user_name">
               {{ errors["user_name"] }}
@@ -95,6 +99,7 @@
               @mouseenter="isHovering.pass_word = true"
               @mouseleave="isHovering.pass_word = false"
               :typeValue="'password'"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.pass_word && isBorderRed.pass_word">
               {{ errors["pass_word"] }}
@@ -390,8 +395,6 @@ export default {
       try {
         for (const refInput of this.userProperty) {
           switch (refInput) {
-            case "role_id":
-              break;
             case "user_name":
               if (helperCommon.isEmptyInput(this.user[refInput])) {
                 this.setError(refInput);
@@ -403,6 +406,17 @@ export default {
                 this.sessionPermission != this.$_MSEnum.PERMISSION.Admin
               ) {
                 this.setError(refInput);
+              }
+              break;
+            case "role_name":
+              if (helperCommon.isEmptyInput(this.user[refInput])) {
+                this.setError(refInput);
+              } else {
+                if (!this.user.role_id) {
+                  this.errors.role_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.role_id;
+                  this.isBorderRed.role_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.role_id);
+                }
               }
               break;
             default:

@@ -1,7 +1,7 @@
 <template>
   <div id="detail-info" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"

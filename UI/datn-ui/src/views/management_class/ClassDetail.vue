@@ -1,7 +1,7 @@
 <template>
   <div id="detail-info-user" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
@@ -27,6 +27,8 @@
               @input="setIsBorderRed('classes_code')"
               @mouseenter="isHovering.classes_code = true"
               @mouseleave="isHovering.classes_code = false"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.classes_code && isBorderRed.classes_code">
               {{ errors["classes_code"] }}
@@ -43,6 +45,7 @@
               @input="setIsBorderRed('classes_name')"
               @mouseenter="isHovering.classes_name = true"
               @mouseleave="isHovering.classes_name = false"
+              :maxLength="500"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.classes_name && isBorderRed.classes_name">
               {{ errors["classes_name"] }}
@@ -368,11 +371,15 @@ export default {
                 this.setErrorMaxLength(refInput);
               }
               break;
-            case "faculty_id":
-              break;
             case "faculty_name":
               if (helperCommon.isEmptyInput(this.classes[refInput])) {
                 this.setError(refInput);
+              } else {
+                if (!this.classes.faculty_id) {
+                  this.errors.faculty_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.faculty_id;
+                  this.isBorderRed.faculty_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.faculty_id);
+                }
               }
               break;
             default:

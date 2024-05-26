@@ -1,7 +1,7 @@
 <template>
   <div id="detail-info-user-2" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
@@ -27,6 +27,8 @@
               @input="setIsBorderRed('faculty_code')"
               @mouseenter="isHovering.faculty_code = true"
               @mouseleave="isHovering.faculty_code = false"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.faculty_code && isBorderRed.faculty_code">
               {{ errors["faculty_code"] }}
@@ -43,6 +45,7 @@
               @input="setIsBorderRed('faculty_name')"
               @mouseenter="isHovering.faculty_name = true"
               @mouseleave="isHovering.faculty_name = false"
+              :maxLength="500"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.faculty_name && isBorderRed.faculty_name">
               {{ errors["faculty_name"] }}

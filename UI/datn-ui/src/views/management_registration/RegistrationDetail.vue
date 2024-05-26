@@ -1,7 +1,7 @@
 <template>
   <div id="detail-info" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
@@ -30,6 +30,8 @@
                 @input="setIsBorderRed('class_registration_code')"
                 @mouseenter="isHovering.class_registration_code = true"
                 @mouseleave="isHovering.class_registration_code = false"
+                :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+                :maxLength="50"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.class_registration_code && isBorderRed.class_registration_code">
                 {{ errors["class_registration_code"] }}
@@ -50,6 +52,8 @@
                 @input="setIsBorderRed('class_registration_name')"
                 @mouseenter="isHovering.class_registration_name = true"
                 @mouseleave="isHovering.class_registration_name = false"
+                :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+                :maxLength="255"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.class_registration_name && isBorderRed.class_registration_name">
                 {{ errors["class_registration_name"] }}
@@ -72,6 +76,7 @@
               :propName="'subject_name'"
               :propId="'subject_id'"
               :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderSubject"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
             ></ms-combobox>
           </div>
         </div>
@@ -90,6 +95,7 @@
               :propName="'teacher_name'"
               :propId="'teacher_id'"
               :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderTeacher"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
             ></ms-combobox>
           </div>
         </div>
@@ -589,13 +595,26 @@ export default {
                 this.setErrorMaxLength(refInput);
               }
               break;
-            case "subject_id":
-            case "teacher_id":
-              break;
             case "subject_name":
+              if (helperCommon.isEmptyInput(this.registration[refInput])) {
+                this.setError(refInput);
+              } else {
+                if (!this.registration.subject_id) {
+                  this.errors.subject_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.subject_id;
+                  this.isBorderRed.subject_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.subject_id);
+                }
+              }
+              break;
             case "teacher_name":
               if (helperCommon.isEmptyInput(this.registration[refInput])) {
                 this.setError(refInput);
+              } else {
+                if (!this.registration.teacher_id) {
+                  this.errors.teacher_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.teacher_id;
+                  this.isBorderRed.teacher_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.teacher_id);
+                }
               }
               break;
             default:
@@ -607,10 +626,10 @@ export default {
       }
     },
     validateCustomSave() {
-      if (this.listStudentSelected.length == 0) {
-        this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.StudentNotEmpty);
+      if (!this.listStudentSelected || this.listStudentSelected.length == 0) {
         this.isValidateCustom = true;
-        this.isShowDialogDataNotNull = true;
+      } else {
+        this.isValidateCustom = false;
       }
     },
     /**
@@ -650,20 +669,25 @@ export default {
             let codeExist = (await this.checkExists()).Data;
             if (!codeExist) {
               this.validateCustomSave();
-              let dataSave = this.buildDataSave();
-              const res = await classRegistrationService.createMasterDetail(dataSave);
-              if (
-                res &&
-                res.data &&
-                this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
-                res.data.Data > 0
-              ) {
-                this.$_MSEmitter.emit(
-                  "onShowToastMessage",
-                  this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
-                );
-                this.$emit("closeFormDetail");
-                this.$_MSEmitter.emit("refreshDataTable");
+              if (this.isValidateCustom) {
+                this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.StudentNotEmpty);
+                this.isShowDialogDataNotNull = true;
+              } else {
+                let dataSave = this.buildDataSave();
+                const res = await classRegistrationService.createMasterDetail(dataSave);
+                if (
+                  res &&
+                  res.data &&
+                  this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
+                  res.data.Data > 0
+                ) {
+                  this.$_MSEmitter.emit(
+                    "onShowToastMessage",
+                    this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
+                  );
+                  this.$emit("closeFormDetail");
+                  this.$_MSEmitter.emit("refreshDataTable");
+                }
               }
             } else {
               this.handleExisted(codeExist);
@@ -683,20 +707,25 @@ export default {
             let codeExist = (await this.checkExists()).Data;
             if (!codeExist || codeExist.class_registration_code === this.registrationSelected.class_registration_code) {
               this.validateCustomSave();
-              let dataSave = this.buildDataSave();
-              const res = await classRegistrationService.updateMasterDetail(dataSave);
-              if (
-                res &&
-                res.data &&
-                this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
-                res.data.Data > 0
-              ) {
-                this.$_MSEmitter.emit(
-                  "onShowToastMessageUpdate",
-                  this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_UPDATE
-                );
-                this.$emit("closeFormDetail");
-                this.$_MSEmitter.emit("refreshDataTable");
+              if (this.isValidateCustom) {
+                this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.StudentNotEmpty);
+                this.isShowDialogDataNotNull = true;
+              } else {
+                let dataSave = this.buildDataSave();
+                const res = await classRegistrationService.updateMasterDetail(dataSave);
+                if (
+                  res &&
+                  res.data &&
+                  this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
+                  res.data.Data > 0
+                ) {
+                  this.$_MSEmitter.emit(
+                    "onShowToastMessageUpdate",
+                    this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_UPDATE
+                  );
+                  this.$emit("closeFormDetail");
+                  this.$_MSEmitter.emit("refreshDataTable");
+                }
               }
             } else {
               this.handleExisted(codeExist);
@@ -744,13 +773,34 @@ export default {
             listPropError.push(key);
           }
         }
+        // thêm thuộc tính subject_name vào listPropError để xử lý focus nếu chưa có
+        if (listPropError.includes("subject_id") && !listPropError.includes("subject_name")) {
+          listPropError.push("subject_name");
+        }
+        // thêm thuộc tính faculty_name vào listPropError để xử lý focus nếu chưa có
+        if (listPropError.includes("teacher_id") && !listPropError.includes("teacher_name")) {
+          listPropError.push("teacher_name");
+        }
         for (const prop of this.registrationProperty) {
           if (listPropError.includes(prop)) {
             // đợi DOM cập nhật trước khi thực thi focus
-
-            this.$nextTick(() => {
-              this.$refs[prop].focus();
-            });
+            if (prop === "subject_id" || prop === "subject_name") {
+              this.$nextTick(() => {
+                if (this.$refs.ComboSubject) {
+                  this.$refs.ComboSubject.focusCombobox();
+                }
+              });
+            } else if (prop === "teacher_id" || prop === "teacher_name") {
+              this.$nextTick(() => {
+                if (this.$refs.ComboTeacher) {
+                  this.$refs.ComboTeacher.focusCombobox();
+                }
+              });
+            } else {
+              this.$nextTick(() => {
+                this.$refs[prop].focus();
+              });
+            }
             return;
           }
         }

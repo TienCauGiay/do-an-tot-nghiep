@@ -55,5 +55,21 @@ namespace BE.DATN.DL.Repository
 
             return (List<class_registration_view>?)result;
         }
+
+        protected override string BuildQueryCheckArise()
+        {
+            var query = @"
+                select 1 
+                from score s
+                where s.class_registration_id = @Id  
+                limit 1";
+            return query;
+        }
+
+        protected override string BuildQueryGetIdArise()
+        {
+            var query = "select * from public.function_get_registration_id_arise(:p_ids)";
+            return query;
+        }
     }
 }

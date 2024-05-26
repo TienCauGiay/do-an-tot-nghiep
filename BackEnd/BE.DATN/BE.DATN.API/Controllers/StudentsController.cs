@@ -64,20 +64,6 @@ namespace BE.DATN.API.Controllers
             Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
 
             return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_Sach_Sinh_Vien");
-        }
-
-        [HttpGet("check_arise")]
-        public async Task<IActionResult> CheckArise(Guid student_id)
-        {
-            var res = await _studentBL.CheckAriseAsync(student_id);
-            return Ok(res);
-        }
-
-        [HttpPost("get_id_arise")]
-        public async Task<IActionResult> GetIdAriseMultiple([FromBody] List<Guid> ids)
-        {
-            var res = await _studentBL.GetIdAriseMultipleAsync(ids);
-            return Ok(res);
-        }
+        } 
     }
 }

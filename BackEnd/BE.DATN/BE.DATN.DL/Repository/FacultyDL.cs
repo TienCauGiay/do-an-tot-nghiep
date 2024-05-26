@@ -43,5 +43,25 @@ namespace BE.DATN.DL.Repository
 
             return (res, totalRecord);
         }
+
+        protected override string BuildQueryCheckArise()
+        {
+            var query = @"
+                select 1 
+                from classes c
+                where c.faculty_id = @Id 
+                union 
+                select 1 
+                from teacher t 
+                where t.faculty_id = @Id 
+                limit 1";
+            return query;
+        }
+
+        protected override string BuildQueryGetIdArise()
+        {
+            var query = "select * from public.function_get_faculty_id_arise(:p_ids)";
+            return query;
+        }
     }
 }

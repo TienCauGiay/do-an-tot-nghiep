@@ -19,5 +19,7 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<int> DeleteAsync(Guid id);
         Task<int> DeleteMultipleAsync(List<Guid> ids);
         Task<List<TEntity>?> SearchAsync(string textSearch);
+        Task<bool> CheckAriseAsync(Guid id);
+        Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> ids);
     }
 }

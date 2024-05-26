@@ -70,28 +70,16 @@ class TeacherService extends BaseServices {
         link.setAttribute('download', 'Danh_Sach_Giang_Vien');
         link.click();
         return response;
-    }
+    } 
 
-    async checkArise(teacher_id){
-        const response = await this.entity.get(`${this.getBaseUrl()}/check_arise`, {
-            params: {
-                teacher_id: teacher_id
-            }
-        });
+    /**
+     * Mô tả: Lấy bản ghi theo id của lớp học phần
+     * created by : BNTIEN
+     * created date: 27-05-2024 00:52:09
+     */
+    async getByClassRegistrantionId(id){
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_by_class_registration_id?class_registration_id=${id}`);
         return response;
-    }
-
-    async getIdArise(ids){
-        try {
-            const response = await this.entity.post(`${this.getBaseUrl()}/get_id_arise`, ids, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            return response.data;
-        } catch (error) {
-            throw new Error(error.response.data);
-        }
     }
 }
 

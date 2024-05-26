@@ -1,7 +1,7 @@
 <template>
   <div id="detail-info-user" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
@@ -27,6 +27,8 @@
               @input="setIsBorderRed('subject_code')"
               @mouseenter="isHovering.subject_code = true"
               @mouseleave="isHovering.subject_code = false"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.subject_code && isBorderRed.subject_code">
               {{ errors["subject_code"] }}
@@ -43,6 +45,7 @@
               @input="setIsBorderRed('subject_name')"
               @mouseenter="isHovering.subject_name = true"
               @mouseleave="isHovering.subject_name = false"
+              :maxLength="500"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.subject_name && isBorderRed.subject_name">
               {{ errors["subject_name"] }}
@@ -368,11 +371,15 @@ export default {
                 this.setErrorMaxLength(refInput);
               }
               break;
-            case "semester_id":
-              break;
             case "semester_name":
               if (helperCommon.isEmptyInput(this.subject[refInput])) {
                 this.setError(refInput);
+              } else {
+                if (!this.subject.semester_id) {
+                  this.errors.semester_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.semester_id;
+                  this.isBorderRed.semester_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.semester_id);
+                }
               }
               break;
             default:

@@ -206,6 +206,17 @@
     ></ms-dialog-confirm-delete>
     <!-- toast message -->
     <ms-toast-success v-if="isShowToastMessage" :contentToast="contentToastSuccess"></ms-toast-success>
+    <ms-dialog-error
+      v-if="isShowDialogDataNotNull"
+      :valueNotNull="dataNotNull"
+      :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.DATA_INVALID"
+    ></ms-dialog-error>
+    <!-- dialog student confirm delete 2-->
+    <ms-dialog-confirm-delete-2
+      :isDeleteMultiple="false"
+      :contentDelete="contentDelete2"
+      v-if="isShowDialogConfirmDelete2"
+    ></ms-dialog-confirm-delete-2>
   </div>
 </template>
 <script>
@@ -245,8 +256,17 @@ export default {
     this.$_MSEmitter.on("confirmDeleteMultiple", async () => {
       await this.btnconfirmDeleteMultipleClass();
     });
+    this.$_MSEmitter.on("confirmDeleteEntity2", async () => {
+      await this.btnConfirmDeleteBusiness();
+    });
+    this.$_MSEmitter.on("unConfirmDeleteEntity2", () => {
+      this.btnUnConfirmDeleteBusiness();
+    });
     this.$_MSEmitter.on("closeToastMessage", () => {
       this.btnCloseToastMessage();
+    });
+    this.$_MSEmitter.on("closeDialogError", () => {
+      this.onCloseDialogError();
     });
   },
 
@@ -280,7 +300,7 @@ export default {
       // Khai báo list số bản ghi có thể lựa chọn để hiển thị trên trang
       recordOptions: this.$_MSEnum.RECORD.RECORD_OPTIONS,
       // Khai báo id của sinh viên cần xóa
-      classIdDeleteMultiple: "",
+      classIdDelete: "",
       // Khai báo user của sinh viên cần xóa
       classNameDeleteSelected: "",
       // Khai báo biến quy định trạng thái ẩn hiển dialog confirm delete
@@ -312,6 +332,11 @@ export default {
       // Khai báo biến quy định trạng thái hiển thị tiện ích
       isShowUtilities: false,
       sessionPermission: parseInt(sessionStorage.getItem("permission")),
+      isShowDialogDataNotNull: false,
+      dataNotNull: [],
+      contentDelete2: "",
+      isShowDialogConfirmDelete2: false,
+      listIdNotArise: [],
     };
   },
 
@@ -393,6 +418,11 @@ export default {
   },
 
   methods: {
+    onCloseDialogError() {
+      this.isShowDialogDataNotNull = false;
+      this.isOverlay = false;
+      this.dataNotNull = [];
+    },
     /**
      * Mô tả: Hàm lấy dữ liệu sinh viên từ api
      * created by : BNTIEN
@@ -511,7 +541,16 @@ export default {
       this.isShowDialogConfirmDelete = true;
       this.isDeleteMultipleDialog = false;
       this.isOverlay = true;
-      this.classIdDeleteMultiple = this.selectedClass.classes_id;
+      this.classIdDelete = this.selectedClass.classes_id;
+    },
+    async checkArise() {
+      try {
+        const res = await classService.checkArise(this.classIdDelete);
+        return res?.data?.Data;
+      } catch (error) {
+        console.log(error);
+        return true;
+      }
     },
     /**
      * Mô tả: Hàm xử lý sự kiện khi người dùng xác nhận xóa 1 sinh viên
@@ -520,16 +559,23 @@ export default {
      */
     async btnConfirmDeleteClass() {
       try {
-        this.isShowLoading = true;
-        const res = await classService.delete(this.classIdDeleteMultiple);
-        this.isShowLoading = false;
-        this.isShowDialogConfirmDelete = false;
-        this.isOverlay = false;
-        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
-          this.isDeleteMultipleDialog = false;
-          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
-          this.onShowToastMessage();
-          await this.getDataClass();
+        if (await this.checkArise()) {
+          this.isShowDialogConfirmDelete = false;
+          this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].DIALOG.CONTENT.Arise);
+          this.isShowDialogDataNotNull = true;
+        } else {
+          this.isShowLoading = true;
+          const res = await classService.delete(this.classIdDelete);
+          this.isShowLoading = false;
+          this.isShowDialogConfirmDelete = false;
+          this.isOverlay = false;
+          console.log(res);
+          if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
+            this.isDeleteMultipleDialog = false;
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
+            this.onShowToastMessage();
+            await this.getDataClass();
+          }
         }
       } catch {
         return;
@@ -744,6 +790,15 @@ export default {
       this.isOverlay = true;
       this.isDeleteMultipleDialog = true;
     },
+    async getIdArise() {
+      try {
+        const res = await classService.getIdArise(this.ids);
+        return res?.Data;
+      } catch (error) {
+        console.log(error);
+        return [];
+      }
+    },
     /**
      * Mô tả: Hàm thực hiện xóa nhiều sinh viên theo list id đã chọn
      * created by : BNTIEN
@@ -751,21 +806,74 @@ export default {
      */
     async btnconfirmDeleteMultipleClass() {
       try {
-        this.isShowLoading = true;
-        const res = await classService.deleteMutiple(this.ids);
-        this.isShowLoading = false;
         this.isShowDialogConfirmDelete = false;
         this.isOverlay = false;
-        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data) {
-          this.ids = [];
-          this.isDeleteMultipleDialog = false;
-          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
-          this.onShowToastMessage();
-          await this.getDataClass();
+        this.isShowLoading = true;
+        let listIdArise = await this.getIdArise();
+        this.isShowLoading = false;
+        if (listIdArise && listIdArise.length > 0) {
+          this.listIdNotArise = this.ids.filter((x) => !listIdArise.includes(x));
+          let listClassName = this.dataTable.Data.filter((x) => listIdArise.includes(x.classes_id)).map(
+            (x) => x.classes_name
+          );
+          let messageWarning = listClassName.join(", ");
+          this.contentDelete2 = `Những bản ghi ${messageWarning} đã có phát sinh, chương trình sẽ thực hiện xóa các bản ghi không có phát sinh. Bạn có muốn xóa không?`;
+          this.isShowDialogConfirmDelete2 = true;
+          this.isOverlay = true;
+        } else {
+          this.isShowLoading = true;
+          const res = await classService.deleteMutiple(this.ids);
+          this.isShowLoading = false;
+          if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data) {
+            this.ids = [];
+            this.isDeleteMultipleDialog = false;
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
+            this.onShowToastMessage();
+            await this.getDataClass();
+          }
         }
       } catch {
         return;
       }
+    },
+    async btnConfirmDeleteBusiness() {
+      try {
+        this.isShowDialogConfirmDelete2 = false;
+        this.isOverlay = false;
+        this.isShowLoading = true;
+        if (this.listIdNotArise && this.listIdNotArise.length > 0) {
+          const res = await classService.deleteMutiple(this.listIdNotArise);
+          this.isShowLoading = false;
+          if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data) {
+            this.ids = [];
+            this.listIdNotArise = [];
+            this.contentDelete2 = "";
+            this.isDeleteMultipleDialog = false;
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
+            this.onShowToastMessage();
+            await this.getDataClass();
+          }
+        } else {
+          this.isShowLoading = false;
+          this.ids = [];
+          this.listIdNotArise = [];
+          this.contentDelete2 = "";
+          this.isDeleteMultipleDialog = false;
+          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NoRecorDelete;
+          this.onShowToastMessage();
+        }
+      } catch (error) {
+        this.isShowLoading = false;
+        console.log(error);
+        return;
+      }
+    },
+
+    btnUnConfirmDeleteBusiness() {
+      this.isShowDialogConfirmDelete2 = false;
+      this.isOverlay = false;
+      this.contentDelete2 = "";
+      this.listIdNotArise = [];
     },
   },
 
@@ -778,7 +886,10 @@ export default {
     this.$_MSEmitter.off("confirmDeleteEntity");
     this.$_MSEmitter.off("unConfirmDeleteEntity");
     this.$_MSEmitter.off("confirmDeleteMultiple");
+    this.$_MSEmitter.off("confirmDeleteEntity2");
+    this.$_MSEmitter.off("unConfirmDeleteEntity2");
     this.$_MSEmitter.off("closeToastMessage");
+    this.$_MSEmitter.off("closeDialogError");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);
