@@ -13,7 +13,7 @@ namespace BE.DATN.BL.Models.Teacher
         public string teacher_name { get; set; }
         public Guid faculty_id { get; set; }
         public string faculty_code { get; set; }
-        public string faculty__name { get; set; }
+        public string faculty_name { get; set; }
         public DateTime? birthday { get; set; }
         public string gender { get; set; }
         public string address { get; set; }

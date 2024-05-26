@@ -31,6 +31,8 @@
                 @input="setIsBorderRed('teacher_code')"
                 @mouseenter="isHovering.teacher_code = true"
                 @mouseleave="isHovering.teacher_code = false"
+                :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
+                :maxLength="50"
               ></ms-input>
               <div
                 class="ms-tooltip"
@@ -57,6 +59,7 @@
                 @input="setIsBorderRed('teacher_name')"
                 @mouseenter="isHovering.teacher_name = true"
                 @mouseleave="isHovering.teacher_name = false"
+                :maxLength="255"
               ></ms-input>
               <div
                 class="ms-tooltip"
@@ -148,6 +151,7 @@
               @input="setIsBorderRed('address')"
               @mouseenter="isHovering.address = true"
               @mouseleave="isHovering.address = false"
+              :maxLength="500"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.address && isBorderRed.address">
               {{ errors["address"] }}
@@ -164,6 +168,7 @@
               @input="setIsBorderRed('phone_number')"
               @mouseenter="isHovering.phone_number = true"
               @mouseleave="isHovering.phone_number = false"
+              :maxLength="50"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.phone_number && isBorderRed.phone_number">
               {{ errors["phone_number"] }}
@@ -180,6 +185,7 @@
               @input="setIsBorderRed('email')"
               @mouseenter="isHovering.email = true"
               @mouseleave="isHovering.email = false"
+              :maxLength="100"
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.email && isBorderRed.email">
               {{ errors["email"] }}
@@ -487,11 +493,15 @@ export default {
                 this.setErrorMaxLength(refInput);
               }
               break;
-            case "faculty_id":
-              break;
             case "faculty_name":
               if (helperCommon.isEmptyInput(this.teacher[refInput])) {
                 this.setError(refInput);
+              } else {
+                if (!this.teacher.faculty_id) {
+                  this.errors.faculty_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.faculty_id;
+                  this.isBorderRed.faculty_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.faculty_id);
+                }
               }
               break;
             case "birthday":
@@ -515,17 +525,16 @@ export default {
                 }
               }
               break;
-            default:
+            case "phone_number":
               if (this.teacher[refInput]) {
-                if (
-                  helperCommon.isMaxLengthInput(
-                    this.teacher[refInput],
-                    this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
-                  )
-                ) {
-                  this.setErrorMaxLength(refInput);
+                if (helperCommon.isNotNumber(this.teacher[refInput])) {
+                  this.errors.phone_number = this.$_MSResource[this.$_LANG_CODE].VALIDATE.phone_number;
+                  this.isBorderRed.phone_number = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.phone_number);
                 }
               }
+              break;
+            default:
               break;
           }
         }

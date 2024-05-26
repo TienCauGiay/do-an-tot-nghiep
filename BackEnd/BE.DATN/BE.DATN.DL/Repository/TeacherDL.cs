@@ -137,5 +137,38 @@ namespace BE.DATN.DL.Repository
                 }
             }
         }
+
+        public async Task<bool> CheckAriseAsync(Guid teacher_id)
+        {
+            var query = @"
+                select 1 
+                from class_registration cr 
+                where cr.teacher_id = @TeacherId 
+                union 
+                select 1 
+                from score s 
+                where s.teacher_id = @TeacherId 
+                limit 1";
+
+            var res = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<int?>(query, new { TeacherId = teacher_id }, transaction: _unitOfWork.Transaction);
+
+            // Kiểm tra xem res có khác null không
+            return res.HasValue;
+        }
+
+        public async Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> teacherIds)
+        {
+            var textTeacherId = String.Join(";", teacherIds);
+            var parameters = new DynamicParameters();
+            parameters.Add("p_teacher_ids", textTeacherId);
+
+            var res = await _unitOfWork.Connection.QueryAsync<Guid>
+                (
+                "select * from public.function_get_teacher_id_arise(:p_teacher_ids)",
+                parameters,
+                _unitOfWork.Transaction
+                );
+            return res.ToList();
+        }
     }
 }

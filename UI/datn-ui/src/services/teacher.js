@@ -71,6 +71,28 @@ class TeacherService extends BaseServices {
         link.click();
         return response;
     }
+
+    async checkArise(teacher_id){
+        const response = await this.entity.get(`${this.getBaseUrl()}/check_arise`, {
+            params: {
+                teacher_id: teacher_id
+            }
+        });
+        return response;
+    }
+
+    async getIdArise(ids){
+        try {
+            const response = await this.entity.post(`${this.getBaseUrl()}/get_id_arise`, ids, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.data);
+        }
+    }
 }
 
 export default new TeacherService();
