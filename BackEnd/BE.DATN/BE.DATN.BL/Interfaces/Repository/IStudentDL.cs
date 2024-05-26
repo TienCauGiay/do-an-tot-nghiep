@@ -17,5 +17,6 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<List<condition_data>?> GetOptionFilterAsync(EnumOptionFilter optionFilter, string textSearch);
         Task<MemoryStream> ExportExcelAsync(List<student_view>? listStudentExport);
         Task<bool> CheckAriseAsync(Guid student_id);
+        Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> studentIds);
     }
 }
