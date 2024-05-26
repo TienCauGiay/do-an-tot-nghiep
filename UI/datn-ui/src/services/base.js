@@ -107,6 +107,28 @@ class BaseServices {
         const response = await this.entity.get(`${this.getBaseUrl()}/search?textSearch=${textSearch}`);
         return response;
     }
+
+    async checkArise(id){
+        const response = await this.entity.get(`${this.getBaseUrl()}/check_arise`, {
+            params: {
+                id: id
+            }
+        });
+        return response;
+    }
+
+    async getIdArise(ids){
+        try {
+            const response = await this.entity.post(`${this.getBaseUrl()}/get_id_arise`, ids, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.data);
+        }
+    }
 }
 
 export default BaseServices;

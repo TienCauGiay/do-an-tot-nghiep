@@ -153,37 +153,24 @@ namespace BE.DATN.DL.Repository
             }
         }
 
-        public async Task<bool> CheckAriseAsync(Guid student_id)
+        protected override string BuildQueryCheckArise()
         {
             var query = @"
                 select 1 
                 from class_registration_detail crd 
-                where crd.student_id = @StudentId 
+                where crd.student_id = @Id 
                 union 
                 select 1 
                 from score s 
-                where s.student_id = @StudentId 
+                where s.student_id = @Id 
                 limit 1";
-
-            var res = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<int?>(query, new { StudentId = student_id }, transaction: _unitOfWork.Transaction);
-
-            // Kiểm tra xem res có khác null không
-            return res.HasValue;
+            return query;
         }
 
-        public async Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> studentIds)
+        protected override string BuildQueryGetIdArise()
         {
-            var textStudentId = String.Join(";", studentIds);
-            var parameters = new DynamicParameters();
-            parameters.Add("p_student_ids", textStudentId); 
-
-            var res = await _unitOfWork.Connection.QueryAsync<Guid>
-                (
-                "select * from public.function_get_student_id_arise(:p_student_ids)",
-                parameters,
-                _unitOfWork.Transaction
-                );
-            return res.ToList();
+            var query = "select * from public.function_get_student_id_arise(:p_ids)";
+            return query;
         }
     }
 }

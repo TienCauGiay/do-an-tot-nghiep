@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.function_get_teacher_id_arise(p_teacher_ids text)
+CREATE OR REPLACE FUNCTION public.function_get_teacher_id_arise(p_ids text)
  RETURNS TABLE(teacher_id uuid)
  LANGUAGE plpgsql
 AS $function$  
@@ -9,7 +9,7 @@ BEGIN
 	drop table if exists tmp_ids;
 	create temp table tmp_ids(teacher_id uuid);
 	insert into tmp_ids (teacher_id)
-	select unnest(string_to_array(p_teacher_ids, ';'))::uuid;
+	select unnest(string_to_array(p_ids, ';'))::uuid;
 
 	drop table if exists tmp_result;
 	create temp table tmp_result(teacher_id uuid);

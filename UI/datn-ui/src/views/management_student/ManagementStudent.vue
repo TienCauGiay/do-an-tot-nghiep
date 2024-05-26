@@ -280,11 +280,11 @@
     ></ms-dialog-confirm-delete-2>
     <!-- toast message -->
     <ms-toast-success v-if="isShowToastMessage" :contentToast="contentToastSuccess"></ms-toast-success>
-    <ms-dialog-data-not-null
+    <ms-dialog-error
       v-if="isShowDialogDataNotNull"
       :valueNotNull="dataNotNull"
       :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.DATA_INVALID"
-    ></ms-dialog-data-not-null>
+    ></ms-dialog-error>
     <a href="" ref="ExportStudent" v-show="false"></a>
   </div>
 </template>
@@ -348,8 +348,8 @@ export default {
         await this.onSearchChangeConditionData(textSearch);
       }
     });
-    this.$_MSEmitter.on("closeDialogDataError", () => {
-      this.onCloseDialogDataError();
+    this.$_MSEmitter.on("closeDialogError", () => {
+      this.onCloseDialogError();
     });
   },
 
@@ -522,7 +522,7 @@ export default {
   },
 
   methods: {
-    onCloseDialogDataError() {
+    onCloseDialogError() {
       this.isShowDialogDataNotNull = false;
       this.isOverlay = false;
       this.dataNotNull = [];
@@ -1170,7 +1170,7 @@ export default {
     this.$_MSEmitter.off("closeToastMessage");
     this.$_MSEmitter.off("onSelectedSelectOption");
     this.$_MSEmitter.off("onSearchChangeSelectOption");
-    this.$_MSEmitter.off("closeDialogDataError");
+    this.$_MSEmitter.off("closeDialogError");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);

@@ -226,6 +226,43 @@ namespace BE.DATN.DL.Repository
             var result = await _unitOfWork.Connection.QueryAsync<TEntity>(selectQuery, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
 
             return result.ToList();
-        } 
+        }
+
+        protected virtual string BuildQueryCheckArise()
+        {
+            return string.Empty;
+        }
+
+        public async Task<bool> CheckAriseAsync(Guid id)
+        {
+            var query = BuildQueryCheckArise();
+
+            var res = await _unitOfWork.Connection.QueryFirstOrDefaultAsync<int?>(query, new { Id = id }, transaction: _unitOfWork.Transaction);
+
+            // Kiểm tra xem res có khác null không
+            return res.HasValue;
+        }
+
+        protected virtual string BuildQueryGetIdArise()
+        {
+            return string.Empty;
+        }
+
+        public async Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> ids)
+        {
+            var textId = String.Join(";", ids);
+            var parameters = new DynamicParameters();
+            parameters.Add("p_ids", textId);
+
+            var query = BuildQueryGetIdArise();
+
+            var res = await _unitOfWork.Connection.QueryAsync<Guid>
+                (
+                query,
+                parameters,
+                _unitOfWork.Transaction
+                );
+            return res.ToList();
+        }
     }
 }

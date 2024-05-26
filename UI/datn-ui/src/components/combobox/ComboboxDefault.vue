@@ -17,6 +17,7 @@
           @keydown="onKeyDownEntity"
           @mouseenter="isHoveringCBB = true"
           @mouseleave="isHoveringCBB = false"
+          :disabled="disabled"
         ></ms-input>
         <div
           class="ms-tooltip"
@@ -65,6 +66,7 @@ export default {
     "listEntitySearchCBB",
     "placeholderInputCBB",
     "indexSelectedCBB",
+    "disabled",
   ],
   data() {
     return {
@@ -98,7 +100,9 @@ export default {
      * created date: 29-05-2023 07:54:42
      */
     onShowSelectEntity() {
-      this.isShowSelectEntity = !this.isShowSelectEntity;
+      if (!this.disabled) {
+        this.isShowSelectEntity = !this.isShowSelectEntity;
+      }
     },
 
     /**

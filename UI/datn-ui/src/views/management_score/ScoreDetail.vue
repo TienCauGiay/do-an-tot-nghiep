@@ -1,7 +1,7 @@
 <template>
   <div id="detail-info-score" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
-      <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div>
+      <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
         @click="onCloseFormDetail"
         class="close-icon icon-tb"
@@ -32,24 +32,7 @@
               :propName="'class_registration_name'"
               :propId="'class_registration_id'"
               :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderClassRegistration"
-            ></ms-combobox>
-          </div>
-        </div>
-        <div class="full-content">
-          <div class="col-md-l" style="position: relative" ref="MenuItemStudent">
-            <label>
-              {{ this.$_MSResource[this.$_LANG_CODE].FORM.Student }}
-              <span class="s-require">*</span>
-            </label>
-            <ms-combobox
-              ref="ComboStudent"
-              :isBorderRedCBB="isBorderRed"
-              :entityCBB="score"
-              :errorsCBB="errors"
-              :listEntitySearchCBB="listStudentSearch"
-              :propName="'student_name'"
-              :propId="'student_id'"
-              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderStudent"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
             ></ms-combobox>
           </div>
         </div>
@@ -67,7 +50,27 @@
               :listEntitySearchCBB="listTeacherSearch"
               :propName="'teacher_name'"
               :propId="'teacher_id'"
-              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderTeacher"
+              :disabled="true"
+            ></ms-combobox>
+            <!-- :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderTeacher" -->
+          </div>
+        </div>
+        <div class="full-content">
+          <div class="col-md-l" style="position: relative" ref="MenuItemStudent">
+            <label>
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.Student }}
+              <span class="s-require">*</span>
+            </label>
+            <ms-combobox
+              ref="ComboStudent"
+              :isBorderRedCBB="isBorderRed"
+              :entityCBB="score"
+              :errorsCBB="errors"
+              :listEntitySearchCBB="listStudentSearch"
+              :propName="'student_name'"
+              :propId="'student_id'"
+              :placeholderInputCBB="this.$_MSResource[this.$_LANG_CODE].FORM.PlaceholderStudent"
+              :disabled="statusFormMode === $_MSEnum.FORM_MODE.Edit"
             ></ms-combobox>
           </div>
         </div>
@@ -199,13 +202,13 @@ export default {
       this.onCloseDialogSaveAndAdd();
     });
 
-    this.$_MSEmitter.on("onSelectedEntityCBB", (data, propName) => {
+    this.$_MSEmitter.on("onSelectedEntityCBB", async (data, propName) => {
       if (propName == "student_name") {
         this.onSelectedStudent(data);
       } else if (propName == "teacher_name") {
         this.onSelectedTeacher(data);
       } else if (propName == "class_registration_name") {
-        this.onSelectedClassRegistration(data);
+        await this.onSelectedClassRegistration(data);
       }
     });
     this.$_MSEmitter.on("onSearchChangeCBB", (newValue, propName) => {
@@ -245,12 +248,12 @@ export default {
     return {
       // Khai báo mảng lưu các thuộc tính cần validate theo thứ tự, phục vụ cho việc focus, hiển thị lỗi theo thứ tự
       scoreProperty: [
-        "student_id",
-        "student_name",
-        "teacher_id",
-        "teacher_name",
         "class_registration_id",
         "class_registration_name",
+        "teacher_id",
+        "teacher_name",
+        "student_id",
+        "student_name",
         "score_attendance",
         "score_test",
         "score_exam",
@@ -484,10 +487,21 @@ export default {
      * created by : BNTIEN
      * created date: 29-05-2023 07:54:52`
      */
-    onSelectedClassRegistration(classRegistration) {
+    async onSelectedClassRegistration(classRegistration) {
       this.score.class_registration_name = classRegistration.class_registration_name;
       this.score.class_registration_id = classRegistration.class_registration_id;
       this.isBorderRed.class_registration_name = false;
+      try {
+        let teacherCombo = await teacherService.getByClassRegistrantionId(classRegistration.class_registration_id);
+        if (teacherCombo && teacherCombo.data && teacherCombo.data.Data) {
+          this.score.teacher_name = teacherCombo.data.Data.teacher_name;
+          this.score.teacher_id = teacherCombo.data.Data.teacher_id;
+          this.isBorderRed.teacher_name = false;
+        }
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     },
     /**
      * Mô tả: Hàm set các lỗi nhập liệu phía fontend
@@ -535,15 +549,38 @@ export default {
       try {
         for (const refInput of this.scoreProperty) {
           switch (refInput) {
-            case "student_id":
-            case "teacher_id":
-            case "class_registration_id":
-              break;
-            case "student_name":
-            case "teacher_name":
             case "class_registration_name":
               if (helperCommon.isEmptyInput(this.score[refInput])) {
                 this.setError(refInput);
+              } else {
+                if (!this.score.class_registration_id) {
+                  this.errors.class_registration_name =
+                    this.$_MSResource[this.$_LANG_CODE].VALIDATE.class_registration_id;
+                  this.isBorderRed.class_registration_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.class_registration_id);
+                }
+              }
+              break;
+            case "student_name":
+              if (helperCommon.isEmptyInput(this.score[refInput])) {
+                this.setError(refInput);
+              } else {
+                if (!this.score.student_id) {
+                  this.errors.student_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_id;
+                  this.isBorderRed.student_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_id);
+                }
+              }
+              break;
+            case "teacher_name":
+              if (helperCommon.isEmptyInput(this.score[refInput])) {
+                this.setError(refInput);
+              } else {
+                if (!this.score.teacher_id) {
+                  this.errors.teacher_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.teacher_id;
+                  this.isBorderRed.teacher_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.teacher_id);
+                }
               }
               break;
             case "score_attendance":
@@ -607,6 +644,7 @@ export default {
           this.isShowDialogDataNotNull = true;
         } else {
           try {
+            // validate kiểm tra xem sinh viên đã có điểm học phần này chưa
             let scoreCreate = this.convertScore();
             const res = await scoreService.create(scoreCreate);
             if (
@@ -747,21 +785,23 @@ export default {
         }
       }
       // thêm thuộc tính subject_name vào listPropError để xử lý focus nếu chưa có
+      if (listPropError.includes("class_registration_id") && !listPropError.includes("class_registration_name")) {
+        listPropError.push("class_registration_name");
+      }
       if (listPropError.includes("student_id") && !listPropError.includes("student_name")) {
         listPropError.push("student_name");
       }
       if (listPropError.includes("teacher_id") && !listPropError.includes("teacher_name")) {
         listPropError.push("teacher_name");
       }
-      if (listPropError.includes("class_registration_id") && !listPropError.includes("class_registration_name")) {
-        listPropError.push("class_registration_name");
-      }
       for (const prop of this.scoreProperty) {
         if (listPropError.includes(prop)) {
           // đợi DOM cập nhật trước khi thực thi focus
           if (prop === "student_id" || prop === "student_name") {
             this.$nextTick(() => {
-              this.focusCode();
+              if (this.$refs.ComboStudent) {
+                this.$refs.ComboStudent.focusCombobox();
+              }
             });
           } else if (prop === "teacher_id" || prop === "teacher_name") {
             this.$nextTick(() => {

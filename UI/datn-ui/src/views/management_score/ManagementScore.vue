@@ -11,6 +11,7 @@
           @click="onShowExcuteBatch"
           :class="{ 'no-disable': !isDisableExcuteBatch }"
           ref="DeleteMulti"
+          v-if="sessionPermission != $_MSEnum.PERMISSION.Student"
         >
           <div class="select-function-delete">
             <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EXCUTE_BATCH }}</span>
@@ -32,6 +33,7 @@
           :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterType"
           :indexSelect="listOptionFilter.findIndex((obj) => obj.option_code == optionFilter.option_code)"
           :isReadonly="true"
+          v-if="sessionPermission != $_MSEnum.PERMISSION.Student"
         ></ms-select-option>
         <ms-select-option
           :listData="listConditionFilter"
@@ -42,8 +44,13 @@
           :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SelectFilterCondition"
           :indexSelect="listConditionFilter.findIndex((obj) => obj.condition_code == conditionFilter.condition_code)"
           :isDisabledMenu="isDisabledMenuConditionFilter"
+          v-if="sessionPermission != $_MSEnum.PERMISSION.Student"
         ></ms-select-option>
-        <div class="delete-filter" @click="deleteFilterCondition">
+        <div
+          class="delete-filter"
+          @click="deleteFilterCondition"
+          v-if="sessionPermission != $_MSEnum.PERMISSION.Student"
+        >
           {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DeleteFilterCondition }}
         </div>
       </div>
@@ -92,7 +99,7 @@
               <th class="e-fullname">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.StudentName }}
               </th>
-              <th class="e-fullname">
+              <th class="w-250">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.SubjectName }}
               </th>
               <th class="e-fullname">
@@ -149,7 +156,7 @@
               <td class="e-fullname" :title="item.student_name">
                 {{ item.student_name }}
               </td>
-              <td class="e-fullname" :title="item.subject_name">
+              <td class="w-250" :title="item.subject_name">
                 {{ item.subject_name }}
               </td>
               <td class="e-fullname" :title="item.number_tc">
@@ -816,7 +823,11 @@ export default {
      * created date: 30-06-2023 21:53:38
      */
     handleClickOutsideDeleteMulti(event) {
-      if (!this.$refs.DeleteMulti.contains(event.target)) {
+      if (
+        this.sessionPermission != this.$_MSEnum.PERMISSION.Student &&
+        this.$refs.DeleteMulti &&
+        !this.$refs.DeleteMulti.contains(event.target)
+      ) {
         this.isShowMenuExcuteBatch = false;
       }
     },

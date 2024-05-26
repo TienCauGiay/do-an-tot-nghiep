@@ -76,30 +76,7 @@ class StudentService extends BaseServices {
           }
         });
         return response;
-    }
-
-    async checkArise(student_id){
-        const response = await this.entity.get(`${this.getBaseUrl()}/check_arise`, {
-            params: {
-                student_id: student_id
-            }
-        });
-        return response;
-    }
-
-    async getIdArise(ids){
-        try {
-            const response = await this.entity.post(`${this.getBaseUrl()}/get_id_arise`, ids, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            return response.data;
-        } catch (error) {
-            throw new Error(error.response.data);
-        }
-    }
-    
+    }  
 }
 
 export default new StudentService();

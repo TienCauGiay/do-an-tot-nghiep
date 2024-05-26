@@ -11,6 +11,7 @@
           @click="onShowExcuteBatch"
           :class="{ 'no-disable': !isDisableExcuteBatch }"
           ref="DeleteMulti"
+          v-if="sessionPermission == $_MSEnum.PERMISSION.Admin"
         >
           <div class="select-function-delete">
             <span>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.EXCUTE_BATCH }}</span>
@@ -685,7 +686,7 @@ export default {
      * created date: 30-06-2023 21:53:38
      */
     handleClickOutsideDeleteMulti(event) {
-      if (!this.$refs.DeleteMulti.contains(event.target)) {
+      if (this.sessionPermission == this.$_MSEnum.PERMISSION.Admin && !this.$refs.DeleteMulti.contains(event.target)) {
         this.isShowMenuExcuteBatch = false;
       }
     },

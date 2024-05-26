@@ -84,5 +84,19 @@ namespace BE.DATN.API.Controllers
             var res = await _baseBL.SearchAsync(textSearch);
             return Ok(res);
         }
+
+        [HttpGet("check_arise")]
+        public async Task<IActionResult> CheckArise(Guid id)
+        {
+            var res = await _baseBL.CheckAriseAsync(id);
+            return Ok(res);
+        }
+
+        [HttpPost("get_id_arise")]
+        public async Task<IActionResult> GetIdAriseMultiple([FromBody] List<Guid> ids)
+        {
+            var res = await _baseBL.GetIdAriseMultipleAsync(ids);
+            return Ok(res);
+        }
     }
 }

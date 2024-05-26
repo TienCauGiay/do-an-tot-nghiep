@@ -19,5 +19,7 @@ namespace BE.DATN.BL.Interfaces.Services
         Task<ResponseService> DeleteAsync(Guid id);
         Task<ResponseService> DeleteMultipleAsync(List<Guid> ids);
         Task<ResponseService> SearchAsync(string? textSearch);
+        Task<ResponseService> CheckAriseAsync(Guid id);
+        Task<ResponseService> GetIdAriseMultipleAsync(List<Guid> ids);
     }
 }
