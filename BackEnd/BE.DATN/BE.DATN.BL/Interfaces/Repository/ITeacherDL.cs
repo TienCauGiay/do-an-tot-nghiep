@@ -14,5 +14,7 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<(List<teacher_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch, string customFilter);
         Task<List<condition_data>?> GetOptionFilterAsync(EnumOptionFilter optionFilter, string textSearch);
         Task<MemoryStream> ExportExcelAsync(List<teacher_view>? listTeacherExport);
+        Task<bool> CheckAriseAsync(Guid teacher_id);
+        Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> teacherIds);
     }
 }

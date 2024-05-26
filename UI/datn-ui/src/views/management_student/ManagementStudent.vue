@@ -710,6 +710,7 @@ export default {
           }
         }
       } catch (error) {
+        this.isShowLoading = false;
         console.log(error);
         return;
       }
@@ -729,16 +730,26 @@ export default {
         this.isShowDialogConfirmDelete2 = false;
         this.isOverlay = false;
         this.isShowLoading = true;
-        const res = await studentService.deleteMutiple(this.listIdNotArise);
-        this.isShowLoading = false;
-        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data) {
+        if (this.listIdNotArise && this.listIdNotArise.length > 0) {
+          const res = await studentService.deleteMutiple(this.listIdNotArise);
+          this.isShowLoading = false;
+          if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data) {
+            this.ids = [];
+            this.listIdNotArise = [];
+            this.contentDelete2 = "";
+            this.isDeleteMultipleDialog = false;
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
+            this.onShowToastMessage();
+            await this.getDataStudent();
+          }
+        } else {
+          this.isShowLoading = false;
           this.ids = [];
           this.listIdNotArise = [];
           this.contentDelete2 = "";
           this.isDeleteMultipleDialog = false;
-          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
+          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NoRecorDelete;
           this.onShowToastMessage();
-          await this.getDataStudent();
         }
       } catch (error) {
         this.isShowLoading = false;
@@ -1003,11 +1014,10 @@ export default {
         this.isShowLoading = false;
         if (listIdArise && listIdArise.length > 0) {
           this.listIdNotArise = this.ids.filter((x) => !listIdArise.includes(x));
-          let messageWarning = "";
           let listStudentName = this.dataTable.Data.filter((x) => listIdArise.includes(x.student_id)).map(
             (x) => x.student_name
           );
-          messageWarning = listStudentName.join(", ");
+          let messageWarning = listStudentName.join(", ");
           this.contentDelete2 = `Những bản ghi ${messageWarning} đã có phát sinh, chương trình sẽ thực hiện xóa các bản ghi không có phát sinh. Bạn có muốn xóa không?`;
           this.isShowDialogConfirmDelete2 = true;
           this.isOverlay = true;

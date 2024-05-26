@@ -222,7 +222,10 @@ namespace BE.DATN.BL.Services
                             (
                                 StatusCodes.Status400BadRequest,
                                 "Mã khoa không tồn tại trong hệ thống",
-                                new Object()
+                                new Dictionary<string, object>
+                                {
+                                    { "message_error", "Mã khoa không tồn tại trong hệ thống" }
+                                }
                             );
                         }
 
@@ -249,7 +252,7 @@ namespace BE.DATN.BL.Services
                     }
                     // cất dữ liệu
                     var res = await InsertMultipleAsync(teacherSave);
-                    return new ResponseService(StatusCodes.Status200OK, "Nhập khẩu giảng viên thành công", res);
+                    return res;
                 }
             }
             catch (Exception ex)
@@ -259,7 +262,10 @@ namespace BE.DATN.BL.Services
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
-                        new Object()
+                        new Dictionary<string, object>
+                        {
+                            { "message_error", ex.Message }
+                        }
                     );
             }
         }
@@ -341,6 +347,73 @@ namespace BE.DATN.BL.Services
                         ex.Message,
                         new Object()
                     );
+            }
+        }
+
+        public async Task<ResponseService> CheckAriseAsync(Guid teacher_id)
+        {
+            try
+            {
+                var res = await _teacherDL.CheckAriseAsync(teacher_id);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        ex.Message
+                    );
+            }
+        }
+
+        public async Task<ResponseService> GetIdAriseMultipleAsync(List<Guid> ids)
+        {
+            try
+            {
+                var res = await _teacherDL.GetIdAriseMultipleAsync(ids);
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        ex.Message
+                    );
+            }
+        }
+
+        protected override Dictionary<string, object>? ValidateBusinessMultiple(List<teacher> entities, ModelState statte)
+        {
+            Dictionary<string, object> res = new Dictionary<string, object>();
+            foreach (var s in entities)
+            {
+                if (s.birthday > DateTime.Now)
+                {
+                    res.Add("message_error", $"Ngày sinh của giảng viên {s.teacher_name} lớn hơn ngày hiện tại");
+                    break;
+                }
+                if (BNTUtil.IsNotNumber(s.phone_number))
+                {
+                    res.Add("message_error", $"Điện thoại của giảng viên {s.teacher_name} phải là số");
+                    break;
+                }
+                if (!BNTUtil.IsValidEmail(s.email))
+                {
+                    res.Add("message_error", $"Email của giảng viên {s.teacher_name} không đúng định dạng");
+                    break;
+                }
+            }
+            if (res.Count > 0)
+            {
+                return res;
+            }
+            else
+            {
+                return null;
             }
         }
     }
