@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Dapper.SqlMapper;
+using BE.DATN.BL.Models.Student;
 
 namespace BE.DATN.DL.Repository
 {
@@ -183,5 +184,44 @@ namespace BE.DATN.DL.Repository
                 }
             }
         } 
+
+        public async Task<bool> CheckExistsInScore(score entity)
+        {
+            var query = $"select * from score s where s.class_registration_id = @ClassRegistrationId and s.teacher_id = @TeacherId and s.student_id = @StudentId;";
+
+            var parameters = new
+            {
+                ClassRegistrationId = entity.class_registration_id,
+                TeacherId = entity.teacher_id,
+                StudentId = entity.student_id
+            };
+
+            var result = await _unitOfWork.Connection.QueryAsync<score>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            if (result != null && result.Count() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<List<student>?> CheckExistsInScoreMultiple(Guid classRegistrationId, Guid teacherId, string studentIds)
+        {
+            var query = "SELECT * FROM func_check_exists_in_score(:p_class_registration_id, :p_teacher_id, :p_student_ids)";
+
+            var parameters = new
+            {
+                p_class_registration_id = classRegistrationId,
+                p_teacher_id = teacherId,
+                p_student_ids = studentIds
+            };
+
+            var res = await _unitOfWork.Connection.QueryAsync<student>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            return res.ToList();
+        }
     }
 }

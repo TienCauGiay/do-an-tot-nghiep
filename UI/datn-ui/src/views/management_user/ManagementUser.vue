@@ -26,7 +26,7 @@
           </div>
         </button>
       </div>
-      <div class="search-entity">
+      <div class="search-entity" v-show="sessionPermission == $_MSEnum.PERMISSION.Admin">
         <input
           type="search"
           :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH"
@@ -40,6 +40,7 @@
         @click="refreshData"
         class="refresh-icon icon-tb"
         :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.REFRESH"
+        v-show="sessionPermission == $_MSEnum.PERMISSION.Admin"
       ></div>
       <!-- <div class="setting-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.SETTING_MAIN"></div> -->
       <div class="insert-data" id="insert-data" v-if="sessionPermission == $_MSEnum.PERMISSION.Admin">

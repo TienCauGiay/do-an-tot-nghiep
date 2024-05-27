@@ -61,5 +61,12 @@ namespace BE.DATN.API.Controllers
 
             return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_Sach_Diem");
         }
+
+        [HttpPost("check_exists_student_in_class_registration")]
+        public async Task<IActionResult> CheckExistsStudentInClassRegitration(score entity)
+        {
+            var res = await _scoreBL.CheckExistsStudentInClassRegitrationAsync(entity);
+            return Ok(res);
+        }
     }
 }
