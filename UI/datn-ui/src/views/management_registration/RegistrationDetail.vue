@@ -101,7 +101,7 @@
         </div>
         <div class="full-content-custom-2">
           <div class="col-md-l">
-            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.Student }}</label>
+            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.Student }} <span class="s-require">*</span></label>
             <ms-combobox-select-multiple
               ref="ComboMultiStudent"
               :listDataSelected="listStudentSelected"

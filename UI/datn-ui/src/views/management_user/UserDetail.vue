@@ -22,7 +22,7 @@
       </div>
       <div v-if="sessionPermission == $_MSEnum.PERMISSION.Admin" class="form-detail-content">
         <div class="full-content">
-          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.UserName }}</label>
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.UserName }} <span class="s-require">*</span></label>
           <div class="container-input">
             <ms-input
               ref="user_name"

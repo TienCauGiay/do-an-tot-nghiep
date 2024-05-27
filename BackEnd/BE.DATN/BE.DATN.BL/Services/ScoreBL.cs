@@ -1,4 +1,5 @@
-﻿using BE.DATN.BL.Enums;
+﻿using BE.DATN.BL.Common;
+using BE.DATN.BL.Enums;
 using BE.DATN.BL.Interfaces.Repository;
 using BE.DATN.BL.Interfaces.Services;
 using BE.DATN.BL.Interfaces.UnitOfWork;
@@ -241,7 +242,10 @@ namespace BE.DATN.BL.Services
                                 (
                                     StatusCodes.Status400BadRequest,
                                     "Mã giảng viên không tồn tại trong hệ thống",
-                                    new Object()
+                                    new Dictionary<string, object>
+                                    {
+                                        { "message_error", "Mã giảng viên không tồn tại trong hệ thống" }
+                                    }
                                 );
                             }
                             if (classRegistrationByCode != null)
@@ -254,7 +258,10 @@ namespace BE.DATN.BL.Services
                                 (
                                     StatusCodes.Status400BadRequest,
                                     "Mã lớp học phần không tồn tại trong hệ thống",
-                                    new Object()
+                                    new Dictionary<string, object>
+                                    {
+                                        { "message_error", "Mã lớp học phần không tồn tại trong hệ thống" }
+                                    }
                                 );
                             }
                             // Tìm sinh viên có student_id tương ứng trong list students
@@ -276,15 +283,18 @@ namespace BE.DATN.BL.Services
                                 (
                                     StatusCodes.Status400BadRequest,
                                     $"Mã sinh viên {score.student_code} không tồn tại trong hệ thống",
-                                    new Object()
+                                    new Dictionary<string, object>
+                                    {
+                                        { "message_error", $"Mã sinh viên {score.student_code} không tồn tại trong hệ thống" }
+                                    }
                                 );
                             }
                             scoreSave.Add(scoreItemSave);
                         }
                     }
                     // cất dữ liệu
-                    var res = await _scoreDL.InsertMultipleAsync(scoreSave);
-                    return new ResponseService(StatusCodes.Status200OK, "Nhập khẩu điểm thành công", res);
+                    var res = await InsertMultipleAsync(scoreSave);
+                    return res;
                 }
             }
             catch (Exception ex)
@@ -294,8 +304,48 @@ namespace BE.DATN.BL.Services
                     (
                         StatusCodes.Status500InternalServerError,
                         ex.Message,
-                        new Object()
+                        new Dictionary<string, object>
+                        {
+                            { "message_error", ex.Message }
+                        }
                     );
+            }
+        }
+
+        protected override async Task<Dictionary<string, object>?> ValidateBusinessMultiple(List<score> entities, ModelState statte)
+        {
+            Dictionary<string, object> res = new Dictionary<string, object>();
+
+            // Kiểm tra xem sinh các sinh viên có trong lớp học phần đang nhập điểm hay không
+            if(entities.Count > 0)
+            {
+                var classRegistrationId = entities[0].class_registration_id;
+                var teacherId = entities[0].teacher_id;
+                var listStudentId = String.Join(";", entities.Select(x => x.student_id).ToList());
+                var studentNotExistsInClassRegistration = await _classRegistrationDL.CheckExistsInClassRegistraionMultiple(classRegistrationId, teacherId, listStudentId);
+                if(studentNotExistsInClassRegistration != null && studentNotExistsInClassRegistration.Count > 0)
+                {
+                    var listStudentCodeError = String.Join(", ", studentNotExistsInClassRegistration.Select(x => x.student_name).ToList());
+                    res.Add("message_error", $"Không có các sinh viên {listStudentCodeError} trong lớp học phần");
+                }
+                else
+                {
+                    var studentNotExistsInScore = await _scoreDL.CheckExistsInScoreMultiple(classRegistrationId, teacherId, listStudentId);
+                    if(studentNotExistsInScore != null && studentNotExistsInScore.Count > 0)
+                    {
+                        var listStudentCodeError2 = String.Join(", ", studentNotExistsInScore.Select(x => x.student_name).ToList());
+                        res.Add("message_error", $"Các sinh viên {listStudentCodeError2} đã có điểm của lớp học phần");
+                    }
+                }
+            }  
+
+            if (res.Count > 0)
+            {
+                return res;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -325,6 +375,29 @@ namespace BE.DATN.BL.Services
         protected override async Task AfterInsertAsync(score entity)
         {
             
+        }
+
+        public async Task<ResponseService> CheckExistsStudentInClassRegitrationAsync(score entity)
+        {
+            try
+            {
+                Dictionary<string, bool> dict = new Dictionary<string, bool>();
+                var existInClassRegistration = await _classRegistrationDL.CheckExistsInClassRegistraion(entity.class_registration_id, entity.teacher_id, entity.student_id);
+                var existsInScore = await _scoreDL.CheckExistsInScore(entity);
+                dict.Add("ExistInClassRegistration", existInClassRegistration);
+                dict.Add("ExistsInScore", existsInScore);
+
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", dict);
+            }
+            catch(Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
         }
     }
 }

@@ -76,7 +76,9 @@
         </div>
         <div class="half-content">
           <div class="col-md-l">
-            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAttendance }}</label>
+            <label>
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAttendance }} <span class="s-require">*</span></label
+            >
             <div class="container-input">
               <ms-input
                 ref="score_attendance"
@@ -85,6 +87,7 @@
                 @input="setIsBorderRed('score_attendance')"
                 @mouseenter="isHovering.score_attendance = true"
                 @mouseleave="isHovering.score_attendance = false"
+                :maxLength="10"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.score_attendance && isBorderRed.score_attendance">
                 {{ errors["score_attendance"] }}
@@ -94,7 +97,7 @@
         </div>
         <div class="half-content">
           <div class="col-md-l">
-            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreTest }}</label>
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreTest }} <span class="s-require">*</span></label>
             <div class="container-input">
               <ms-input
                 ref="score_test"
@@ -103,6 +106,7 @@
                 @input="setIsBorderRed('score_test')"
                 @mouseenter="isHovering.score_test = true"
                 @mouseleave="isHovering.score_test = false"
+                :maxLength="10"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.score_test && isBorderRed.score_test">
                 {{ errors["score_test"] }}
@@ -112,7 +116,7 @@
         </div>
         <div class="half-content">
           <div class="col-md-l">
-            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreExam }}</label>
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreExam }} <span class="s-require">*</span></label>
             <div class="container-input">
               <ms-input
                 ref="score_exam"
@@ -121,6 +125,7 @@
                 @input="setIsBorderRed('score_exam')"
                 @mouseenter="isHovering.score_exam = true"
                 @mouseleave="isHovering.score_exam = false"
+                :maxLength="10"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.score_exam && isBorderRed.score_exam">
                 {{ errors["score_exam"] }}
@@ -130,7 +135,7 @@
         </div>
         <div class="half-content">
           <div class="col-md-l">
-            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAverage }}</label>
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAverage }} <span class="s-require">*</span></label>
             <div class="container-input">
               <ms-input
                 ref="score_average"
@@ -139,6 +144,7 @@
                 @input="setIsBorderRed('score_average')"
                 @mouseenter="isHovering.score_average = true"
                 @mouseleave="isHovering.score_average = false"
+                :maxLength="10"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.score_average && isBorderRed.score_average">
                 {{ errors["score_average"] }}
@@ -587,17 +593,17 @@ export default {
             case "score_test":
             case "score_exam":
             case "score_average":
-              if (this.score[refInput]) {
-                if (
-                  helperCommon.isMaxLengthInput(
-                    this.score[refInput],
-                    this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
-                  )
-                ) {
-                  this.setErrorMaxLength(refInput);
-                } else if (!helperCommon.isDecimal(this.score[refInput].toString())) {
-                  this.setErrorNotNumber(refInput);
-                }
+              if (helperCommon.isEmptyInput(this.score[refInput])) {
+                this.setError(refInput);
+              } else if (
+                helperCommon.isMaxLengthInput(
+                  this.score[refInput],
+                  this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
+                )
+              ) {
+                this.setErrorMaxLength(refInput);
+              } else if (!helperCommon.isDecimal(this.score[refInput].toString())) {
+                this.setErrorNotNumber(refInput);
               }
               break;
             default:
@@ -632,6 +638,16 @@ export default {
       return scoreCreate;
     },
 
+    async checkExistsStudentInClassRegitration(scoreCreate) {
+      try {
+        let res = await scoreService.checkExistsStudentInClassRegitration(scoreCreate);
+        return res?.data?.Data;
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    },
+
     /**
      * Mô tả: Hàm xử lý sự kiện khi người dùng bấm vào nút cất trên form chi tiết
      * created by : BNTIEN
@@ -644,23 +660,49 @@ export default {
           this.isShowDialogDataNotNull = true;
         } else {
           try {
-            // validate kiểm tra xem sinh viên đã có điểm học phần này chưa
+            // validate kiểm tra xem có sinh viên cần thêm ở trong lớp học phần này không
+            // và đã có điểm học phần này chưa
             let scoreCreate = this.convertScore();
-            const res = await scoreService.create(scoreCreate);
-            if (
-              res &&
-              res.data &&
-              this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
-              res.data.Data > 0
-            ) {
-              this.$_MSEmitter.emit(
-                "onShowToastMessage",
-                this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
-              );
-              this.$emit("closeFormDetail");
-              this.$_MSEmitter.emit("refreshDataTable");
+            let dataCheck = await this.checkExistsStudentInClassRegitration(scoreCreate);
+            if (!dataCheck) {
+              this.errors.student_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_not_exists;
+              this.isBorderRed.student_name = true;
+              this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_not_exists);
+              this.isShowDialogDataNotNull = true;
+            } else {
+              // Nếu sinh viên không tồn tại trong lớp học phần thì không cho cất
+              if (!dataCheck.ExistInClassRegistration) {
+                this.errors.student_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_not_exists;
+                this.isBorderRed.student_name = true;
+                this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_not_exists);
+                this.isShowDialogDataNotNull = true;
+              } else {
+                // Nếu sinh viên này đã có điểm thì không cho cất
+                if (dataCheck.ExistsInScore) {
+                  this.errors.student_name = this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_has_score;
+                  this.isBorderRed.student_name = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.student_has_score);
+                  this.isShowDialogDataNotNull = true;
+                } else {
+                  const res = await scoreService.create(scoreCreate);
+                  if (
+                    res &&
+                    res.data &&
+                    this.$_MSEnum.CHECK_STATUS.isResponseStatusCreated(res.data.Code) &&
+                    res.data.Data > 0
+                  ) {
+                    this.$_MSEmitter.emit(
+                      "onShowToastMessage",
+                      this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_CTEATE
+                    );
+                    this.$emit("closeFormDetail");
+                    this.$_MSEmitter.emit("refreshDataTable");
+                  }
+                }
+              }
             }
           } catch (error) {
+            console.log(error);
             this.handleErrorInputTeacher(error, this.scoreProperty);
           }
         }

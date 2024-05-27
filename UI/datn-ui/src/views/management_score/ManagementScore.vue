@@ -93,7 +93,7 @@
                   <input class="checkbox-select-row" type="checkbox" @click="checkAllSelect" :checked="isCheckAll" />
                 </div>
               </th>
-              <th class="e-id">
+              <th class="e-id" :title="$_MSResource[$_LANG_CODE].Student_Column.StudentCode">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.StudentCode }}
               </th>
               <th class="e-fullname">
@@ -108,16 +108,16 @@
               <th class="e-fullname">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.TeacherName }}
               </th>
-              <th class="e-bank-account">
+              <th class="e-bank-account" :title="$_MSResource[$_LANG_CODE].Score_Column.TitleScoreAttendance">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.ScoreAttendance }}
               </th>
-              <th class="e-bank-account">
+              <th class="e-bank-account" :title="$_MSResource[$_LANG_CODE].Score_Column.TitleScoreTest">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.ScoreTest }}
               </th>
               <th class="e-bank-account">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.ScoreExam }}
               </th>
-              <th class="e-bank-account">
+              <th class="e-bank-account" :title="$_MSResource[$_LANG_CODE].Score_Column.TitleScoreAverage">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.ScoreAverage }}
               </th>
               <th class="e-bank-account">
@@ -292,6 +292,11 @@
     ></ms-dialog-confirm-delete>
     <!-- toast message -->
     <ms-toast-success v-if="isShowToastMessage" :contentToast="contentToastSuccess"></ms-toast-success>
+    <ms-dialog-error
+      v-if="isShowDialogDataNotNull"
+      :valueNotNull="dataNotNull"
+      :title="this.$_MSResource[this.$_LANG_CODE].DIALOG.TITLE.DATA_INVALID"
+    ></ms-dialog-error>
     <a href="" ref="ExportScore" v-show="false"></a>
   </div>
 </template>
@@ -348,6 +353,9 @@ export default {
       if (propCode == "condition_code") {
         await this.onSearchChangeConditionData(textSearch);
       }
+    });
+    this.$_MSEmitter.on("closeDialogError", () => {
+      this.onCloseDialogError();
     });
   },
 
@@ -438,6 +446,8 @@ export default {
       listConditionFilter: [],
       isDisabledMenuConditionFilter: true,
       sessionPermission: parseInt(sessionStorage.getItem("permission")),
+      isShowDialogDataNotNull: false,
+      dataNotNull: [],
     };
   },
 
@@ -519,6 +529,11 @@ export default {
   },
 
   methods: {
+    onCloseDialogError() {
+      this.isShowDialogDataNotNull = false;
+      this.isOverlay = false;
+      this.dataNotNull = [];
+    },
     /**
      * Mô tả: Hàm lấy dữ các điều kiện lọc
      * created by : BNTIEN
@@ -940,13 +955,23 @@ export default {
       formData.append("file", file);
       try {
         const res = await scoreService.importExcel(formData);
-        if (res && res.data && res.data.Code == this.$_MSEnum.STATUS.OK) {
-          this.contentToastSuccess = "Nhập khẩu thành công";
-          this.onShowToastMessage();
-          await this.getDataScore();
+        if (res && res.data) {
+          if (res.data.Code == this.$_MSEnum.STATUS.CREATED) {
+            this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].IMPORT.Success;
+            this.onShowToastMessage();
+            await this.getDataScore();
+          } else if (res.data.Code == this.$_MSEnum.STATUS.BAD_REQUEST) {
+            this.dataNotNull.push(res.data.Data?.message_error);
+            this.isShowDialogDataNotNull = true;
+            this.isOverlay = true;
+          } else if (res.data.Code == this.$_MSEnum.STATUS.INTERNAL_SERVER_ERROR) {
+            this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].IMPORT.ErrorSystem);
+            this.isShowDialogDataNotNull = true;
+            this.isOverlay = true;
+          }
         }
       } catch (error) {
-        this.contentToastSuccess = "Nhập khẩu không thành thành công";
+        this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].IMPORT.Falured;
         this.onShowToastMessage();
         return;
       }
@@ -981,6 +1006,7 @@ export default {
      */
     async handleSelectOptionFilter(item) {
       this.optionFilter = item;
+      this.conditionFilter = {};
       this.isDisabledMenuConditionFilter = false;
       await this.getDataOptionFilter(item.option_code, "");
     },
@@ -1051,6 +1077,7 @@ export default {
     this.$_MSEmitter.off("closeToastMessage");
     this.$_MSEmitter.off("onSelectedSelectOption");
     this.$_MSEmitter.off("onSearchChangeSelectOption");
+    this.$_MSEmitter.off("closeDialogError");
     window.removeEventListener("click", this.handleClickOutsidePaging);
     window.removeEventListener("click", this.handleClickOutsideDeleteMulti);
     window.removeEventListener("click", this.handleClickOutsideFeature);

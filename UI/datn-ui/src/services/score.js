@@ -67,6 +67,11 @@ class ScoreService extends BaseServices {
         });
         return response;
     }
+
+    async checkExistsStudentInClassRegitration(obj){
+        const response = await this.entity.post(`${this.getBaseUrl()}/check_exists_student_in_class_registration`, obj);
+        return response;
+    }
 }
 
 export default new ScoreService();

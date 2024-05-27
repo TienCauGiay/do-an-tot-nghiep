@@ -89,7 +89,7 @@ namespace BE.DATN.BL.Services
         /// các model cụ thể sẽ override lại để custom riêng
         /// </summary>
         /// <param name="entity"></param>
-        protected virtual Dictionary<string, object>? ValidateBusinessMultiple(List<TEntity> entities, ModelState statte)
+        protected virtual async Task<Dictionary<string, object>?> ValidateBusinessMultiple(List<TEntity> entities, ModelState statte)
         {
             return null;
         }
@@ -123,7 +123,7 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                var validateResult = ValidateBusinessMultiple(entities, ModelState.Insert);
+                var validateResult = await ValidateBusinessMultiple(entities, ModelState.Insert);
                 if(validateResult != null)
                 {
                     return new ResponseService
@@ -176,7 +176,7 @@ namespace BE.DATN.BL.Services
         {
             try
             {
-                var validateResult = ValidateBusinessMultiple(entities, ModelState.Update);
+                var validateResult = await ValidateBusinessMultiple(entities, ModelState.Update);
                 if (validateResult != null)
                 {
                     return new ResponseService

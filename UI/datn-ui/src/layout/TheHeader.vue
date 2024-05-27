@@ -1,11 +1,11 @@
 <template>
   <div class="content-header">
     <div class="header-title">
-      <div id="gn" class="three-dashes-icon icon-tb"></div>
-      <p :title="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NAME_COMPANY_SELECTED">
+      <!-- <div id="gn" class="three-dashes-icon icon-tb"></div> -->
+      <p class="name-company-selected" :title="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NAME_COMPANY_SELECTED">
         {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.NAME_COMPANY_SELECTED }}
       </p>
-      <div class="dropdown-grey-icon icon-tb"></div>
+      <!-- <div class="dropdown-grey-icon icon-tb"></div> -->
     </div>
     <div class="header-action">
       <!-- <div
@@ -92,5 +92,9 @@ export default {
 .avartar-item:hover {
   background-color: var(--color-border-default);
   color: var(--color-btn-default);
+}
+
+.name-company-selected {
+  margin-left: 10px;
 }
 </style>

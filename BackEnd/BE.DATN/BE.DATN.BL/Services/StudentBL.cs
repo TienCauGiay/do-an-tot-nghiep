@@ -54,7 +54,7 @@ namespace BE.DATN.BL.Services
 
         }
 
-        protected override Dictionary<string, object>? ValidateBusinessMultiple(List<student> entities, ModelState statte)
+        protected override async Task<Dictionary<string, object>?> ValidateBusinessMultiple(List<student> entities, ModelState statte)
         {
             Dictionary<string, object> res = new Dictionary<string, object>();
             foreach (var s in entities)
