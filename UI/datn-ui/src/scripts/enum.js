@@ -195,6 +195,13 @@ const MSEnum = {
         // Lọc theo tên giảng viên
         TeacherName: 8,
     },
+
+    FILTER_CHART: {
+        // Thống kê số lượng sinh viên đầu vào/ đầu ra trong vòng 5 năm
+        StatisticNumberStudent: 1,
+        // Thống kê điểm trung bình sinh viên theo lớp học phần
+        AvgScoreByClassRegistration: 2,
+    }
 } 
 
 export default MSEnum;

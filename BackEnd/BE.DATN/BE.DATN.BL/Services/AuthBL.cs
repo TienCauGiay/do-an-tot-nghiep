@@ -38,7 +38,9 @@ namespace BE.DATN.BL.Services
                     return new ReponseLogin(StatusCodes.Status400BadRequest,
                         "Tên đăng nhập hoặc mật khẩu không đúng.",
                         "",
-                        EnumPermission.None);
+                        EnumPermission.None,
+                        0
+                    );
                 }
 
                 // Tạo claims cho user
@@ -67,7 +69,9 @@ namespace BE.DATN.BL.Services
                 return new ReponseLogin(StatusCodes.Status200OK,
                     "Đăng nhập thành công",
                     new JwtSecurityTokenHandler().WriteToken(token),
-                    userLogin.role_code);
+                    userLogin.role_code,
+                    userLogin.status
+                );
             }
             catch (Exception ex)
             {

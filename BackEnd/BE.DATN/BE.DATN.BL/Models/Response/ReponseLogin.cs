@@ -14,6 +14,7 @@ namespace BE.DATN.BL.Models.Response
         public string? Message { get; set; } 
         public string? Token { get; set; } 
         public EnumPermission Permission { get; set; }
+        public int Status { get; set; }
 
         public ReponseLogin()
         {
@@ -21,14 +22,16 @@ namespace BE.DATN.BL.Models.Response
             Message = "Đã có lỗi xảy ra, vui lòng liên hệ BNTIEN";
             Token = null;
             Permission = EnumPermission.None;
+            Status = 0;
         }
 
-        public ReponseLogin(int code, string? message, string? token, EnumPermission permission)
+        public ReponseLogin(int code, string? message, string? token, EnumPermission permission, int status)
         {
             Code = code;
             Message = message;
             Token = token;
             Permission = permission;
+            Status = status;
         }
     }
 }

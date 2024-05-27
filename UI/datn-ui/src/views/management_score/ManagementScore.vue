@@ -96,7 +96,7 @@
               <th class="e-id" :title="$_MSResource[$_LANG_CODE].Student_Column.StudentCode">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.StudentCode }}
               </th>
-              <th class="e-fullname">
+              <th class="e-fullname" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.StudentName }}
               </th>
               <th class="w-250">
@@ -105,7 +105,7 @@
               <th class="e-fullname">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.NumberTC }}
               </th>
-              <th class="e-fullname">
+              <th class="e-fullname" v-if="sessionPermission != $_MSEnum.PERMISSION.Teacher">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.TeacherName }}
               </th>
               <th class="e-bank-account" :title="$_MSResource[$_LANG_CODE].Score_Column.TitleScoreAttendance">
@@ -153,7 +153,7 @@
               <td class="e-id" :title="item.student_code">
                 {{ item.student_code }}
               </td>
-              <td class="e-fullname" :title="item.student_name">
+              <td class="e-fullname" :title="item.student_name" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
                 {{ item.student_name }}
               </td>
               <td class="w-250" :title="item.subject_name">
@@ -162,7 +162,7 @@
               <td class="e-fullname" :title="item.number_tc">
                 {{ item.number_tc }}
               </td>
-              <td class="e-fullname" :title="item.teacher_name">
+              <td class="e-fullname" :title="item.teacher_name" v-if="sessionPermission != $_MSEnum.PERMISSION.Teacher">
                 {{ item.teacher_name }}
               </td>
               <td class="e-bank-account" :title="item.score_attendance">
@@ -357,6 +357,13 @@ export default {
     this.$_MSEmitter.on("closeDialogError", () => {
       this.onCloseDialogError();
     });
+
+    if (this.sessionPermission === this.$_MSEnum.PERMISSION.Admin) {
+      this.listOptionFilter.push({
+        option_code: this.$_MSEnum.FILTER_OPTION.TeacherName,
+        option_name: "Tên giảng viên",
+      });
+    }
   },
 
   mounted() {
@@ -425,10 +432,10 @@ export default {
       isShowUtilities: false,
       optionFilter: {},
       listOptionFilter: [
-        {
-          option_code: this.$_MSEnum.FILTER_OPTION.StudentCode,
-          option_name: "Mã sinh viên",
-        },
+        // {
+        //   option_code: this.$_MSEnum.FILTER_OPTION.StudentCode,
+        //   option_name: "Mã sinh viên",
+        // },
         {
           option_code: this.$_MSEnum.FILTER_OPTION.StudentName,
           option_name: "Tên sinh viên",
@@ -436,10 +443,6 @@ export default {
         {
           option_code: this.$_MSEnum.FILTER_OPTION.SubjectName,
           option_name: "Tên môn học",
-        },
-        {
-          option_code: this.$_MSEnum.FILTER_OPTION.TeacherName,
-          option_name: "Tên giảng viên",
         },
       ],
       conditionFilter: {},

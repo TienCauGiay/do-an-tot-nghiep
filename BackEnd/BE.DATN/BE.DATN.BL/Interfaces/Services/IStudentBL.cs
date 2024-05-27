@@ -13,8 +13,10 @@ namespace BE.DATN.BL.Interfaces.Services
     public interface IStudentBL : IBaseBL<student>
     {
         Task<ResponseServiceStudent> GetFilterPagingAsync(int limit, int offset, string? textSearch, string? customFilter);
-        Task<ResponseService> GetStatisticNumberStudentAsync(); 
+        Task<ResponseService> GetStatisticNumberStudentAsync();
+        Task<ResponseService> GetClassAverageScoreAsync();
         Task<ResponseService> GetOptionFilterAsync(EnumOptionFilter optionFilter, string? textSearch);
+        Task<ResponseService> MarkGraduatedAsync(Guid id);
         Task<ResponseService> ImportExcelAsync(IFormFile formFile);
         Task<MemoryStream> ExportExcelAsync(int limit, int offset, string? textSearch, string? customFilter); 
     }

@@ -1,9 +1,8 @@
-User
 <template>
   <div class="chart-content">
     <canvas id="render-chart"></canvas>
   </div>
-  <div class="chart-title">{{ this.$_MSResource[this.$_LANG_CODE].Chart.Employee.TitleChart }}</div>
+  <div class="chart-title">{{ this.$_MSResource[this.$_LANG_CODE].Chart.StatisticNumberStudent }}</div>
 </template>
 
 <script>
@@ -15,6 +14,7 @@ export default {
   data() {
     return {
       dataChart: [],
+      chartInstance: null, // Thêm thuộc tính để lưu trữ tham chiếu đến biểu đồ
     };
   },
 
@@ -32,7 +32,12 @@ export default {
     },
 
     renderChart() {
-      new Chart(document.getElementById("render-chart"), {
+      // Hủy biểu đồ cũ nếu đã tồn tại
+      if (this.chartInstance) {
+        this.chartInstance.destroy();
+      }
+
+      this.chartInstance = new Chart(document.getElementById("render-chart"), {
         type: "bar",
         data: {
           labels: this.dataChart.map((x) => x.label_year),
@@ -60,7 +65,7 @@ export default {
 
 <style>
 .chart-content {
-  height: 500px;
+  height: 470px;
 }
 
 .chart-title {

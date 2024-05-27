@@ -55,6 +55,16 @@ class StudentService extends BaseServices {
     }
 
     /**
+     * Mô tả: Lấy dữ liệu cho Biểu đồ thống kê điểm trung bình sinh viên theo lớp học phần
+     * created by : BNTIEN
+     * created date: 10-03-2024 20:07:05
+     */
+    async getClassAverageScore(){
+        const response = await this.entity.get(`${this.getBaseUrl()}/get_class_average_score`);
+        return response;
+    }
+
+    /**
      * Mô tả: Lấy dữ liệu cho combo chọn hình thức lọc
      * created by : BNTIEN
      * created date: 18-04-2024 21:40:19
@@ -77,6 +87,11 @@ class StudentService extends BaseServices {
         });
         return response;
     }  
+
+    async markGraduated(id){
+        const response = await this.entity.get(`${this.getBaseUrl()}/mark_graduated?id=${id}`);
+        return response;
+    }
 }
 
 export default new StudentService();

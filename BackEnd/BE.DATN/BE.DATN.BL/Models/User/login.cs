@@ -13,5 +13,6 @@ namespace BE.DATN.BL.Models.User
         public string user_name ;
         public string pass_word;
         public EnumPermission role_code;
+        public int status;
     }
 }

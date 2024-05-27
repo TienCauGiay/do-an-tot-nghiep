@@ -219,12 +219,14 @@ const MSResource = {
             UTILITIES_SYNCHRONIZED: "Đồng bộ với AMIS hệ thống",
             EXCUTE_BATCH: "Thực hiện hàng loạt",
             SelectFilterType: "Chọn hình thức lọc",
+            SelectChart: "Chọn biểu đồ",
             SelectFilterCondition: "Chọn điều kiện lọc",
             DeleteFilterCondition: "Xóa điều kiện lọc",
             ADD: "Thêm",
             PLACEHOLDER_SEARCH: "Tìm theo mã, tên",
             PLACEHOLDER_SEARCH_HEADER: "Nhập từ khóa tìm kiếm",
             SUCCESS_DELETE : "Xóa thành công.",
+            SUCCESS_MARK: "Cập nhật dữ liệu thành công",    
             NoRecorDelete : "Không có bản ghi nào bị xóa",
             SUCCESS_CTEATE : "Thêm thành công.",
             SUCCESS_UPDATE : "Sửa thành công.",
@@ -243,6 +245,7 @@ const MSResource = {
             UPDATE:"Sửa",
             DUPLICATE: "Nhân bản",
             DELETE: "Xóa",
+            MarkGraduated: "Đánh dấu đã tốt nghiệp",
             TRANFER_ACCOUNT: "Chuyển tài khoản hạch toán",
             STOP_USING: "Ngưng sử dụng",
             TOTAL:"Tổng số",
@@ -354,10 +357,9 @@ const MSResource = {
             SUCCESS:"Thành công!",
             UNDO:"",
         }, 
-        Chart:{
-            Employee:{
-                TitleChart: "Biểu đồ thống kê số sinh viên đầu vào/đầu ra Trường Đại học Kevin"
-            }
+        Chart:{ 
+            StatisticNumberStudent: "Biểu đồ thống kê số sinh viên đầu vào/đầu ra trong 5 năm trở lại đây",
+            AvgScoreByClassRegistration: "Biểu đồ thống kê điểm trung bình sinh viên theo lớp học phần",
         },
         LOGIN: {
             LoginText: "Đăng nhập",

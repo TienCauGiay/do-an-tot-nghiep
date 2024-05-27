@@ -64,6 +64,15 @@ namespace BE.DATN.DL.Repository
             return res.ToList();
         }
 
+        public async Task<List<class_average_score_view>?> GetClassAverageScoreAsync()
+        {
+            var query = "SELECT * FROM func_get_class_average_score()";
+
+            var res = await _unitOfWork.Connection.QueryAsync<class_average_score_view>(query, null, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            return res.ToList();
+        }
+
         public async Task<List<condition_data>?> GetOptionFilterAsync(EnumOptionFilter optionFilter, string textSearch)
         {
             var parameters = new DynamicParameters();
@@ -171,6 +180,16 @@ namespace BE.DATN.DL.Repository
         {
             var query = "select * from public.function_get_student_id_arise(:p_ids)";
             return query;
+        }
+
+        public async Task<int> MarkGraduatedAsync(Guid id)
+        {
+            var query = "update student set graduation_year = @p_graduation_year where student_id = @p_student_id;";
+            var parameters = new DynamicParameters();
+            parameters.Add("p_graduation_year", DateTime.Now);
+            parameters.Add("p_student_id", id);
+            var result = await _unitOfWork.Connection.ExecuteAsync(query, parameters, transaction: _unitOfWork.Transaction);
+            return result;
         }
     }
 }

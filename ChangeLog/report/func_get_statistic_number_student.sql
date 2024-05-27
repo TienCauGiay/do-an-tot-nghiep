@@ -6,27 +6,47 @@ BEGIN
     /**
      * Bảng tạm kết quả
      */
-	drop table if exists tmp_result;
+    DROP TABLE IF EXISTS tmp_result;
     CREATE TEMP TABLE IF NOT EXISTS tmp_result
     (
         label_year text,
         admission_year_quantity int,
         graduation_year_quantity int
-    ); 
+    );
 
     INSERT INTO tmp_result 
-    SELECT	 
-        CONCAT('Năm ', EXTRACT(YEAR FROM admission_year)) AS label_year,
-        COUNT(*) AS admission_year_quantity,
-        COUNT(CASE WHEN graduation_year IS NOT NULL THEN 1 END) AS graduation_year_quantity
-    FROM	 
-        student
-    WHERE	 
-        EXTRACT(YEAR FROM admission_year) >= EXTRACT(YEAR FROM CURRENT_DATE) - 5
-    GROUP BY 
-        EXTRACT(YEAR FROM admission_year)
-    ORDER BY 
-        EXTRACT(YEAR FROM admission_year);
+    SELECT
+        CONCAT('Năm ', admission_year::text) AS label_year,
+        SUM(admission_count) AS admission_year_quantity,
+        SUM(graduation_count) AS graduation_year_quantity
+    FROM
+    (
+        SELECT
+            EXTRACT(YEAR FROM admission_year) AS admission_year,
+            COUNT(*) AS admission_count,
+            0 AS graduation_count
+        FROM
+            student
+        WHERE
+            EXTRACT(YEAR FROM admission_year) >= EXTRACT(YEAR FROM CURRENT_DATE) - 5
+        GROUP BY
+            EXTRACT(YEAR FROM admission_year)
+        UNION ALL
+        SELECT
+            EXTRACT(YEAR FROM graduation_year) AS graduation_year,
+            0 AS admission_count,
+            COUNT(*) AS graduation_count
+        FROM
+            student
+        WHERE
+            graduation_year IS NOT NULL AND EXTRACT(YEAR FROM graduation_year) >= EXTRACT(YEAR FROM CURRENT_DATE) - 5
+        GROUP BY
+            EXTRACT(YEAR FROM graduation_year)
+    ) AS yearly_data
+    GROUP BY
+        admission_year
+    ORDER BY
+        admission_year;
 
     RETURN QUERY SELECT * FROM tmp_result;
 END;

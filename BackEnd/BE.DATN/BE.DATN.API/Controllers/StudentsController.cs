@@ -32,10 +32,24 @@ namespace BE.DATN.API.Controllers
             return Ok(res);
         }
 
+        [HttpGet("get_class_average_score")]
+        public async Task<IActionResult> GetClassAverageScore()
+        {
+            var res = await _studentBL.GetClassAverageScoreAsync();
+            return Ok(res);
+        }
+
         [HttpGet("get_option_filter")]
         public async Task<IActionResult> GetOptionFilterAsync(EnumOptionFilter optionFilter, string? textSearch)
         {
             var res = await _studentBL.GetOptionFilterAsync(optionFilter, textSearch);
+            return Ok(res);
+        }
+
+        [HttpGet("mark_graduated")]
+        public async Task<IActionResult> MarkGraduated(Guid id)
+        {
+            var res = await _studentBL.MarkGraduatedAsync(id);
             return Ok(res);
         }
 
