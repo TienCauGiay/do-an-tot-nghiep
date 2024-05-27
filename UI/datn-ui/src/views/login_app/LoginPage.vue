@@ -110,23 +110,28 @@ export default {
           let res = await authService.login(this.user);
           this.isShowLoading = false;
           if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code)) {
-            sessionStorage.setItem("token", res.data.Token);
-            const permission = parseInt(res.data.Permission);
-            sessionStorage.setItem("permission", permission);
+            if (res.data.Status === 1) {
+              sessionStorage.setItem("token", res.data.Token);
+              const permission = parseInt(res.data.Permission);
+              sessionStorage.setItem("permission", permission);
 
-            switch (permission) {
-              case this.$_MSEnum.PERMISSION.Admin:
-                this.$router.push("/management-student");
-                break;
-              case this.$_MSEnum.PERMISSION.Student:
-                this.$router.push("/management-score");
-                break;
-              case this.$_MSEnum.PERMISSION.Teacher:
-                this.$router.push("/management-score");
-                break;
-              default:
-                this.$router.push("/login");
-                break;
+              switch (permission) {
+                case this.$_MSEnum.PERMISSION.Admin:
+                  this.$router.push("/management-student");
+                  break;
+                case this.$_MSEnum.PERMISSION.Student:
+                  this.$router.push("/management-score");
+                  break;
+                case this.$_MSEnum.PERMISSION.Teacher:
+                  this.$router.push("/management-score");
+                  break;
+                default:
+                  this.$router.push("/login");
+                  break;
+              }
+            } else {
+              this.dataNotNull.push("Tài khoản này đã bị ngưng sử dụng");
+              this.isShowDialogDataNotNull = true;
             }
           } else {
             this.dataNotNull.push("Tên đăng nhập hoặc mật khẩu không đúng");
@@ -232,7 +237,7 @@ export default {
 .loading-custom {
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: 49%;
   animation: spin 1s infinite linear;
   z-index: 9999;
 }

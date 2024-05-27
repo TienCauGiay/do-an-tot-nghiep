@@ -94,11 +94,17 @@ namespace BE.DATN.BL.Services
             return null;
         }
 
+        protected virtual void CustomParamSave(TEntity entity, ModelState state)
+        {
+
+        }
+
         public async Task<ResponseService> InsertAsync(TEntity entity)
         {
             try
             {
                 ValidateBusiness(entity, ModelState.Insert);
+                CustomParamSave(entity, ModelState.Insert);
                 var res = await _baseDL.InsertAsync(entity);
                 await AfterInsertAsync(entity);
                 return new ResponseService(StatusCodes.Status201Created, "Thêm mới dữ liệu thành công", res);
@@ -158,6 +164,7 @@ namespace BE.DATN.BL.Services
             try
             {
                 ValidateBusiness(entity, ModelState.Update);
+                CustomParamSave(entity, ModelState.Update);
                 var res = await _baseDL.UpdateAsync(entity);
                 return new ResponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
             }

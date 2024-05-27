@@ -135,7 +135,7 @@
         </div>
         <div class="half-content">
           <div class="col-md-l">
-            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAverage }} <span class="s-require">*</span></label>
+            <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreAverage }}</label>
             <div class="container-input">
               <ms-input
                 ref="score_average"
@@ -145,6 +145,7 @@
                 @mouseenter="isHovering.score_average = true"
                 @mouseleave="isHovering.score_average = false"
                 :maxLength="10"
+                :disabled="true"
               ></ms-input>
               <div class="ms-tooltip" v-if="isHovering.score_average && isBorderRed.score_average">
                 {{ errors["score_average"] }}
@@ -592,7 +593,6 @@ export default {
             case "score_attendance":
             case "score_test":
             case "score_exam":
-            case "score_average":
               if (helperCommon.isEmptyInput(this.score[refInput])) {
                 this.setError(refInput);
               } else if (
@@ -634,7 +634,8 @@ export default {
       scoreCreate.score_attendance = parseFloat(this.score.score_attendance.toString());
       scoreCreate.score_test = parseFloat(this.score.score_test.toString());
       scoreCreate.score_exam = parseFloat(this.score.score_exam.toString());
-      scoreCreate.score_average = parseFloat(this.score.score_average.toString());
+      let scoreAvg = (scoreCreate.score_attendance + scoreCreate.score_test * 2 + scoreCreate.score_exam * 3) / 6;
+      scoreCreate.score_average = scoreAvg.toFixed(2);
       return scoreCreate;
     },
 

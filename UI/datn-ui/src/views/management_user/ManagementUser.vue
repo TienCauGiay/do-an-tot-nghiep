@@ -3,7 +3,7 @@
     <h1>{{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.ManagementUser }}</h1>
   </div>
   <div class="content-main-body">
-    <div class="content-action">
+    <div class="content-action" :class="{ 'height-0': sessionPermission !== $_MSEnum.PERMISSION.Admin }">
       <div class="content-action-left">
         <button
           :disabled="isDisableExcuteBatch"
@@ -894,5 +894,9 @@ input[type="checkbox"] {
 
 table {
   min-width: 100%;
+}
+
+.height-0 {
+  height: 0 !important;
 }
 </style>

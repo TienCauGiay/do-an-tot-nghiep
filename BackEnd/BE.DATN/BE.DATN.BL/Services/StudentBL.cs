@@ -143,6 +143,19 @@ namespace BE.DATN.BL.Services
             }
         }
 
+        public async Task<ResponseService> GetClassAverageScoreAsync()
+        {
+            try
+            {
+                var res = await _studentDL.GetClassAverageScoreAsync();
+                return new ResponseService(StatusCodes.Status200OK, "Lấy dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         public async Task<ResponseService> GetOptionFilterAsync(EnumOptionFilter optionFilter, string? textSearch)
         {
             try
@@ -397,6 +410,32 @@ namespace BE.DATN.BL.Services
                         new Object()
                     );
             }
-        } 
+        }
+
+        protected override void CustomParamSave(student entity, ModelState state)
+        {
+            if(state == ModelState.Insert)
+            {
+                entity.admission_year = DateTime.Now;
+            }
+        }
+
+        public async Task<ResponseService> MarkGraduatedAsync(Guid id)
+        {
+            try
+            {
+                var res = await _studentDL.MarkGraduatedAsync(id);
+                return new ResponseService(StatusCodes.Status200OK, "Cập nhật dữ liệu thành công", res);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseService
+                    (
+                        StatusCodes.Status500InternalServerError,
+                        ex.Message,
+                        new Object()
+                    );
+            }
+        }
     }
 }

@@ -102,12 +102,17 @@ namespace BE.DATN.BL.Services
                 int? totalRecord = null;
                 if (_roleCode == EnumPermission.Student.ToString())
                 {
-                    var res = await _scoreDL.GetFilterPagingByRoleAsync(limit, offset, textSearch, customFilter, _userId, _roleCode);
+                    var res = await _scoreDL.GetFilterPagingByRoleStudentAsync(limit, offset, textSearch, customFilter, _userId, _roleCode);
                     data = res.Item1;
-                    totalRecord = res.Item2; 
+                    totalRecord = res.Item2;
+                } else if (_roleCode == EnumPermission.Teacher.ToString())
+                {
+                    var res = await _scoreDL.GetFilterPagingByRoleTeacherAsync(limit, offset, textSearch, customFilter, _userId, _roleCode);
+                    data = res.Item1;
+                    totalRecord = res.Item2;
                 }
                 else
-                {
+                { 
                     var res = await _scoreDL.GetFilterPagingAsync(limit, offset, textSearch, customFilter);
                     data = res.Item1;
                     totalRecord = res.Item2;
@@ -228,7 +233,7 @@ namespace BE.DATN.BL.Services
                                 score_attendance = score.score_attendance,
                                 score_test = score.score_test,
                                 score_exam = score.score_exam,
-                                score_average = (score.score_attendance + score.score_test * 2 + score.score_exam * 3) / 6,
+                                score_average = (float)Math.Round((score.score_attendance + score.score_test * 2 + score.score_exam * 3) / 6.0, 2),
                                 created_date = DateTime.Now,
                                 modified_date = DateTime.Now,
                             };

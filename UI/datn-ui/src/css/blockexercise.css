@@ -31,7 +31,7 @@
     margin: 0px;
     outline: none;
     border: none;
-    scrollbar-width: none;
+    /* scrollbar-width: none; */
 }
 
 body::-webkit-scrollbar {

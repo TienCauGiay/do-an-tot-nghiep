@@ -190,6 +190,9 @@
           <div @click="onDeleteStudent">
             {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DELETE }}
           </div>
+          <div @click="onMarkGraduated">
+            {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.MarkGraduated }}
+          </div>
         </div>
       </teleport>
       <img
@@ -665,6 +668,23 @@ export default {
       this.isOverlay = true;
       this.studentIdDeleteSelected = this.selectedStudent.student_id;
       this.studentCodeDeleteSelected = this.selectedStudent.student_code;
+    },
+
+    async onMarkGraduated() {
+      try {
+        this.isShowLoading = true;
+        let res = await studentService.markGraduated(this.selectedStudent.student_id);
+        this.isShowLoading = false;
+        if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
+          this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_MARK;
+          this.onShowToastMessage();
+          await this.getDataStudent();
+        }
+      } catch (error) {
+        this.isShowLoading = false;
+        console.log(error);
+        return;
+      }
     },
     /**
      * Mô tả: Kiểm tra xem sinh viên đã có dữ liệu phát sinh chưa trước khi xóa
@@ -1233,5 +1253,9 @@ input[type="checkbox"] {
   position: fixed;
   top: 50%;
   left: 50%;
+}
+
+.menu-function-select {
+  width: 170px;
 }
 </style>

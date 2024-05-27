@@ -64,7 +64,7 @@ namespace BE.DATN.DL.Repository
             return (students, totalRecord);
         }
 
-        public async Task<(List<score_view>?, int?)> GetFilterPagingByRoleAsync(int limit, int offset, string textSearch, string customFilter, Guid user_id, string role_code)
+        public async Task<(List<score_view>?, int?)> GetFilterPagingByRoleStudentAsync(int limit, int offset, string textSearch, string customFilter, Guid user_id, string role_code)
         {
             var parameters = new DynamicParameters();
             parameters.Add("p_limit", limit);
@@ -79,6 +79,35 @@ namespace BE.DATN.DL.Repository
             using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
                 "select * from public.func_get_filter_paging_by_role_score(:p_limit, :p_offset, :p_text_search, :p_custom_filter, :p_user_id); " +
                 "select count(sc.score_id) from score sc inner join student st on sc.student_id = st.student_id inner join public.user u on st.student_code = u.user_name inner join teacher tc on sc.teacher_id = tc.teacher_id inner join class_registration cr on sc.class_registration_id = cr.class_registration_id inner join subject sb on cr.subject_id = sb.subject_id where (st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%' or tc.teacher_code ilike '%' || :p_text_search || '%' or tc.teacher_name ilike '%' || :p_text_search || '%' or sb.subject_code ilike '%' || :p_text_search || '%' or sb.subject_name ilike '%' || :p_text_search || '%') and (" + customFilter + ") and u.user_id = :p_user_id;",
+                parameters,
+                commandType: CommandType.Text,
+                transaction: _unitOfWork.Transaction))
+            {
+                // Đọc danh sách sinh viên
+                students = (await multiResult.ReadAsync<score_view>()).ToList();
+
+                // Đọc totalRecord
+                totalRecord = await multiResult.ReadFirstOrDefaultAsync<int>();
+            }
+
+            return (students, totalRecord);
+        }
+
+        public async Task<(List<score_view>?, int?)> GetFilterPagingByRoleTeacherAsync(int limit, int offset, string textSearch, string customFilter, Guid user_id, string role_code)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("p_limit", limit);
+            parameters.Add("p_offset", offset);
+            parameters.Add("p_text_search", textSearch);
+            parameters.Add("p_custom_filter", customFilter);
+            parameters.Add("p_user_id", user_id);
+
+            var students = new List<score_view>();
+            int? totalRecord = 0;
+
+            using (var multiResult = await _unitOfWork.Connection.QueryMultipleAsync(
+                "select * from public.func_get_filter_paging_by_role_teacher_score(:p_limit, :p_offset, :p_text_search, :p_custom_filter, :p_user_id); " +
+                "select count(sc.score_id) from score sc inner join teacher tc on sc.teacher_id = tc.teacher_id inner join public.user u on tc.teacher_code = u.user_name inner join student st on sc.student_id = st.student_id inner join class_registration cr on sc.class_registration_id = cr.class_registration_id inner join subject sb on cr.subject_id = sb.subject_id where (st.student_code ilike '%' || :p_text_search || '%' or st.student_name ilike '%' || :p_text_search || '%' or tc.teacher_code ilike '%' || :p_text_search || '%' or tc.teacher_name ilike '%' || :p_text_search || '%' or sb.subject_code ilike '%' || :p_text_search || '%' or sb.subject_name ilike '%' || :p_text_search || '%') and (" + customFilter + ") and u.user_id = :p_user_id;",
                 parameters,
                 commandType: CommandType.Text,
                 transaction: _unitOfWork.Transaction))

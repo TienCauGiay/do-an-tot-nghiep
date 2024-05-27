@@ -47,12 +47,6 @@ D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\refint\BE.D
 D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.pdb
 D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.genruntimeconfig.cache
 D:\oke\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\ref\BE.DATN.API.dll
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.csproj.AssemblyReference.cache
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.GeneratedMSBuildEditorConfig.editorconfig
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.AssemblyInfoInputs.cache
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.AssemblyInfo.cs
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.csproj.CoreCompileInputs.cache
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.MvcApplicationPartsAssemblyInfo.cache
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\appsettings.Development.json
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\appsettings.json
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\BE.DATN.API.exe
@@ -86,6 +80,13 @@ F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\BE.DATN.
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\BE.DATN.DL.dll
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\BE.DATN.BL.pdb
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\bin\Debug\net6.0\BE.DATN.DL.pdb
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.csproj.AssemblyReference.cache
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.GeneratedMSBuildEditorConfig.editorconfig
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.AssemblyInfoInputs.cache
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.AssemblyInfo.cs
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.csproj.CoreCompileInputs.cache
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.MvcApplicationPartsAssemblyInfo.cs
+F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.MvcApplicationPartsAssemblyInfo.cache
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\staticwebassets\msbuild.BE.DATN.API.Microsoft.AspNetCore.StaticWebAssets.props
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\staticwebassets\msbuild.build.BE.DATN.API.props
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.BE.DATN.API.props
@@ -100,4 +101,3 @@ F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\refint\B
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.pdb
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.genruntimeconfig.cache
 F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\ref\BE.DATN.API.dll
-F:\DHGTVT\do-an-tot-nghiep\BackEnd\BE.DATN\BE.DATN.API\obj\Debug\net6.0\BE.DATN.API.MvcApplicationPartsAssemblyInfo.cs

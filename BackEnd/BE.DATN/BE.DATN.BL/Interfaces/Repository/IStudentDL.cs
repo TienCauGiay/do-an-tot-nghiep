@@ -14,7 +14,9 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<(List<student_view>?, int?)> GetFilterPagingAsync(int limit, int offset, string textSearch, string customFilter);
         Task<List<student>?> GetByListCodeAsync(List<string> studentCodes);
         Task<List<statistic_number_student_view>?> GetStatisticNumberStudentAsync();
+        Task<List<class_average_score_view>?> GetClassAverageScoreAsync();
         Task<List<condition_data>?> GetOptionFilterAsync(EnumOptionFilter optionFilter, string textSearch);
+        Task<int> MarkGraduatedAsync(Guid id);
         Task<MemoryStream> ExportExcelAsync(List<student_view>? listStudentExport); 
     }
 }
