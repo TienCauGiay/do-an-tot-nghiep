@@ -13,5 +13,6 @@ namespace BE.DATN.BL.Models.Subject
         public string subject_name { set; get; }
         public Guid semester_id { get; set; }
         public string semester_name { set; get; }
+        public int number_tc { get; set; }
     }
 }

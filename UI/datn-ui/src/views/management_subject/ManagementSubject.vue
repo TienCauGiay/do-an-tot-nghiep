@@ -58,11 +58,14 @@
                   <input class="checkbox-select-row" type="checkbox" @click="checkAllSelect" :checked="isCheckAll" />
                 </div>
               </th>
-              <th class="w-300">
+              <th class="w-250">
                 {{ this.$_MSResource[this.$_LANG_CODE].Subject_Column.SubjectCode }}
               </th>
               <th>
                 {{ this.$_MSResource[this.$_LANG_CODE].Subject_Column.SubjectName }}
+              </th>
+              <th class="w-200 text-center">
+                {{ this.$_MSResource[this.$_LANG_CODE].Subject_Column.NumberTC }}
               </th>
               <th type="feat" class="text-center entity-border-right e-birthday">
                 {{ this.$_MSResource[this.$_LANG_CODE].Subject_Column.Feature }}
@@ -87,11 +90,14 @@
                   />
                 </div>
               </td>
-              <td class="w-300" :title="item.subject_code">
+              <td class="w-250" :title="item.subject_code">
                 {{ item.subject_code }}
               </td>
               <td :title="item.subject_name">
                 {{ item.subject_name }}
+              </td>
+              <td class="w-200 text-center">
+                {{ item.number_tc }}
               </td>
               <td class="text-center entity-border-right e-birthday function-table" @dblclick.stop>
                 <span @click="onUpdateFormDetail(item)">
