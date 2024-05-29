@@ -35,6 +35,7 @@ const MSResource = {
             "score_test": "Điểm kiểm tra không được để trống",
             "score_exam":  "Điểm thi không được để trống",
             "score_average": "Điểm trung bình không được để trống",
+            "number_tc": "Số tín chỉ không được để trống",
         },
         MAXLENGTH:{
             "student_code": {Limit: 50, Warning : "Mã sinh viên tối đa 50 kí tự"},
@@ -56,12 +57,14 @@ const MSResource = {
             "subject_name": {Limit: 255, Warning : "Tên môn học tối đa 255 kí tự"}, 
             "class_registration_code": {Limit: 50, Warning : "Mã lớp học phần tối đa 50 kí tự"},
             "class_registration_name": {Limit: 255, Warning : "Tên lớp học phần tối đa 255 kí tự"}, 
+            "number_tc": {Limit: 2, Warning : "Số tín chỉ tối đa 2 kí tự"}, 
         },
         NOT_NUMBER: {
             score_attendance: "Điểm chuyên cần không hợp lệ",
             score_test: "Điểm kiểm tra không hợp lệ",
             score_exam: "Điểm thi không hợp lệ",
             score_average: "Điểm trung bình không hợp lệ",
+            number_tc: "Số tín chỉ phải là số",
         },
         TOOLTIP:{
             ALERT: "Thông báo",
@@ -148,6 +151,7 @@ const MSResource = {
         Subject_Column: {
             SubjectCode: "MÃ MÔN HỌC",
             SubjectName: "TÊN MÔN HỌC",
+            NumberTC: "SỐ TÍN CHỈ",
             Feature: "CHỨC NĂNG",
         },
         TEXT_CONTENT:{
@@ -317,6 +321,7 @@ const MSResource = {
             UpdateClass: "Sửa thông tin lớp",
             SubjectCode: "Mã môn học",
             SubjectName: "Tên môn học",
+            NumberTC: "Số tín chỉ",
             AddSubject: "Thêm môn học",
             UpdateSubject: "Sửa môn học",
             Semester: "Học kỳ",

@@ -1,5 +1,5 @@
 <template>
-  <div id="detail-info-user" class="position-display-center" ref="FormDetail">
+  <div id="detail-info-subject" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
       <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
@@ -49,6 +49,23 @@
             ></ms-input>
             <div class="ms-tooltip" v-if="isHovering.subject_name && isBorderRed.subject_name">
               {{ errors["subject_name"] }}
+            </div>
+          </div>
+        </div>
+        <div class="full-content">
+          <label> {{ this.$_MSResource[this.$_LANG_CODE].FORM.NumberTC }} <span class="s-require">*</span></label>
+          <div class="container-input">
+            <ms-input
+              ref="number_tc"
+              v-model="subject.number_tc"
+              :class="{ 'border-red': isBorderRed.number_tc }"
+              @input="setIsBorderRed('number_tc')"
+              @mouseenter="isHovering.number_tc = true"
+              @mouseleave="isHovering.number_tc = false"
+              :maxLength="2"
+            ></ms-input>
+            <div class="ms-tooltip" v-if="isHovering.number_tc && isBorderRed.number_tc">
+              {{ errors["number_tc"] }}
             </div>
           </div>
         </div>
@@ -164,7 +181,7 @@ export default {
   data() {
     return {
       // Khai báo mảng lưu các thuộc tính cần validate theo thứ tự, phục vụ cho việc focus, hiển thị lỗi theo thứ tự
-      subjectProperty: ["subject_code", "subject_name", "semester_id", "semester_name"],
+      subjectProperty: ["subject_code", "subject_name", "semester_id", "semester_name", "number_tc"],
       // Khai báo đối tượng teacher
       subject: {},
       // Khai báo trạng thái hiển thị của dialog cảnh báo dữ liệu k được để trống
@@ -382,6 +399,20 @@ export default {
                 }
               }
               break;
+            case "number_tc":
+              if (helperCommon.isEmptyInput(this.subject[refInput])) {
+                this.setError(refInput);
+              } else if (
+                helperCommon.isMaxLengthInput(
+                  this.subject[refInput],
+                  this.$_MSResource[this.$_LANG_CODE].MAXLENGTH[refInput].Limit
+                )
+              ) {
+                this.setErrorMaxLength(refInput);
+              } else if (!helperCommon.isDecimal(this.subject[refInput].toString())) {
+                this.setErrorNotNumber(refInput);
+              }
+              break;
             default:
               break;
           }
@@ -590,8 +621,6 @@ export default {
       }
       for (const prop of this.subjectProperty) {
         if (listPropError.includes(prop)) {
-          // đợi DOM cập nhật trước khi thực thi focus
-
           // đợi DOM cập nhật trước khi thực thi focus
           if (prop === "semester_id" || prop === "semester_name") {
             this.$nextTick(() => {

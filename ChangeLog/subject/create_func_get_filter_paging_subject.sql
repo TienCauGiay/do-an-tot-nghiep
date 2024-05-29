@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION public.func_get_filter_paging_subject(p_limit integer, p_offset integer, p_text_search text)
- RETURNS TABLE(subject_id uuid, subject_code text, subject_name text, semester_id uuid, semester_name text)
+ RETURNS TABLE(subject_id uuid, subject_code text, subject_name text, semester_id uuid, semester_name text, number_tc int4)
  LANGUAGE plpgsql
 AS $function$
 DECLARE  
@@ -14,7 +14,8 @@ begin
 		subject_code text,
 		subject_name text,
 		semester_id uuid,
-		semester_name text
+		semester_name text,
+		number_tc int4
 	);
 
 	insert into tmp_result 
@@ -23,7 +24,8 @@ begin
 		u.subject_code,
 		u.subject_name,
 		f.semester_id,
-		f.semester_name 
+		f.semester_name,
+		u.number_tc
 	from subject u
 	inner join semester f on u.semester_id = f.semester_id 
 	where 
