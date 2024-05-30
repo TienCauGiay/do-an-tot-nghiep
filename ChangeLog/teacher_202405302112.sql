@@ -1,0 +1,6 @@
+INSERT INTO public.teacher (teacher_id,faculty_id,teacher_code,teacher_name,birthday,gender,address,phone_number,email,image,created_by,created_date,modified_by,modified_date) VALUES
+	 ('ee1151e3-88db-40bf-aec4-885578157122','42b8e433-057f-4c0a-a6c6-b00aee581104','ntp','Nguyễn Trọng Phúc','1990-01-01','Nam','Ba Đình - Hà Nội','0432932932','ntp@gmail.com',NULL,NULL,'2024-03-30',NULL,NULL),
+	 ('b7190da3-0c9b-44a7-940c-e892af4d9d86','42b8e433-057f-4c0a-a6c6-b00aee581104','ctluyen','Cao Thị Luyên','1990-10-19','Nữ','Hà Nội','09878909','ctluyen@gmail.com',NULL,NULL,'2024-05-27',NULL,NULL),
+	 ('ee97c61a-0cab-407a-8606-d4ba4020db68','42b8e433-057f-4c0a-a6c6-b00aee581104','2024_nqt_15051982','Nguyễn Quốc Tuấn','1982-05-15','Nam','Thái Bình','0989654378','nqtuan@gmail.com',NULL,'Bùi Ngọc Tiến','2024-05-27','','2024-05-27'),
+	 ('75f884eb-e273-4d49-9cf7-7b17db8acfcf','42b8e433-057f-4c0a-a6c6-b00aee581104','2024_nhc_22121975','Nguyễn Hiếu Cường','1975-12-22','Nam','Hà Nam','0987449032','nhcuong@gmail.com',NULL,'Bùi Ngọc Tiến','2024-05-27','','2024-05-27'),
+	 ('8e5abb34-a171-4781-abdb-067a402559cf','42b8e433-057f-4c0a-a6c6-b00aee581104','2024_nks_17051989','Nguyễn Kim Sao','1989-05-17','Nữ','Hà Nội','0932123467','nksao@gmail.com',NULL,'Bùi Ngọc Tiến','2024-05-27','','2024-05-27');

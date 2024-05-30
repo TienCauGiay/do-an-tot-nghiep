@@ -1,0 +1,66 @@
+INSERT INTO public.province_city (province_city_id,province_city_code,province_city_name) VALUES
+	 ('3bd79dc8-9314-495a-9441-2b45785074f5','01','Hà Nội'),
+	 ('aae59cab-7979-4c6e-8e5c-71cef5468be9','02','Hà Giang'),
+	 ('75e07e2d-d13b-4842-afa3-8b440811a7de','04','Cao Bằng'),
+	 ('c9dd9076-b29d-4a7e-9950-7e34211c0664','06','Lai Châu'),
+	 ('b6371a3c-d561-4b48-bfdb-4fb4f77032c9','08','Lào Cai'),
+	 ('acc8e3fe-0d18-433b-b240-2c5299341223','10','Điện Biên'),
+	 ('351aac96-f23c-4ba3-a229-c29e6309932b','11','Sơn La'),
+	 ('870dd0ce-66ac-4440-8d73-df8a3add6290','12','Yên Bái'),
+	 ('881926b5-52a2-42bc-bda0-c0f666b99b9b','14','Tuyên Quang'),
+	 ('ea8a5191-3712-43a1-9c3d-ddced8415656','15','Lạng Sơn');
+INSERT INTO public.province_city (province_city_id,province_city_code,province_city_name) VALUES
+	 ('fd582246-74e7-40e3-a9e8-8ec065e80e03','17','Quảng Ninh'),
+	 ('b44ea291-27ae-4325-ab55-215a9d1c1ea6','19','Bắc Giang'),
+	 ('ebf6e233-e6b0-4672-8aaa-7d81b46d56fc','20','Phú Thọ'),
+	 ('e4eccf76-ebbe-4312-9c46-23dde566af04','22','Vĩnh Phúc'),
+	 ('96b30c20-adbc-4f3b-afe2-c1cacbc22c03','24','Bắc Ninh'),
+	 ('30c8286f-ecfa-4356-81d7-d83a97fd5c0e','25','Hải Dương'),
+	 ('7969b897-c8c4-4d10-9ecc-2962d87304ff','26','Hải Phòng'),
+	 ('02e43dc7-eda5-46ce-961d-a5cedb3e9ed2','27','Hưng Yên'),
+	 ('f27639b9-89a4-49c4-8832-4a251a661fea','30','Thái Bình'),
+	 ('eea5869c-48d0-48c4-85cf-087193a3af4f','31','Hà Nam');
+INSERT INTO public.province_city (province_city_id,province_city_code,province_city_name) VALUES
+	 ('137e7c97-c8d4-4bc9-ad39-63d4a8416fe0','33','Nam Định'),
+	 ('17cb34ce-fefe-4070-8c09-68a946d82b7b','34','Ninh Bình'),
+	 ('c5f3f555-a11f-4067-aaae-372091b0b279','35','Thanh Hóa'),
+	 ('cbd9ad35-f2cf-451c-b200-4c92b93063f4','36','Nghệ An'),
+	 ('c7930494-fc04-46ca-97c4-ad296d4a7c0d','37','Hà Tĩnh'),
+	 ('d3663967-ff08-457f-96fe-92ae9d1067f4','38','Quảng Bình'),
+	 ('9a99ca8c-f6ba-4dd4-8837-c42a301e7e25','40','Quảng Trị'),
+	 ('bfaf9680-80ef-40c2-98c5-bd2a5a6d8ca4','41','Thừa Thiên Huế'),
+	 ('90286bf8-e628-40ce-8e59-1a8cc19e8aa2','42','Đà Nẵng'),
+	 ('a9fa7363-b095-4485-b8bd-5837ff941c5e','44','Quảng Nam');
+INSERT INTO public.province_city (province_city_id,province_city_code,province_city_name) VALUES
+	 ('dbb94d73-01a3-4943-b756-d57f7ae5a6ae','45','Quảng Ngãi'),
+	 ('69a35ace-8fb1-466b-b1bd-88abb4b1a063','46','Bình Định'),
+	 ('bbf3f00d-23fc-46eb-8489-0992c0a05822','47','Phú Yên'),
+	 ('e4584fb3-84ad-4e18-9533-d50796ac4fa0','49','Khánh Hòa'),
+	 ('f275a178-7eb2-4d09-9d8b-c73988eff98a','51','Ninh Thuận'),
+	 ('8cc393b8-642c-4ef0-95c4-4322edae5ab8','52','Bình Thuận'),
+	 ('be8320ac-ae85-44be-a7bf-c39559ff3cd8','54','Kon Tum'),
+	 ('cf8a3296-e201-4fe5-a8e1-2070a46f5826','56','Gia Lai'),
+	 ('c0ab928a-f201-4a5b-98fe-9045cedda3f5','58','Đắk Lắk'),
+	 ('a377f6ff-3bd0-4995-aa1d-1bcefe281942','60','Đắk Nông');
+INSERT INTO public.province_city (province_city_id,province_city_code,province_city_name) VALUES
+	 ('95800349-a8ce-4dc4-b866-ac4a3ad99a73','62','Lâm Đồng'),
+	 ('fcbbcc1e-0ddd-462b-944f-e57b562a86c3','64','Bình Phước'),
+	 ('50e0a315-89c7-42af-9b69-985398b3851d','66','Tây Ninh'),
+	 ('46e9ab69-f2ac-4fd5-9b8b-d0c4c21dbfd4','67','Bình Dương'),
+	 ('ac7de137-7cca-4f5d-ba6e-f80f2db06539','68','Đồng Nai'),
+	 ('b0575bd7-8118-46bf-b6a2-bae7378eae2a','70','Bà Rịa - Vũng Tàu'),
+	 ('05c27883-55a7-4708-8edf-bbff868914e3','72','TP.Hồ Chí Minh'),
+	 ('269440d8-1ace-453f-a7cf-6e6d18b24f09','74','Long An'),
+	 ('5b716048-ac26-456d-9ec4-6474fb21aef9','75','Tiền Giang'),
+	 ('b9962e7f-8dc1-4e95-aebf-e04c99d00169','77','Bến Tre');
+INSERT INTO public.province_city (province_city_id,province_city_code,province_city_name) VALUES
+	 ('5545b49e-b59d-43bb-892a-1ec3d25a5ce5','79','Trà Vinh'),
+	 ('bae7caf0-1ef7-4f40-b5ac-632e056cb430','80','Vĩnh Long'),
+	 ('69996651-bc01-48a5-b224-1952f244fb90','82','Đồng Tháp'),
+	 ('a2a85180-f3be-48cb-8cdf-ed8cbe7487b2','83','An Giang'),
+	 ('ed39e13e-e490-4edd-981f-47ee107ccbaa','84','Kiên Giang'),
+	 ('24cf27a4-3008-423b-b7b4-81c950b20c14','86','Cần Thơ'),
+	 ('c87da7ca-f653-47e1-a3b9-e4cc35dfc68a','87','Hậu Giang'),
+	 ('29388e4c-a6ba-464f-b5ec-567c82de1081','89','Sóc Trăng'),
+	 ('71fbc84d-8b8e-4411-9440-bdb12e309f44','91','Bạc Liêu'),
+	 ('ac23ebd5-56e7-4b02-8dbc-1b6e02d956dc','92','Cà Mau');

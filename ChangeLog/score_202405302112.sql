@@ -1,0 +1,4 @@
+INSERT INTO public.score (score_id,student_id,teacher_id,class_registration_id,score_attendance,score_test,score_exam,score_average,created_by,created_date,modified_by,modified_date) VALUES
+	 ('3969e111-1f08-4c0c-915a-a3d6aae48375','092b8372-fc8e-4ddf-be50-cbf287eb3950','b7190da3-0c9b-44a7-940c-e892af4d9d86','8d1f4be2-bed4-4006-a275-25d964e6b859',9.0,8.0,7.5,7.920000076293945,NULL,'2024-05-27',NULL,'2024-05-27'),
+	 ('9310963a-9d2e-4b36-b313-7c2e83b2dd76','bb84e580-345f-4274-88e7-9c9726220cd3','b7190da3-0c9b-44a7-940c-e892af4d9d86','8d1f4be2-bed4-4006-a275-25d964e6b859',8.0,5.0,6.0,6.0,NULL,'2024-05-27',NULL,'2024-05-27'),
+	 ('54047194-d158-4d29-ada7-f40c57d145a9','092b8372-fc8e-4ddf-be50-cbf287eb3950','8e5abb34-a171-4781-abdb-067a402559cf','e26ac6e3-d5a8-4973-93d9-5c10fb07fb4b',5.0,5.0,8.0,6.5,NULL,'2024-05-27',NULL,NULL);
