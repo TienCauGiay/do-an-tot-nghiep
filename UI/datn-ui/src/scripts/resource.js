@@ -363,7 +363,7 @@ const MSResource = {
             UNDO:"",
         }, 
         Chart:{ 
-            StatisticNumberStudent: "Biểu đồ thống kê số sinh viên đầu vào/đầu ra trong 5 năm trở lại đây",
+            StatisticNumberStudent: "Biểu đồ thống kê số sinh viên đầu vào/đầu ra trong 6 năm trở lại đây",
             AvgScoreByClassRegistration: "Biểu đồ thống kê điểm trung bình sinh viên theo lớp học phần",
         },
         LOGIN: {
