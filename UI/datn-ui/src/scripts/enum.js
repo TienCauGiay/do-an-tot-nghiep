@@ -197,7 +197,7 @@ const MSEnum = {
     },
 
     FILTER_CHART: {
-        // Thống kê số lượng sinh viên đầu vào/ đầu ra trong vòng 5 năm
+        // Thống kê số lượng sinh viên đầu vào/ đầu ra trong vòng 6 năm
         StatisticNumberStudent: 1,
         // Thống kê điểm trung bình sinh viên theo lớp học phần
         AvgScoreByClassRegistration: 2,
