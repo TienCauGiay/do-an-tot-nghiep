@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" modified="2024-05-31T14:09:27.594Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="NPFThPEJAuk3a0RwUiJg" version="24.4.13" type="device">
+  <diagram name="Trang-1" id="Rk0tY9WJmMVbxuUf-gcJ">
+    <mxGraphModel dx="794" dy="412" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="AlHyB3Z99IS615sn5qxL-1" value="Client" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="280" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-2" value="" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="20" y="55" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-3" value="Màn hình danh sách điểm sinh viên" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="90" y="40" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="AlHyB3Z99IS615sn5qxL-1" source="AlHyB3Z99IS615sn5qxL-2" target="AlHyB3Z99IS615sn5qxL-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="310" y="200" as="sourcePoint" />
+            <mxPoint x="360" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-5" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="135" y="590" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-14" value="Chọn chức năng xuất điểm ra excel" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="90" y="150" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="AlHyB3Z99IS615sn5qxL-1" source="AlHyB3Z99IS615sn5qxL-3" target="AlHyB3Z99IS615sn5qxL-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="250" as="sourcePoint" />
+            <mxPoint x="350" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-17" value="Hiển thị hộp thoại chọn nơi lưu file và đặt tên cho file xuất khẩu" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="90" y="260" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-18" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="AlHyB3Z99IS615sn5qxL-1" source="AlHyB3Z99IS615sn5qxL-14" target="AlHyB3Z99IS615sn5qxL-17">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="250" as="sourcePoint" />
+            <mxPoint x="350" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-19" value="Đặt tên cho file, chọn nơi lưu file và bấm lưu" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="90" y="370" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-20" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="AlHyB3Z99IS615sn5qxL-1" source="AlHyB3Z99IS615sn5qxL-17" target="AlHyB3Z99IS615sn5qxL-19">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="350" as="sourcePoint" />
+            <mxPoint x="350" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-24" value="Hiển thị thông báo thành công hoặc thất bại" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-1">
+          <mxGeometry x="90" y="480" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-26" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="AlHyB3Z99IS615sn5qxL-1" source="AlHyB3Z99IS615sn5qxL-24" target="AlHyB3Z99IS615sn5qxL-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="550" as="sourcePoint" />
+            <mxPoint x="350" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-10" value="Server" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="40" width="280" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-21" value="Xử lí xuất danh sách điểm ra file excel" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="AlHyB3Z99IS615sn5qxL-10">
+          <mxGeometry x="60" y="370" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-22" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="AlHyB3Z99IS615sn5qxL-19" target="AlHyB3Z99IS615sn5qxL-21">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="390" as="sourcePoint" />
+            <mxPoint x="430" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AlHyB3Z99IS615sn5qxL-23" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="AlHyB3Z99IS615sn5qxL-21" target="AlHyB3Z99IS615sn5qxL-24">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="590" as="sourcePoint" />
+            <mxPoint x="430" y="540" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="500" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
