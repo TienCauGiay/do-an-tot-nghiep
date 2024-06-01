@@ -919,6 +919,7 @@ export default {
   width: 100%;
   height: 220px;
   box-sizing: border-box;
+  margin-right: 10px;
 }
 
 #form-detail-content {
