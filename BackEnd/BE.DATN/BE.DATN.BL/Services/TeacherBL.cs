@@ -176,7 +176,25 @@ namespace BE.DATN.BL.Services
                     (
                         StatusCodes.Status400BadRequest,
                         "Không có file được upload",
-                        new Object()
+                        new Dictionary<string, object>
+                            {
+                                { "message_error", "Không có file được upload" }
+                            }
+                    );
+                }
+
+                // Kiểm tra phần mở rộng của tệp có phải file excel hay không
+                var fileExtension = Path.GetExtension(formFile.FileName);
+                if (fileExtension != ".xls" && fileExtension != ".xlsx")
+                {
+                    return new ResponseService
+                    (
+                        StatusCodes.Status400BadRequest,
+                        "Tệp không phải là tệp Excel",
+                        new Dictionary<string, object>
+                            {
+                        { "message_error", "Tệp không phải là tệp Excel" }
+                            }
                     );
                 }
 
@@ -235,7 +253,7 @@ namespace BE.DATN.BL.Services
                             {
                                 teacher_id = Guid.NewGuid(),
                                 faculty_id = facultyByCode.faculty_id,
-                                teacher_code = BNTUtil.GenerateCode(t.teacher_name, t.birthday),
+                                teacher_code = BNTUtil.GenerateCode(),
                                 teacher_name = t.teacher_name,
                                 birthday = t.birthday,
                                 gender = t.gender,

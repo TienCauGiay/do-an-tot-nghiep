@@ -1,5 +1,5 @@
 <template>
-  <div id="detail-info" class="position-display-center" ref="FormDetail">
+  <div id="detail-info-student" class="position-display-center" ref="FormDetail">
     <div class="form-detail-toolbar">
       <!-- <div class="question-icon icon-tb" :title="this.$_MSResource[this.$_LANG_CODE].TOOLTIP.HELP"></div> -->
       <div
@@ -192,6 +192,50 @@
             </div>
           </div>
         </div>
+        <div class="half-content">
+          <div class="col-md-l">
+            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.AdmissionYear }}</label>
+            <div class="container-input">
+              <ms-input
+                ref="admission_year"
+                type="date"
+                v-model="student.admission_year"
+                :value="formattedAdmissionYear"
+                :class="{
+                  'border-red': isBorderRed.admission_year,
+                }"
+                @input="setIsBorderRed('admission_year')"
+                @mouseenter="isHovering.admission_year = true"
+                @mouseleave="isHovering.admission_year = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.admission_year && isBorderRed.admission_year">
+                {{ errors["admission_year"] }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="half-content">
+          <div class="col-md-l">
+            <label>{{ this.$_MSResource[this.$_LANG_CODE].FORM.GraduationYear }}</label>
+            <div class="container-input">
+              <ms-input
+                ref="graduation_year"
+                type="date"
+                v-model="student.graduation_year"
+                :value="formattedGraduationYear"
+                :class="{
+                  'border-red': isBorderRed.graduation_year,
+                }"
+                @input="setIsBorderRed('graduation_year')"
+                @mouseenter="isHovering.graduation_year = true"
+                @mouseleave="isHovering.graduation_year = false"
+              ></ms-input>
+              <div class="ms-tooltip" v-if="isHovering.graduation_year && isBorderRed.graduation_year">
+                {{ errors["graduation_year"] }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="form-detail-action">
         <div class="action-left">
@@ -290,6 +334,8 @@ export default {
         "address",
         "phone_number",
         "email",
+        "admission_year",
+        "graduation_year",
       ],
       // Khai báo đối tượng student
       student: {},
@@ -335,6 +381,32 @@ export default {
       },
       set(newDate) {
         this.student.birthday = newDate;
+      },
+    },
+    formattedAdmissionYear: {
+      get() {
+        if (this.student.admission_year) {
+          const isoDate = this.student.admission_year;
+          const formattedAdmissionYear = isoDate.split(this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SPLIT_DATE)[0];
+          return formattedAdmissionYear;
+        }
+        return "";
+      },
+      set(newDate) {
+        this.student.admission_year = newDate;
+      },
+    },
+    formattedGraduationYear: {
+      get() {
+        if (this.student.graduation_year) {
+          const isoDate = this.student.graduation_year;
+          const formattedGraduationYear = isoDate.split(this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SPLIT_DATE)[0];
+          return formattedGraduationYear;
+        }
+        return "";
+      },
+      set(newDate) {
+        this.student.graduation_year = newDate;
       },
     },
   },
@@ -505,9 +577,21 @@ export default {
               }
               break;
             case "birthday":
+            case "admission_year":
               if (this.student[refInput]) {
                 if (helperCommon.isInvalidDate(this.student[refInput])) {
                   this.setError(refInput);
+                }
+              }
+              break;
+            case "graduation_year":
+              if (this.student[refInput]) {
+                if (helperCommon.isInvalidDate(this.student[refInput])) {
+                  this.setError(refInput);
+                } else if (helperCommon.compareDates(this.student.graduation_year, this.student.admission_year) == -1) {
+                  this.errors.graduation_year = this.$_MSResource[this.$_LANG_CODE].VALIDATE.graduation_year_invalid;
+                  this.isBorderRed.graduation_year = true;
+                  this.dataNotNull.push(this.$_MSResource[this.$_LANG_CODE].VALIDATE.graduation_year_invalid);
                 }
               }
               break;
