@@ -183,7 +183,25 @@ namespace BE.DATN.BL.Services
                     (
                         StatusCodes.Status400BadRequest,
                         "Không có file được upload",
-                        new Object()
+                        new Dictionary<string, object>
+                            {
+                                { "message_error", "Không có file được upload" }
+                            }
+                    );
+                }
+
+                // Kiểm tra phần mở rộng của tệp có phải file excel hay không
+                var fileExtension = Path.GetExtension(formFile.FileName);
+                if (fileExtension != ".xls" && fileExtension != ".xlsx")
+                {
+                    return new ResponseService
+                    (
+                        StatusCodes.Status400BadRequest,
+                        "Tệp không phải là tệp Excel",
+                        new Dictionary<string, object>
+                            {
+                        { "message_error", "Tệp không phải là tệp Excel" }
+                            }
                     );
                 }
 
@@ -242,7 +260,7 @@ namespace BE.DATN.BL.Services
                             {
                                 student_id = Guid.NewGuid(),
                                 classes_id = classesByCode.classes_id,
-                                student_code = BNTUtil.GenerateCode(student.student_name, student.birthday),
+                                student_code = BNTUtil.GenerateCode(),
                                 student_name = student.student_name,
                                 birthday = student.birthday,
                                 gender = student.gender,
@@ -414,7 +432,7 @@ namespace BE.DATN.BL.Services
 
         protected override void CustomParamSave(student entity, ModelState state)
         {
-            if(state == ModelState.Insert)
+            if(state == ModelState.Insert && entity.admission_year == null)
             {
                 entity.admission_year = DateTime.Now;
             }

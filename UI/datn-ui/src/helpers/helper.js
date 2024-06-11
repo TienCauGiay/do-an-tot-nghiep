@@ -69,6 +69,29 @@ const helperCommon = {
         return false;
       }
     },
+
+  /**
+   * Mô tả: 
+   * created by : BNTIEN
+   * created date: 11-06-2024 22:39:31
+   */
+  compareDates: (date1, date2) => {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
+      throw new Error("Invalid date format");
+    }
+
+    if (d1 > d2) {
+      return 1; // date1 lớn hơn date2
+    } else if (d1 < d2) {
+      return -1; // date1 nhỏ hơn date2
+    } else {
+      return 0; // date1 bằng date2
+    }
+  },
+
     /**
      * Mô tả: Hàm xử lý lỗi nhập liệu của thực thể khi input, update
      * created by : BNTIEN

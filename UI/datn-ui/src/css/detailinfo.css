@@ -28,6 +28,36 @@
     }
 }
 
+#detail-info-student {
+    height: 95%;
+    background-color: white;
+    z-index: 8888;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+  
+/* Media query cho màn hình có chiều rộng 1280px trở lên */
+@media (min-width: 1280px) {
+    #detail-info-student {
+        width: 60%;
+    }
+}
+  
+/* Media query cho màn hình có chiều rộng nhỏ hơn 1280px và lớn hơn 1024px */
+@media (max-width: 1279px) and (min-width: 1025px) {
+    #detail-info-student {
+        width: calc(100% - 300px); /* width giảm dần từ 70% tới 100% */
+    }
+}
+  
+/* Media query cho màn hình có chiều rộng nhỏ hơn hoặc bằng 1024px */
+@media (max-width: 1024px) {
+    #detail-info-student {
+        width: 100%;
+    }
+}
+
 #detail-info-score {
     height: 90%;
     background-color: white;
@@ -220,13 +250,13 @@ input[type="date"]:hover {
 }
 
 .col-md-n{
-    width: 150px;
+    width: 170px;
     height: 44px;
     box-sizing: border-box;
 }
 
 .col-md-tb{
-    width: calc(100% - 150px);
+    width: calc(100% - 170px);
     height: 44px;
     box-sizing: border-box;
 }

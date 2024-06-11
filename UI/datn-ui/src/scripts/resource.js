@@ -7,6 +7,8 @@ const MSResource = {
             "student_not_exists": "Không có sinh viên trong lớp học phần",
             "student_has_score": "Sinh viên đã có điểm của lớp học phần",
             "birthday": "Ngày sinh lớn hơn ngày hiện tại",
+            "admission_year": "Ngày nhập học lớn hơn ngày hiện tại", 
+            "graduation_year": "Ngày ra trường lớn hơn ngày hiện tại", 
             "email": "Email không đúng định dạng", 
             "teacher_id": "Giảng viên không tồn tại trong hệ thống",
             "teacher_code": "Mã giảng viên không được để trống",
@@ -36,6 +38,7 @@ const MSResource = {
             "score_exam":  "Điểm thi không được để trống",
             "score_average": "Điểm trung bình không được để trống",
             "number_tc": "Số tín chỉ không được để trống",
+            "graduation_year_invalid": "Ngày ra trường không được bé hơn ngày nhập học",
         },
         MAXLENGTH:{
             "student_code": {Limit: 50, Warning : "Mã sinh viên tối đa 50 kí tự"},
@@ -329,6 +332,8 @@ const MSResource = {
             RegistrationCode: "Mã lớp học phần",
             RegistrationName: "Tên lớp học phần",
             SubjectRegistration: "Môn học",
+            AdmissionYear: "Ngày nhập học",
+            GraduationYear: "Ngày ra trường",
         },
         DIALOG:{
             TITLE:{

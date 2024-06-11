@@ -1,29 +1,10 @@
 CREATE OR REPLACE FUNCTION public.func_get_filter_paging_student(p_limit integer, p_offset integer, p_text_search text, p_custom_filter text)
- RETURNS TABLE(student_id uuid, student_code text, student_name text, classes_id uuid, classes_code text, classes_name text, birthday date, gender text, address text, phone_number text, email text)
+ RETURNS TABLE(student_id uuid, student_code text, student_name text, classes_id uuid, classes_code text, classes_name text, birthday date, gender text, address text, phone_number text, email text, admission_year date, graduation_year date)
  LANGUAGE plpgsql
 AS $function$ 
 DECLARE 
     v_query text;
 BEGIN
-    /**
-     * Bảng tạm kết quả
-     */
-    DROP TABLE IF EXISTS tmp_result;
-    CREATE TEMP TABLE tmp_result
-    (
-        student_id uuid,
-        student_code text,
-        student_name text,
-        classes_id uuid,
-        classes_code text,
-        classes_name text,
-        birthday date,
-        gender text,
-        address text,
-        phone_number text,
-        email text
-    );
-
     -- Xây dựng câu lệnh SELECT để lấy dữ liệu từ bảng tạm
     v_query := '
         SELECT 
@@ -37,7 +18,9 @@ BEGIN
             st.gender,
             st.address,
             st.phone_number,
-            st.email
+            st.email,
+			st.admission_year,
+			st.graduation_year
         FROM 
             student st
         LEFT JOIN 
@@ -54,4 +37,5 @@ BEGIN
     -- Thực hiện câu lệnh SELECT và trả về kết quả
     RETURN QUERY EXECUTE v_query;
 END;
-$function$;
+$function$
+;
