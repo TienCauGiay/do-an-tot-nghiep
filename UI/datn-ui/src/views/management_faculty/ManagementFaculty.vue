@@ -28,7 +28,7 @@
       <div class="search-entity">
         <input
           type="search"
-          :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH"
+          :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH_HEADER"
           v-model="textSearch"
           @keydown.enter="onSearchFaculty"
           @input="autoSearch"
@@ -569,12 +569,7 @@ export default {
           this.isShowLoading = false;
           this.isShowDialogConfirmDelete = false;
           this.isOverlay = false;
-          if (
-            res &&
-            res.data &&
-            this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) &&
-            res.data.Data?.Data > 0
-          ) {
+          if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusOk(res.data.Code) && res.data.Data > 0) {
             this.isDeleteMultipleDialog = false;
             this.contentToastSuccess = this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.SUCCESS_DELETE;
             this.onShowToastMessage();

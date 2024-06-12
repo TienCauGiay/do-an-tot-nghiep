@@ -134,6 +134,20 @@ namespace BE.DATN.BL.Services
         {
             try
             {
+                // Kiểm tra xem các sinh viên bị xóa đã có điểm của học phần này chưa, nếu có rồi thì không cho xóa
+                var listStudentId = String.Join(";", model.ListDetail.Select(x => x.student_id).ToList());
+                var listStudentHasScore = await _classRegistrationDL.GetStudentHasScore(model.class_registration_id, model.teacher_id, listStudentId);
+                if(listStudentHasScore != null && listStudentHasScore.Count > 0)
+                {
+                    return new ResponseService
+                   (
+                       StatusCodes.Status400BadRequest,
+                       "Dữ liệu không hợp lệ",
+                       listStudentHasScore
+                   );
+                }
+
+
                 // update master
                 class_registration masterSave = new class_registration()
                 {
@@ -147,7 +161,7 @@ namespace BE.DATN.BL.Services
 
                 // update detail
                 if (model.ListDetail != null && model.ListDetail.Count() > 0)
-                {
+                { 
                     // Xóa đi để thêm lại
                     var resDelete = await _classRegistrationDetailDL.DebeteByIdMaster(model.class_registration_id);
 

@@ -725,6 +725,14 @@ export default {
                   );
                   this.$emit("closeFormDetail");
                   this.$_MSEmitter.emit("refreshDataTable");
+                } else if (res && res.data && this.$_MSEnum.CHECK_STATUS.isResponseStatusBadRequest(res.data.Code)) {
+                  let dataError = res.data.Data;
+                  let textCodeError = dataError.map((x) => x.student_code).join(", ");
+                  this.isValidateCustom = true;
+                  this.dataNotNull.push(
+                    `Các sinh viên có mã ${textCodeError} đã có điểm, không thể xóa những sinh viên này!`
+                  );
+                  this.isShowDialogDataNotNull = true;
                 }
               }
             } else {
@@ -806,6 +814,7 @@ export default {
         }
       } else {
         if (this.$refs.ComboMultiStudent) {
+          this.isValidateCustom = false;
           this.dataNotNull = [];
           this.isShowDialogDataNotNull = false;
           this.$refs.ComboMultiStudent.focusComboboxMulti();
