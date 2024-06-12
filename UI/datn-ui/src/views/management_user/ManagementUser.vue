@@ -29,7 +29,7 @@
       <div class="search-entity" v-show="sessionPermission == $_MSEnum.PERMISSION.Admin">
         <input
           type="search"
-          :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH"
+          :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH_HEADER"
           v-model="textSearch"
           @keydown.enter="onSearchUser"
           @input="autoSearch"

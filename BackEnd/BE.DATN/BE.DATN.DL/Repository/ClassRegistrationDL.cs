@@ -111,5 +111,21 @@ namespace BE.DATN.DL.Repository
 
             return res.ToList();
         }
+
+        public async Task<List<student>?> GetStudentHasScore(Guid classRegistrationId, Guid teacherId, string studentIds)
+        {
+            var query = "SELECT * FROM func_get_student_has_score(:p_class_registration_id, :p_teacher_id, :p_student_ids)";
+
+            var parameters = new
+            {
+                p_class_registration_id = classRegistrationId,
+                p_teacher_id = teacherId,
+                p_student_ids = studentIds
+            };
+
+            var res = await _unitOfWork.Connection.QueryAsync<student>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+
+            return res.ToList();
+        }
     }
 }

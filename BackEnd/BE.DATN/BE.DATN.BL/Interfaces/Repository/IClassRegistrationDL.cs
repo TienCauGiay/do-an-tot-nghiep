@@ -16,5 +16,6 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<List<class_registration_view>?> GetMultipleByCodeAsync(string code);
         Task<bool> CheckExistsInClassRegistraion(Guid class_registration_id, Guid teacher_id, Guid student_id);
         Task<List<student>?> CheckExistsInClassRegistraionMultiple(Guid classRegistrationId, Guid teacherId, string studentIds);
+        Task<List<student>?> GetStudentHasScore(Guid classRegistrationId, Guid teacherId, string studentIds);
     }
 }
