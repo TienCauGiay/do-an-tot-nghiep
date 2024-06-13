@@ -264,5 +264,12 @@ namespace BE.DATN.DL.Repository
                 );
             return res.ToList();
         }
+
+        public async Task<int> GetCountEntity()
+        {
+            var selectQuery = $"SELECT count(*) FROM public.{tableName}";
+            var result = await _unitOfWork.Connection.QueryAsync<int>(selectQuery, null, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+            return result.FirstOrDefault();
+        }
     }
 }

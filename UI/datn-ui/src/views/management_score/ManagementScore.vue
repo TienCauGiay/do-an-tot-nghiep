@@ -93,10 +93,10 @@
                   <input class="checkbox-select-row" type="checkbox" @click="checkAllSelect" :checked="isCheckAll" />
                 </div>
               </th>
-              <th class="e-id" :title="$_MSResource[$_LANG_CODE].Student_Column.StudentCode">
+              <th class="w-200" :title="$_MSResource[$_LANG_CODE].Student_Column.StudentCode">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.StudentCode }}
               </th>
-              <th class="e-fullname" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
+              <th class="w-200" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
                 {{ this.$_MSResource[this.$_LANG_CODE].Score_Column.StudentName }}
               </th>
               <th class="w-250">
@@ -150,10 +150,10 @@
                   />
                 </div>
               </td>
-              <td class="e-id" :title="item.student_code">
+              <td class="w-200" :title="item.student_code">
                 {{ item.student_code }}
               </td>
-              <td class="e-fullname" :title="item.student_name" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
+              <td class="w-200" :title="item.student_name" v-if="sessionPermission != $_MSEnum.PERMISSION.Student">
                 {{ item.student_name }}
               </td>
               <td class="w-250" :title="item.subject_name">

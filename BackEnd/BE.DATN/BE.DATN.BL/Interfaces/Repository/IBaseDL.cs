@@ -21,5 +21,6 @@ namespace BE.DATN.BL.Interfaces.Repository
         Task<List<TEntity>?> SearchAsync(string textSearch);
         Task<bool> CheckAriseAsync(Guid id);
         Task<List<Guid>?> GetIdAriseMultipleAsync(List<Guid> ids);
+        Task<int> GetCountEntity();
     }
 }

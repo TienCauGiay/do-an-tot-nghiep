@@ -247,13 +247,16 @@ namespace BE.DATN.BL.Services
                             );
                         }
 
+                        var count = await _teacherDL.GetCountEntity();
+
                         foreach (var t in listTeacherImport)
                         {
+                            count++;
                             teacher studentItemSave = new teacher()
                             {
                                 teacher_id = Guid.NewGuid(),
                                 faculty_id = facultyByCode.faculty_id,
-                                teacher_code = BNTUtil.GenerateCode(),
+                                teacher_code = BNTUtil.GenerateCode(t.teacher_name, t.birthday) + "_" + count.ToString(),
                                 teacher_name = t.teacher_name,
                                 birthday = t.birthday,
                                 gender = t.gender,
