@@ -252,15 +252,18 @@ namespace BE.DATN.BL.Services
                                     { "message_error", "Mã lớp học không tồn tại trong hệ thống" }
                                 }
                             );
-                        } 
+                        }
+
+                        var count = await _studentDL.GetCountEntity();
 
                         foreach (var student in listStudentImport)
-                        { 
+                        {
+                            count++;
                             student studentItemSave = new student()
                             {
                                 student_id = Guid.NewGuid(),
                                 classes_id = classesByCode.classes_id,
-                                student_code = BNTUtil.GenerateCode(),
+                                student_code = BNTUtil.GenerateCode(student.student_name, student.birthday) + "_" + count.ToString(),
                                 student_name = student.student_name,
                                 birthday = student.birthday,
                                 gender = student.gender,

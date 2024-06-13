@@ -86,10 +86,10 @@
                   <input class="checkbox-select-row" type="checkbox" @click="checkAllSelect" :checked="isCheckAll" />
                 </div>
               </th>
-              <th class="e-id">
+              <th class="w-200">
                 {{ this.$_MSResource[this.$_LANG_CODE].Teacher_Column.TeacherCode }}
               </th>
-              <th class="e-fullname">
+              <th class="w-200">
                 {{ this.$_MSResource[this.$_LANG_CODE].Teacher_Column.TeacherName }}
               </th>
               <!-- <th class="e-id">
@@ -136,10 +136,10 @@
                   />
                 </div>
               </td>
-              <td class="e-id" :title="item.teacher_code">
+              <td class="w-200" :title="item.teacher_code">
                 {{ item.teacher_code }}
               </td>
-              <td class="e-fullname" :title="item.teacher_name">
+              <td class="w-200" :title="item.teacher_name">
                 {{ item.teacher_name }}
               </td>
               <!-- <td class="e-id" :title="item.subject_code">

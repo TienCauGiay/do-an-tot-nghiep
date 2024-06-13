@@ -295,7 +295,7 @@ namespace BE.DATN.BL.Services
                             }
 
                             // Kiểm tra xem có sinh viên nào tìm thấy không
-                            if (student != null)
+                            if (student != null && student.student_id != Guid.Empty)
                             {
                                 // Gán student_code của sinh viên cho student_code của score
                                 scoreItemSave.student_id = student.student_id;
