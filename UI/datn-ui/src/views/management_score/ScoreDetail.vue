@@ -634,7 +634,7 @@ export default {
       scoreCreate.score_attendance = parseFloat(this.score.score_attendance.toString());
       scoreCreate.score_test = parseFloat(this.score.score_test.toString());
       scoreCreate.score_exam = parseFloat(this.score.score_exam.toString());
-      let scoreAvg = (scoreCreate.score_attendance + scoreCreate.score_test * 2 + scoreCreate.score_exam * 3) / 6;
+      let scoreAvg = scoreCreate.score_attendance * 0.1 + scoreCreate.score_test * 0.3 + scoreCreate.score_exam * 0.6;
       scoreCreate.score_average = scoreAvg.toFixed(2);
       return scoreCreate;
     },
