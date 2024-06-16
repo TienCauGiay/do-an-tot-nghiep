@@ -251,7 +251,7 @@ namespace BE.DATN.BL.Services
                                 score_attendance = score.score_attendance,
                                 score_test = score.score_test,
                                 score_exam = score.score_exam,
-                                score_average = (float)Math.Round((score.score_attendance + score.score_test * 2 + score.score_exam * 3) / 6.0, 2),
+                                score_average = (float)Math.Round((score.score_attendance * 0.1 + score.score_test * 0.3 + score.score_exam * 0.6) / 1.0, 2),
                                 created_date = DateTime.Now,
                                 modified_date = DateTime.Now,
                             };
