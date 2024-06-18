@@ -87,6 +87,23 @@
             ></ms-combobox>
           </div>
         </div>
+        <div class="full-content">
+          <div class="col-md-l" style="position: relative" ref="MenuItemScoreRate">
+            <label>
+              {{ this.$_MSResource[this.$_LANG_CODE].FORM.ScoreRate }}
+            </label>
+            <ms-select-option
+              :listData="listScoreRate"
+              :propCode="'score_rate'"
+              :propName="'score_rate_name'"
+              :entity="subject"
+              :placeholderValue="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PlaceholderScoreRate"
+              :indexSelect="listScoreRate.findIndex((obj) => obj.score_rate == subject.score_rate)"
+              :isReadonly="true"
+              :customStyle="'width: 100%;'"
+            ></ms-select-option>
+          </div>
+        </div>
       </div>
       <div class="form-detail-action">
         <div class="action-left">
@@ -169,6 +186,12 @@ export default {
     this.$_MSEmitter.on("closeDialogCodeExist", () => {
       this.btnCloseDialogCodeExist();
     });
+
+    this.$_MSEmitter.on("onSelectedSelectOption", async (item, propCode) => {
+      if (propCode == "score_rate") {
+        await this.handleSelectScoreRate(item);
+      }
+    });
   },
 
   mounted() {
@@ -205,12 +228,30 @@ export default {
       isShowDialogCodeExist: false,
       // Khai báo biến xác định thông tin của mã nhân viên đã tồn tại
       contentCodeExist: "",
+      listScoreRate: [
+        {
+          score_rate: 1,
+          score_rate_name: "50/50",
+        },
+        {
+          score_rate: 2,
+          score_rate_name: "40/60",
+        },
+        {
+          score_rate: 3,
+          score_rate_name: "30/70",
+        },
+      ],
     };
   },
 
   computed: {},
 
   methods: {
+    handleSelectScoreRate(item) {
+      this.subject.score_rate = item.score_rate;
+      this.subject.score_rate_name = item.score_rate_name;
+    },
     /**
      * Mô tả: Hàm kiểm tra xem mã nhân viên đã tồn tại trong database hay chưa
      * created by : BNTIEN
@@ -290,6 +331,13 @@ export default {
         } else {
           // Gán title cho form mode thêm sửa
           this.titleFormMode = this.$_MSResource[this.$_LANG_CODE].FORM.UpdateSubject;
+          if (this.subject.score_rate == 1) {
+            this.subject.score_rate_name = "50/50";
+          } else if (this.subject.score_rate == 2) {
+            this.subject.score_rate_name = "40/60";
+          } else if (this.subject.score_rate == 3) {
+            this.subject.score_rate_name = "30/70";
+          }
         }
       } catch {
         return;
@@ -722,6 +770,7 @@ export default {
     this.$_MSEmitter.off("onSearchChangeCBB");
     this.$_MSEmitter.off("onKeyDownEntityCBB");
     this.$_MSEmitter.off("closeDialogCodeExist");
+    this.$_MSEmitter.off("onSelectedSelectOption");
     // Xóa các sự kiện đã đăng kí
     this.$refs.FormDetail.removeEventListener("keydown", this.handleKeyDown);
   },

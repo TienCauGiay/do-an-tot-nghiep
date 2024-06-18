@@ -54,7 +54,7 @@
           {{ this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.DeleteFilterCondition }}
         </div>
       </div>
-      <div class="search-entity">
+      <div class="search-entity" title="Tìm kiếm theo mã, tên sinh viên, giảng viên, môn học">
         <input
           type="search"
           :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH_HEADER"
@@ -1088,7 +1088,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url(@/css/maincontent.css);
 @import url(@/css/paging.css);
 

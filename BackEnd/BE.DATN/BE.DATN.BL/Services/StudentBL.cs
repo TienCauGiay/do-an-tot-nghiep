@@ -433,7 +433,7 @@ namespace BE.DATN.BL.Services
             }
         }
 
-        protected override void CustomParamSave(student entity, ModelState state)
+        protected override async Task CustomParamSave(student entity, ModelState state)
         {
             if(state == ModelState.Insert && entity.admission_year == null)
             {

@@ -14,5 +14,6 @@ namespace BE.DATN.BL.Models.Subject
         public string subject_code { get; set; }
         public string subject_name { get; set; }
         public int number_tc { get; set; }
+        public int score_rate { get; set; }
     }
 }

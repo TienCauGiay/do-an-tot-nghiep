@@ -271,6 +271,8 @@ const MSResource = {
             resetPassWorkSuccess: "Lấy lại mật khẩu thành công" ,
         },
         FORM:{
+            ScoreRate: "Tỉ lệ điểm quá trình/thi",
+            PlaceholderScoreRate: "Chọn tỉ lệ tính điểm",
             AddStudent:"Thêm sinh viên",
             UpdateStudent:"Cập nhật thông tin sinh viên", 
             StudentCode:"Mã sinh viên",

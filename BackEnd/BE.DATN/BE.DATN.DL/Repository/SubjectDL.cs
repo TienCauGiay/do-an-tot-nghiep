@@ -44,6 +44,15 @@ namespace BE.DATN.DL.Repository
             return (res, totalRecord);
         }
 
+        public async Task<subject?> GetSubjectByClassRegistration(Guid id)
+        {
+           var query = "select * from subject s inner join class_registration cr on s.subject_id = cr.subject_id where cr.class_registration_id = @Id";
+           var parameters = new DynamicParameters();
+           parameters.Add("Id", id);
+           var result = await _unitOfWork.Connection.QueryAsync<subject>(query, parameters, commandType: CommandType.Text, transaction: _unitOfWork.Transaction);
+           return result.FirstOrDefault();
+        }
+
         protected override string BuildQueryCheckArise()
         {
             var query = @"

@@ -14,5 +14,6 @@ namespace BE.DATN.BL.Models.Subject
         public Guid semester_id { get; set; }
         public string semester_name { set; get; }
         public int number_tc { get; set; }
+        public int score_rate { get; set; }
     }
 }
