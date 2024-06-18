@@ -7,6 +7,7 @@ using BE.DATN.BL.Models.ClassRegistration;
 using BE.DATN.BL.Models.Response;
 using BE.DATN.BL.Models.Score;
 using BE.DATN.BL.Models.Student;
+using BE.DATN.BL.Models.Subject;
 using BE.DATN.BL.Models.Teacher;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,8 @@ namespace BE.DATN.BL.Services
 
         private readonly IClassRegistrationDL _classRegistrationDL;
 
+        private readonly ISubjectDL _subjectDL;
+
         private readonly ITokenService _tokenService;
 
         private readonly IConfiguration _configuration;
@@ -44,6 +47,7 @@ namespace BE.DATN.BL.Services
             IStudentDL studentDL, 
             ITeacherDL teacherDL,
             IClassRegistrationDL classRegistrationDL,
+            ISubjectDL subjectDL,
             IUnitOfWork unitOfWork, 
             ITokenService tokenService,
             IConfiguration configuration
@@ -54,6 +58,7 @@ namespace BE.DATN.BL.Services
             _studentDL = studentDL;
             _teacherDL = teacherDL;
             _classRegistrationDL = classRegistrationDL;
+            _subjectDL = subjectDL;
             _tokenService = tokenService;
             _configuration = configuration;
         }
@@ -239,10 +244,29 @@ namespace BE.DATN.BL.Services
                         {
                             teacherByCode = await _teacherDL.GetByCodeAsync(scoreImportFirst.teacher_code);
                             classRegistrationByCode = await _classRegistrationDL.GetByCodeAsync(scoreImportFirst.class_registration_code);
-                        } 
+                        }
+
+                        var subjectByClassRegistration = new subject();
+
+                        if (classRegistrationByCode != null && classRegistrationByCode.class_registration_id != Guid.Empty)
+                        {
+                           subjectByClassRegistration = await _subjectDL.GetSubjectByClassRegistration(classRegistrationByCode.class_registration_id);
+                        }
+                        else
+                        {
+                           return new ResponseService
+                           (
+                               StatusCodes.Status400BadRequest,
+                               "Mã lớp học phần không tồn tại trong hệ thống",
+                               new Dictionary<string, object>
+                               {
+                                       { "message_error", "Mã lớp học phần không tồn tại trong hệ thống" }
+                               }
+                           );
+                        }
 
                         var listStudentByCode = await _studentDL.GetByListCodeAsync(listScoreImport.Select(x => x.student_code).ToList());
-
+                        
                         foreach (var score in listScoreImport)
                         {
                             score scoreItemSave = new score()
@@ -314,6 +338,28 @@ namespace BE.DATN.BL.Services
                             }
                             scoreSave.Add(scoreItemSave);
                         }
+
+                        // Tính toán lại điểm trung bình
+                        foreach(var s in scoreSave)
+                        {
+                           if(subjectByClassRegistration != null && subjectByClassRegistration.subject_id != Guid.Empty) 
+                           {
+                               if(subjectByClassRegistration.score_rate == 1)
+                               {
+                                   s.score_average = (float)Math.Round(((s.score_attendance * 0.2 + s.score_test * 0.8) * 0.5 + s.score_exam * 0.5) / 1.0, 2);
+                               } else if(subjectByClassRegistration.score_rate == 2)
+                               {
+                                   s.score_average = (float)Math.Round(((s.score_attendance * 0.2 + s.score_test * 0.8) * 0.4 + s.score_exam * 0.6) / 1.0, 2);
+                               } else if (subjectByClassRegistration.score_rate == 3)
+                               {
+                                   s.score_average = (float)Math.Round(((s.score_attendance * 0.2 + s.score_test * 0.8) * 0.3 + s.score_exam * 0.7) / 1.0, 2);
+                               }
+                           }
+                           else
+                           {
+                               s.score_average = (float)Math.Round((s.score_attendance * 0.1 + s.score_test * 0.3 + s.score_exam * 0.6) / 1.0, 2);
+                           }
+                        }
                     }
                     // cất dữ liệu
                     var res = await InsertMultipleAsync(scoreSave);
@@ -333,6 +379,30 @@ namespace BE.DATN.BL.Services
                         }
                     );
             }
+        }
+
+        protected override async Task CustomParamSave(score entity, ModelState state)
+        {
+           var subjectByClassRegistration = await _subjectDL.GetSubjectByClassRegistration(entity.class_registration_id);
+           if (subjectByClassRegistration != null && subjectByClassRegistration.subject_id != Guid.Empty)
+           {
+               if (subjectByClassRegistration.score_rate == 1)
+               {
+                   entity.score_average = (float)Math.Round(((entity.score_attendance * 0.2 + entity.score_test * 0.8) * 0.5 + entity.score_exam * 0.5) / 1.0, 2);
+               }
+               else if (subjectByClassRegistration.score_rate == 2)
+               {
+                   entity.score_average = (float)Math.Round(((entity.score_attendance * 0.2 + entity.score_test * 0.8) * 0.4 + entity.score_exam * 0.6) / 1.0, 2);
+               }
+               else if (subjectByClassRegistration.score_rate == 3)
+               {
+                   entity.score_average = (float)Math.Round(((entity.score_attendance * 0.2 + entity.score_test * 0.8) * 0.3 + entity.score_exam * 0.7) / 1.0, 2);
+               }
+           }
+           else
+           {
+               entity.score_average = (float)Math.Round((entity.score_attendance * 0.1 + entity.score_test * 0.3 + entity.score_exam * 0.6) / 1.0, 2);
+           }
         }
 
         protected override async Task<Dictionary<string, object>?> ValidateBusinessMultiple(List<score> entities, ModelState statte)

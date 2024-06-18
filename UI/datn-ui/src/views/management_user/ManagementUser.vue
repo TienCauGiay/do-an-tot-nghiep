@@ -26,7 +26,11 @@
           </div>
         </button>
       </div>
-      <div class="search-entity" v-show="sessionPermission == $_MSEnum.PERMISSION.Admin">
+      <div
+        class="search-entity"
+        v-show="sessionPermission == $_MSEnum.PERMISSION.Admin"
+        title="Tìm kiếm theo tên đăng nhập"
+      >
         <input
           type="search"
           :placeholder="this.$_MSResource[this.$_LANG_CODE].TEXT_CONTENT.PLACEHOLDER_SEARCH_HEADER"
